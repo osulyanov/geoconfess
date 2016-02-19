@@ -5,4 +5,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   enum role: [:admin, :priest, :user]
+
+  has_many :tokens, class_name: 'Doorkeeper::AccessToken',
+           foreign_key: 'resource_owner_id', dependent: :destroy
 end
