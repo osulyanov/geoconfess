@@ -11,12 +11,12 @@ class Api::V1::RegistrationsController < Api::V1::V1Controller
         Returns code 201 with no content if user successfully created.
   EOS
   param :user, Hash, desc: 'User info' do
-    param :role, String, desc: 'Role', required: true
+    param :role, ['priest', 'user'], desc: 'Role', required: true
     param :email, String, desc: 'Email', required: true
     param :password, String, desc: 'Password', required: true
     param :name, String, desc: 'Name', required: true
     param :surname, String, desc: 'Surname', required: true
-    param :phone, String, desc: 'Phone'
+    param :phone, /\+?\d{11}/, desc: 'Phone'
     param :notification, :bool, desc: 'Notification'
     param :newsletter, :bool, desc: 'Newsletter'
   end
