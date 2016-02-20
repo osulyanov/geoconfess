@@ -12,7 +12,7 @@ class User < ActiveRecord::Base
   validates :role, presence: true
   validates :name, presence: true
   validates :surname, presence: true
-  validates :phone, format: { with: /\+?\d{11}/ }
+  validates :phone, format: { with: /\+?\d{10,11}/ }
 end
 
 # == Schema Information

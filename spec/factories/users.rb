@@ -4,6 +4,11 @@ FactoryGirl.define do
       "user_#{n}@mysite.com"
     end
     password '123password%'
+    role :user
+    name 'Pavel'
+    surname 'Durov'
+    phone '+1234567890'
+    active true
   end
 end
 
@@ -25,6 +30,12 @@ end
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  role                   :integer
+#  name                   :string
+#  surname                :string
+#  phone                  :string
+#  notification           :boolean          default(FALSE), not null
+#  newsletter             :boolean          default(FALSE), not null
+#  active                 :boolean          default(FALSE), not null
 #
 # Indexes
 #

@@ -16,7 +16,7 @@ class Api::V1::RegistrationsController < Api::V1::V1Controller
     param :password, String, desc: 'Password', required: true
     param :name, String, desc: 'Name', required: true
     param :surname, String, desc: 'Surname', required: true
-    param :phone, /\+?\d{11}/, desc: 'Phone'
+    param :phone, /\+?\d{10,11}/, desc: 'Phone'
     param :notification, :bool, desc: 'Notification'
     param :newsletter, :bool, desc: 'Newsletter'
   end
