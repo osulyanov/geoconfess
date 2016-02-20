@@ -25,6 +25,7 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.0'
   gem 'factory_girl_rails', '~> 4.0'
   gem 'oauth2'
+  gem 'annotate', github: 'ctran/annotate_models'
 end
 
 group :development do
