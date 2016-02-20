@@ -8,6 +8,11 @@ class User < ActiveRecord::Base
 
   has_many :tokens, class_name: 'Doorkeeper::AccessToken',
            foreign_key: 'resource_owner_id', dependent: :destroy
+
+  validates :role, presence: true
+  validates :name, presence: true
+  validates :surname, presence: true
+  validates :phone, format: { with: /\+?\d{11}/ }
 end
 
 # == Schema Information
@@ -28,6 +33,12 @@ end
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  role                   :integer
+#  name                   :string
+#  surname                :string
+#  phone                  :string
+#  notification           :boolean          default(FALSE), not null
+#  newsletter             :boolean          default(FALSE), not null
+#  active                 :boolean          default(FALSE), not null
 #
 # Indexes
 #
