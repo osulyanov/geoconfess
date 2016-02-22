@@ -19,6 +19,10 @@ class Api::V1::RegistrationsController < Api::V1::V1Controller
     param :phone, /\+?\d{10,11}/, desc: 'Phone'
     param :notification, :bool, desc: 'Notification'
     param :newsletter, :bool, desc: 'Newsletter'
+    param :parish_attributes, Hash, desc: 'Parish attributes for Priest only' do
+      param :name, String, desc: 'Name', required: true
+      param :email, String, desc: 'Email', required: true
+    end
   end
 
   def create
@@ -36,6 +40,10 @@ class Api::V1::RegistrationsController < Api::V1::V1Controller
 
   def user_params
     params.require(:user).permit(:role, :email, :password, :name, :surname,
-                                 :phone, :notification, :newsletter)
+                                 :phone, :notification, :newsletter,
+                                 parish_attributes: [:name, :email]).tap do |wl|
+      # Don't allow parish for non-priest users
+      wl.delete(:parish_attributes) unless params[:user][:role] == 'priest'
+    end
   end
 end
