@@ -9,8 +9,10 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: 'json' } do
     scope module: :v1, path: 'v1' do
       devise_scope :user do
-        post '/registrations' => 'registrations#create', :as => 'register'
+        post '/registrations' => 'registrations#create'
+        put '/me' => 'credentials#update'
       end
+      get '/me' => 'credentials#show'
     end
   end
 end
