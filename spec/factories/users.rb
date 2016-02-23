@@ -9,6 +9,11 @@ FactoryGirl.define do
     surname 'Durov'
     phone '+1234567890'
     active true
+
+    trait :admin do
+      name 'Admin'
+      role :admin
+    end
   end
 end
 

@@ -6,15 +6,24 @@ module Api
 
     helper_method :current_user
 
-    def access_denied(exception)
-      message = exception.message || 'Access Denied'
-      render json: { message: message }, status: 401
-    end
+    rescue_from CanCan::AccessDenied, with: :access_denied
+
+    rescue_from ActiveRecord::RecordNotFound, with: :not_found
 
     private
 
     def current_user
       User.find(doorkeeper_token.resource_owner_id) if doorkeeper_token
+    end
+
+    def access_denied(exception)
+      message = exception.message || 'Access Denied'
+      render json: { message: message }, status: 401
+    end
+
+    def not_found(exception)
+      message = exception.message || 'Not found'
+      render json: { message: message }, status: 404
     end
   end
 end

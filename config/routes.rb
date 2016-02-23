@@ -13,6 +13,12 @@ Rails.application.routes.draw do
         put '/me' => 'credentials#update'
       end
       get '/me' => 'credentials#show'
+      resources :users, only: [:show, :update, :destroy] do
+        member do
+          put :activate
+          put :deactivate
+        end
+      end
     end
   end
 end

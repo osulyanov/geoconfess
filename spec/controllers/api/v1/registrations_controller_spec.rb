@@ -14,8 +14,8 @@ RSpec.describe Api::V1::RegistrationsController, type: :controller do
         expect(User.last.name).to eq('Newbie')
       end
 
-      it 'new user is inactive' do
-        expect(User.last).not_to be_active
+      it 'new user is active' do
+        expect(User.last).to be_active
       end
 
       context 'priest with parish' do
@@ -25,6 +25,10 @@ RSpec.describe Api::V1::RegistrationsController, type: :controller do
         end
 
         it { expect(response).to have_http_status(:created) }
+
+        it 'new priest user is inactive' do
+          expect(User.last).not_to be_active
+        end
 
         it 'has the parish' do
           expect(User.last.parish.name).to eq(parish_data[:name])
