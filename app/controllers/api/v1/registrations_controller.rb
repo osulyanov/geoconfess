@@ -28,6 +28,7 @@ class Api::V1::RegistrationsController < Api::V1::V1Controller
   def create
     @user = User.new(user_params)
     @user.role = :user if @user.admin? # user can't register as admin via API
+    @user.active = true unless @user.priest?
     if @user.save
       sign_in @user
       head status: :created
