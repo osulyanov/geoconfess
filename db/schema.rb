@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160224051327) do
+ActiveRecord::Schema.define(version: 20160224102727) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,19 @@ ActiveRecord::Schema.define(version: 20160224051327) do
   add_index "active_admin_comments", ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id", using: :btree
   add_index "active_admin_comments", ["namespace"], name: "index_active_admin_comments_on_namespace", using: :btree
   add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id", using: :btree
+
+  create_table "churches", force: :cascade do |t|
+    t.string   "name"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.string   "street"
+    t.string   "postcode"
+    t.string   "city"
+    t.string   "state"
+    t.string   "country"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "meet_requests", force: :cascade do |t|
     t.integer  "priest_id"
@@ -88,6 +101,29 @@ ActiveRecord::Schema.define(version: 20160224051327) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "recurrences", force: :cascade do |t|
+    t.integer  "spot_id"
+    t.date     "date"
+    t.time     "start_at"
+    t.time     "stop_at"
+    t.integer  "days",       default: 0, null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "recurrences", ["spot_id"], name: "index_recurrences_on_spot_id", using: :btree
+
+  create_table "spots", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "priest_id"
+    t.integer  "church_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "spots", ["church_id"], name: "index_spots_on_church_id", using: :btree
+  add_index "spots", ["priest_id"], name: "index_spots_on_priest_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",    null: false
