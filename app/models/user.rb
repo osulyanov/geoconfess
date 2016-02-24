@@ -16,6 +16,11 @@ class User < ActiveRecord::Base
   validates :surname, presence: true
   validates :phone, format: { with: /\A\+?\d{10,11}\z/ }, if: 'phone.present?'
   validates :parish, presence: true, if: 'priest?'
+
+  def display_name
+    return [name, surname].join(' ') if name.present? || surname.present?
+    email
+  end
 end
 
 # == Schema Information
