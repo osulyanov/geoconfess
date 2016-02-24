@@ -16,6 +16,8 @@ gem 'cancancan', '~> 1.10'
 gem 'doorkeeper'
 gem 'apipie-rails', github: 'Apipie/apipie-rails'
 gem 'maruku'
+gem 'week_sauce'
+gem 'country_select'
 
 group :production do
   gem 'rails_12factor'
