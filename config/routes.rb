@@ -19,6 +19,12 @@ Rails.application.routes.draw do
           put :deactivate
         end
       end
+      resources :meet_requests, path: 'requests', except: [:new, :edit] do
+        member do
+          put :accept
+          put :refuse
+        end
+      end
     end
   end
 end

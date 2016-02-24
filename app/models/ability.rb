@@ -10,6 +10,15 @@ class Ability
       can :update, User, id: user.id
       cannot :activate, User
       cannot :deactivate, User
+
+      can :create, MeetRequest
+      can :read, MeetRequest do |request|
+        request.priest_id == user.id || request.penitent_id == user.id
+      end
+      can :update, MeetRequest, priest_id: user.id
+      can :destroy, MeetRequest, priest_id: user.id
+      can :accept, MeetRequest, priest_id: user.id
+      can :refuse, MeetRequest, priest_id: user.id
     end
   end
 end

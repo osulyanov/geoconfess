@@ -3,6 +3,10 @@ class MeetRequest < ActiveRecord::Base
 
   belongs_to :priest, class_name: 'User', required: true
   belongs_to :penitent, class_name: 'User', required: true
+
+  scope :all_for_user, -> (user_id) do
+    where('priest_id = ? OR penitent_id = ?', user_id, user_id)
+  end
 end
 
 # == Schema Information
