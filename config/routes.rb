@@ -25,6 +25,7 @@ Rails.application.routes.draw do
           put :refuse
         end
       end
+      resources :churches, only: [:index, :show, :create, :update, :destroy]
     end
   end
 end

@@ -19,6 +19,9 @@ class Ability
       can :destroy, MeetRequest, priest_id: user.id
       can :accept, MeetRequest, priest_id: user.id
       can :refuse, MeetRequest, priest_id: user.id
+
+      can :create, Church if user.priest?
+      can :read, Church
     end
   end
 end
