@@ -8,19 +8,22 @@ class Recurrence < ActiveRecord::Base
   validates :date, presence: true, if: 'days.blank?'
   validates :days, presence: true, if: 'date.blank?'
 
-  def week_days
-    return [] if read_attribute(:days).blank?
+  def week_days_arr
+    w = read_attribute(:days)
+    return [] if w.blank? || w == 0
 
     # first you have to convert the integer to a binary array
-    w = read_attribute(:days)
     days_as_binary = Math.log2(w).floor.downto(0).map { |nth_bit| w[nth_bit] }
 
     # alternatively
     # days_as_binary = read_attribute(:week_days).to_s(2).split('').map(&:to_i)
 
     # make sure it has an element for every day of the week
-    padded_binary = [0] * (7 - days_as_binary.size) + days_as_binary
+    [0] * (7 - days_as_binary.size) + days_as_binary
+  end
 
+  def week_days
+    padded_binary = week_days_arr
     # map the binary array to day names
     padded_binary.each_with_index.map do |d, idx|
       Date::DAYNAMES[idx] if d == 1
@@ -43,7 +46,7 @@ end
 #  date       :date
 #  start_at   :time
 #  stop_at    :time
-#  days       :integer          default(0: No days set), not null
+#  days       :integer          default(0), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #

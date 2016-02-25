@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160224102727) do
+ActiveRecord::Schema.define(version: 20160225195900) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -118,8 +118,11 @@ ActiveRecord::Schema.define(version: 20160224102727) do
     t.string   "name"
     t.integer  "priest_id"
     t.integer  "church_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.integer  "activity_type", default: 0, null: false
+    t.float    "latitude"
+    t.float    "longitude"
   end
 
   add_index "spots", ["church_id"], name: "index_spots_on_church_id", using: :btree

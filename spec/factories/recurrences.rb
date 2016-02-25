@@ -15,7 +15,7 @@ end
 #  date       :date
 #  start_at   :time
 #  stop_at    :time
-#  days       :integer          default(0: No days set), not null
+#  days       :integer          default(0), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #

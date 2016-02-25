@@ -26,6 +26,7 @@ Rails.application.routes.draw do
         end
       end
       resources :churches, only: [:index, :show, :create, :update, :destroy]
+      resources :spots, only: [:index, :show, :create, :update, :destroy]
     end
   end
 end

@@ -22,6 +22,13 @@ class Ability
 
       can :create, Church if user.priest?
       can :read, Church
+
+      can :read, Spot
+      if user.priest?
+        can :create, Spot
+        can :update, Spot, priest_id: user.id
+        can :destroy, Spot, priest_id: user.id
+      end
     end
   end
 end

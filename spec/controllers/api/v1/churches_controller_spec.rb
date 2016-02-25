@@ -26,18 +26,14 @@ RSpec.describe Api::V1::ChurchesController, type: :controller do
 
   describe 'GET #show' do
     let(:token) { create :access_token, resource_owner_id: user.id }
+    before do
+      get :show, format: :json, id: church.id, access_token: token.token
+    end
 
-    context 'with ID of user\'s church' do
+    it { expect(response).to have_http_status(:success) }
 
-      before do
-        get :show, format: :json, id: church.id, access_token: token.token
-      end
-
-      it { expect(response).to have_http_status(:success) }
-
-      it 'returns current user as json' do
-        expect(json['id']).to eq(church.id)
-      end
+    it 'returns current user as json' do
+      expect(json['id']).to eq(church.id)
     end
   end
 
