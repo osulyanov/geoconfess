@@ -1,6 +1,6 @@
 ActiveAdmin.register User do
   permit_params :name, :surname, :email, :phone, :parish_id, :role, :active,
-                :notification, :newsletter,
+                :notification, :newsletter, :celebret_url,
                 :password, :password_confirmation
 
   index do
@@ -26,6 +26,7 @@ ActiveAdmin.register User do
       f.input :phone
       f.input :parish, as: :select, collection: Parish.all
       f.input :role, as: :select, collection: User.roles.keys
+      f.input :celebret_url
       f.input :active
       f.input :notification
       f.input :newsletter

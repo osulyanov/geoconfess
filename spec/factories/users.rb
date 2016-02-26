@@ -42,6 +42,7 @@ end
 #  newsletter             :boolean          default(FALSE), not null
 #  active                 :boolean          default(FALSE), not null
 #  parish_id              :integer
+#  celebret_url           :string
 #
 # Indexes
 #
