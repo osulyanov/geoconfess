@@ -38,6 +38,17 @@ class Ability
         recurrence.spot.priest_id == user.id
       end
       can :create, Recurrence if user.priest?
+
+      can :create, Message
+      can :read, Message do |request|
+        request.sender_id == user.id || request.recipient_id == user.id
+      end
+      can :update, Message do |request|
+        request.sender_id == user.id || request.recipient_id == user.id
+      end
+      can :destroy, Message do |request|
+        request.sender_id == user.id || request.recipient_id == user.id
+      end
     end
   end
 end
