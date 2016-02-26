@@ -32,6 +32,7 @@ Rails.application.routes.draw do
         end
       end
       resources :recurrences, only: [:index, :show, :create, :update, :destroy]
+      resources :messages, only: [:index, :show, :create, :update, :destroy]
     end
   end
 end

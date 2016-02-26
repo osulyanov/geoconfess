@@ -22,6 +22,10 @@ class User < ActiveRecord::Base
     return [name, surname].join(' ') if name.present? || surname.present?
     email
   end
+
+  def messages
+    Message.with_user(id)
+  end
 end
 
 # == Schema Information
