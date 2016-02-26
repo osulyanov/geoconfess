@@ -5,7 +5,7 @@ class Recurrence < ActiveRecord::Base
 
   validates :start_at, presence: true
   validates :stop_at, presence: true
-  validates :date, presence: true, if: 'days.blank?'
+  validates :date, presence: true, if: 'week_days.blank?'
   validates :days, presence: true, if: 'date.blank?'
 
   def week_days_arr

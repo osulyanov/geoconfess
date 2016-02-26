@@ -26,7 +26,6 @@ class Api::V1::SpotsController < Api::V1::V1Controller
   param :priest_id, Integer, desc: 'Filter by Priest'
   param :now, :bool, desc: 'Show only active right now spots'
   param :type, %w(static dynamic), desc: 'Show only spots of given type'
-
   example <<-EOS
     [
       {

@@ -29,6 +29,15 @@ class Ability
         can :update, Spot, priest_id: user.id
         can :destroy, Spot, priest_id: user.id
       end
+
+      can :read, Recurrence
+      can :update, Recurrence do |recurrence|
+        recurrence.spot.priest_id == user.id
+      end
+      can :destroy, Recurrence do |recurrence|
+        recurrence.spot.priest_id == user.id
+      end
+      can :create, Recurrence if user.priest?
     end
   end
 end
