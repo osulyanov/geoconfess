@@ -8,7 +8,7 @@ class Api::V1::RegistrationsController < Api::V1::V1Controller
   description <<-EOS
         ## Description
         Users registration
-        Returns code 201 with no content if user successfully created.
+        Returns code 201 and {result: "success"} if user successfully created.
   EOS
   param :user, Hash, desc: 'User info' do
     param :role, ['priest', 'user'], desc: 'Role', required: true
@@ -32,7 +32,7 @@ class Api::V1::RegistrationsController < Api::V1::V1Controller
     @user.active = true unless @user.priest?
     if @user.save
       sign_in @user
-      head status: :created
+      head status: :created, json: {result: "success"}
     else
       render status: :unprocessable_entity, json: { errors: @user.errors }
     end
