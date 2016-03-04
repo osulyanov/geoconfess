@@ -8,7 +8,7 @@ class Api::V1::RegistrationsController < Api::V1::V1Controller
   description <<-EOS
         ## Description
         Users registration
-        Returns code 201 and {result: "success"} if user successfully created.
+        Returns code 201 and {result: "success"} if user successfully created and errors otherwise.
   EOS
   param :user, Hash, desc: 'User info' do
     param :role, ['priest', 'user'], desc: 'Role', required: true
@@ -34,7 +34,7 @@ class Api::V1::RegistrationsController < Api::V1::V1Controller
       sign_in @user
       head status: :created, json: {result: "success"}
     else
-      render status: :unprocessable_entity, json: { errors: @user.errors }
+      render status: :unprocessable_entity, json: { result: "failed", errors: @user.errors }
     end
   end
 
