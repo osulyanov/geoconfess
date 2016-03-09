@@ -2,6 +2,7 @@ class Api::V1::RecurrencesController < Api::V1::V1Controller
   before_action :doorkeeper_authorize!
   before_action :set_spot, only: [:index, :create]
   before_action :set_recurrence, only: [:show, :update, :destroy]
+  before_action :set_priest, only: [:for_priest]
   load_and_authorize_resource
 
   resource_description do
@@ -116,6 +117,28 @@ class Api::V1::RecurrencesController < Api::V1::V1Controller
     end
   end
 
+  api! 'Recurrences of the priest'
+  description <<-EOS
+    ## Description
+    All recurrences for passed priest
+  EOS
+  param :priest_id, Integer, desc: 'Priest ID'
+  example <<-EOS
+    [
+      {
+        "name": "Active right now",
+        "start_at": "10:00",
+        "stop_at": "20:00",
+        "date": "25/03/2016"
+      }
+    ]
+  EOS
+
+  def for_priest
+    spot_ids = @priest.spot_ids
+    @recurrences = Recurrence.in_the_future.where(spot_id: spot_ids)
+  end
+
   private
 
   def recurrence_params
@@ -129,5 +152,9 @@ class Api::V1::RecurrencesController < Api::V1::V1Controller
 
   def set_recurrence
     @recurrence = Recurrence.find(params[:id])
+  end
+
+  def set_priest
+    @priest = User.active.priests.find(params[:priest_id])
   end
 end
