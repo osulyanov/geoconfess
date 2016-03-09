@@ -126,4 +126,23 @@ RSpec.describe Api::V1::RecurrencesController, type: :controller do
     end
   end
 
+  describe 'GET #for_priest' do
+    let(:other_priest) { create :user, role: :priest, parish: (create :parish) }
+    let(:other_spot) { create :spot, church: (create :church), priest: other_priest, name: 'Other one' }
+    let!(:other_recurrence) { create :recurrence, spot: other_spot }
+    let(:token) { create :access_token, resource_owner_id: user.id }
+
+    before do
+      get :for_priest, format: :json, access_token: token.token, priest_id: priest.id
+    end
+
+    it { expect(response).to have_http_status(:success) }
+
+    it 'returns only recurrences of passed priest' do
+      names = json.map { |r| r['name'] }
+      expect(names).to contain_exactly(recurrence.spot.name)
+    end
+
+  end
+
 end
