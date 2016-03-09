@@ -12,6 +12,9 @@ class User < ActiveRecord::Base
   belongs_to :parish
   accepts_nested_attributes_for :parish
 
+  scope :priests, -> { where role: roles[:priest] }
+  scope :active, -> { where active: true }
+
   validates :role, presence: true
   validates :name, presence: true
   validates :surname, presence: true
