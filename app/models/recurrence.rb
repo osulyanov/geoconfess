@@ -1,7 +1,9 @@
 class Recurrence < ActiveRecord::Base
-  # serialize :days, WeekSauce
+  include ApplicationHelper
 
   belongs_to :spot, required: true
+
+  scope :in_the_future, -> { where('recurrences.date >= ? OR recurrences.date ISNULL', Time.zone.today) }
 
   validates :start_at, presence: true
   validates :stop_at, presence: true
@@ -23,16 +25,23 @@ class Recurrence < ActiveRecord::Base
   end
 
   def week_days
+    week_days_from_array(Date::DAYNAMES)
+  end
+
+  def week_days_fr
+    week_days_from_array(french_weekdays)
+  end
+
+  def week_days_from_array(weekdays_array)
     padded_binary = week_days_arr
     # map the binary array to day names
     padded_binary.each_with_index.map do |d, idx|
-      Date::DAYNAMES[idx] if d == 1
+      weekdays_array[idx] if d == 1
     end.compact
   end
 
   def week_days=(values)
     days = Date::DAYNAMES.map { |d| values.include?(d) ? 1 : 0 }
-    Rails.logger.info "days=#{days.inspect}"
     write_attribute(:days, days.join.to_i(2))
   end
 end
