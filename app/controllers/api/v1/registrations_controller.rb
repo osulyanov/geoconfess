@@ -32,9 +32,9 @@ class Api::V1::RegistrationsController < Api::V1::V1Controller
     @user.active = true unless @user.priest?
     if @user.save
       sign_in @user
-      render status: :created, json: {result: "success"}
+      render status: :created, json: { result: 'success' }
     else
-      render status: :unprocessable_entity, json: { result: "failed", errors: @user.errors }
+      render status: :unprocessable_entity, json: { result: 'failed', errors: @user.errors }
     end
   end
 
