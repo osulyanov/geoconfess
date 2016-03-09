@@ -122,7 +122,7 @@ class Api::V1::RecurrencesController < Api::V1::V1Controller
     ## Description
     All recurrences for passed priest
   EOS
-  param :priest_id, Integer, desc: 'Priest ID'
+  param :priest_id, Integer, desc: 'Priest ID', required: true
   example <<-EOS
     [
       {
