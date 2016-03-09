@@ -31,7 +31,11 @@ Rails.application.routes.draw do
           resources :recurrences, only: [:index, :show, :create, :update, :destroy]
         end
       end
-      resources :recurrences, only: [:index, :show, :create, :update, :destroy]
+      resources :recurrences, only: [:index, :show, :create, :update, :destroy] do
+        collection do
+          get 'for_priest/:priest_id', to: 'recurrences#for_priest'
+        end
+      end
       resources :messages, only: [:index, :show, :create, :update, :destroy]
     end
   end
