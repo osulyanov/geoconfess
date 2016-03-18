@@ -56,7 +56,7 @@ class Api::V1::ChurchesController < Api::V1::V1Controller
   end
 
 
-  api :POST, '/churches', 'Create church'
+  api :POST, '/v1/churches', 'Create church'
   description <<-EOS
     ## Description
     Creates church. For admin and priest only.

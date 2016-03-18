@@ -6,7 +6,7 @@ class Api::V1::CredentialsController < Api::V1::V1Controller
     short 'Current user'
   end
 
-  api :GET, '/me', 'Show current user'
+  api :GET, '/v1/me', 'Show current user'
   description <<-EOS
         ## Description
         Show data of current user
@@ -31,7 +31,7 @@ class Api::V1::CredentialsController < Api::V1::V1Controller
   end
 
 
-  api :PUT, '/me', 'Update current user'
+  api :PUT, '/v1/me', 'Update current user'
   description <<-EOS
         ## Description
         Updates current user

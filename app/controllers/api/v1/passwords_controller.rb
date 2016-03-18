@@ -4,7 +4,7 @@ class Api::V1::PasswordsController < Api::V1::V1Controller
     short 'User Password'
   end
 
-  api :POST, '/passwords', 'Send reset password instructions'
+  api :POST, '/v1/passwords', 'Send reset password instructions'
   description <<-EOS
     ## Description
     Sends reset password instruction on given email address.
