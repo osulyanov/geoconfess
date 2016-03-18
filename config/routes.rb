@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  namespace :api do
+    namespace :v1 do
+      get 'passwords/create'
+    end
+  end
+
   root 'home#index'
 
   apipie
@@ -11,6 +17,7 @@ Rails.application.routes.draw do
       devise_scope :user do
         post '/registrations' => 'registrations#create'
         put '/me' => 'credentials#update'
+        resources :passwords, only: :create
       end
       get '/me' => 'credentials#show'
       resources :users, only: [:show, :update, :destroy] do
