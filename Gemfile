@@ -18,6 +18,7 @@ gem 'apipie-rails', github: 'Apipie/apipie-rails'
 gem 'maruku'
 gem 'week_sauce'
 gem 'country_select'
+gem 'postmark-rails'
 
 group :production do
   gem 'rails_12factor'
