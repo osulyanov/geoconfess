@@ -66,7 +66,7 @@ class Api::V1::RecurrencesController < Api::V1::V1Controller
   end
 
 
-  api :POST, '/create', 'Create recurrence'
+  api :POST, '/recurrences', 'Create recurrence'
   description <<-EOS
     ## Description
     Creates recurrence. For admin and priest only.
