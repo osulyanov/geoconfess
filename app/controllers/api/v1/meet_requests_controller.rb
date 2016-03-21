@@ -72,7 +72,7 @@ class Api::V1::MeetRequestsController < Api::V1::V1Controller
   description <<-EOS
     ## Description
     Updates request data
-    Returns code 200 with no content if request successfully updated.
+    Returns code 200 and {result: "success"} if request successfully updated.
   EOS
   param :request, Hash, desc: 'User info' do
     param :priest_id, Integer, desc: 'Priest ID', required: true
@@ -81,7 +81,7 @@ class Api::V1::MeetRequestsController < Api::V1::V1Controller
 
   def update
     if @meet_request.update_attributes(request_params)
-      head status: :ok
+      render status: :ok, json: { result: 'success' }
     else
       render status: :unprocessable_entity, json: { errors: @meet_request.errors }
     end

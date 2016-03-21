@@ -87,7 +87,7 @@ class Api::V1::ChurchesController < Api::V1::V1Controller
   description <<-EOS
     ## Description
     Updates church data. For admin only.
-    Returns code 200 with no content if church successfully updated.
+    Returns code 200 and {result: "success"} if church successfully updated.
   EOS
   param :church, Hash, desc: 'Church info' do
     param :name, String, desc: 'Name', required: true
@@ -102,7 +102,7 @@ class Api::V1::ChurchesController < Api::V1::V1Controller
 
   def update
     if @church.update_attributes(church_params)
-      head status: :ok
+      render status: :ok, json: { result: 'success' }
     else
       render status: :unprocessable_entity, json: { errors: @church.errors }
     end

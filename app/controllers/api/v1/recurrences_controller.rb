@@ -89,13 +89,13 @@ class Api::V1::RecurrencesController < Api::V1::V1Controller
   description <<-EOS
     ## Description
     Updates recurrence data. For admin and priest only.
-    Returns code 200 with no content if recurrence successfully updated.
+    Returns code 200 and {result: "success"} if recurrence successfully updated.
   EOS
   param_group :recurrence
 
   def update
     if @recurrence.update_attributes(recurrence_params)
-      head status: :ok
+      render status: :ok, json: { result: 'success' }
     else
       render status: :unprocessable_entity, json: { errors: @recurrence.errors }
     end

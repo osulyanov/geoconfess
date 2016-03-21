@@ -79,13 +79,13 @@ class Api::V1::MessagesController < Api::V1::V1Controller
   description <<-EOS
     ## Description
     Updates message data
-    Returns code 200 with no content if message successfully updated.
+    Returns code 200 and {result: "success"} if message successfully updated.
   EOS
   param_group :message
 
   def update
     if @message.update_attributes(message_params)
-      head status: :ok
+      render status: :ok, json: { result: 'success' }
     else
       render status: :unprocessable_entity, json: { errors: @message.errors }
     end

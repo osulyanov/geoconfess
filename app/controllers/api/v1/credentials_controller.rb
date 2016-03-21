@@ -35,7 +35,7 @@ class Api::V1::CredentialsController < Api::V1::V1Controller
   description <<-EOS
         ## Description
         Updates current user
-        Returns code 200 with no content if user successfully updated.
+        Returns code 200 and {result: "success"} if user successfully updated.
   EOS
   param :user, Hash, desc: 'User info' do
     param :email, String, desc: 'Email', required: true
@@ -49,7 +49,7 @@ class Api::V1::CredentialsController < Api::V1::V1Controller
 
   def update
     if @user.update_attributes(user_params)
-      head status: :ok
+      render status: :ok, json: { result: 'success' }
     else
       render status: :unprocessable_entity, json: { errors: @user.errors }
     end

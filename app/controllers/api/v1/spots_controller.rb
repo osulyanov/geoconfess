@@ -96,13 +96,13 @@ class Api::V1::SpotsController < Api::V1::V1Controller
   description <<-EOS
     ## Description
     Updates spot data. For priest only.
-    Returns code 200 with no content if spot successfully updated.
+    Returns code 200 and {result: "success"} if spot successfully updated.
   EOS
   param_group :spot
 
   def update
     if @spot.update_attributes(spot_params)
-      head status: :ok
+      render status: :ok, json: { result: 'success' }
     else
       render status: :unprocessable_entity, json: { errors: @spot.errors }
     end
