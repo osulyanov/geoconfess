@@ -29,6 +29,10 @@ class User < ActiveRecord::Base
   def messages
     Message.with_user(id)
   end
+
+  def send_welcome_message
+    UserMailer.registered(id).deliver
+  end
 end
 
 # == Schema Information
