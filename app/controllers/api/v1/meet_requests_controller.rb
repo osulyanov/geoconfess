@@ -10,7 +10,7 @@ class Api::V1::MeetRequestsController < Api::V1::V1Controller
   api! 'All requests of current user'
   description <<-EOS
     ## Description
-    All requests where priest_id or penitent_id equal to current_user.id
+    All active requests where priest_id or penitent_id equal to current_user.id
   EOS
   example <<-EOS
     [
