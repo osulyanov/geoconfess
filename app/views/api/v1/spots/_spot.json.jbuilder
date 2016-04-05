@@ -15,12 +15,5 @@ unless params[:me]
   end
 end
 json.recurrences spot.recurrences do |recurrence|
-  json.id recurrence.id
-  json.start_at recurrence.start_at.strftime('%H:%M')
-  json.stop_at recurrence.stop_at.strftime('%H:%M')
-  if recurrence.date.present?
-    json.date recurrence.date
-  else
-    json.week_days recurrence.week_days
-  end
+  json.partial! 'api/v1/recurrences/recurrence', recurrence: recurrence
 end
