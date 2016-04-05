@@ -8,7 +8,7 @@ ActiveAdmin.register Church do
     column :name
     column :latitude
     column :longitude
-    column(:address) { |c| "#{c.street}, #{c.postcode}, #{c.city}, #{c.country}" }
+    column(:address) { |c| [c.street, c.postcode, c.city, c.country].select(&:present?).join ', ' }
     column :created_at
     actions
   end
