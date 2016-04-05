@@ -71,12 +71,21 @@ class Api::V1::RecurrencesController < Api::V1::V1Controller
     Returns code 201 with no content if recurrence successfully created.
   EOS
   param_group :recurrence
+  example <<-EOS
+    {
+      "id": 5,
+      "spot_id": 3,
+      "date": "2016-02-25",
+      "start_at": "10:00",
+      "stop_at": "20:00",
+    }
+  EOS
 
   def create
     authorize! :update, @spot
     @recurrence = @spot.recurrences.new(recurrence_params)
     if @recurrence.save
-      head status: :created
+      render :show, status: :created
     else
       render status: :unprocessable_entity, json: { errors: @recurrence.errors }
     end
