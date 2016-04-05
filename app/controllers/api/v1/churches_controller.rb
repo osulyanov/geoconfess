@@ -74,7 +74,7 @@ class Api::V1::ChurchesController < Api::V1::V1Controller
   end
 
   def create
-    @church = Church.new(church_params)
+    @church = Church.where(church_params).first_or_initialize
     if @church.save
       head status: :created
     else
