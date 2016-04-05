@@ -27,14 +27,40 @@ class Api::V1::SpotsController < Api::V1::V1Controller
     [
       {
         "id": 6,
-        "name": "Test Spot",
-        "priest_id": 24,
+        "name": "Test Spot1",
         "church_id": 1,
-        "created_at": "2016-04-05T04:28:02.044Z",
-        "updated_at": "2016-04-05T04:28:02.044Z",
         "activity_type": "static",
-        "latitude": 12,
-        "longitude": 13
+        "latitude": 55.3232,
+        "longitude": 80.234234,
+        "recurrences": [
+          {
+            "id": 13,
+            "date": null,
+            "start_at": "08:00",
+            "stop_at": "08:30",
+            "week_days": [
+              "Monday",
+              "Wednesday",
+              "Friday"
+            ]
+          },
+          {
+            "id": 14,
+            "date": "2016-08-01",
+            "start_at": "09:20",
+            "stop_at": "09:30",
+            "week_days": []
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "name": "Test Spot 2",
+        "church_id": 1,
+        "activity_type": "dynamic",
+        "latitude": 14,
+        "longitude": 15,
+        "recurrences": []
       }
     ]
   EOS
@@ -53,23 +79,56 @@ class Api::V1::SpotsController < Api::V1::V1Controller
   example <<-EOS
     [
       {
-        "id": 1,
-        "name": "Inactive right now Spot",
+        "id": 6,
+        "name": "Test Spot1",
         "church_id": 1,
         "activity_type": "static",
         "latitude": 55.3232,
         "longitude": 80.234234,
         "priest": {
-          "id": 9,
-          "name": "Oleg",
-          "surname": "Test 1"
-        }
+          "id": 24,
+          "name": "Test Priest",
+          "surname": "Surnemaehere"
+        },
+        "recurrences": [
+          {
+            "id": 13,
+            "date": null,
+            "start_at": "08:00",
+            "stop_at": "08:30",
+            "week_days": [
+              "Monday",
+              "Wednesday",
+              "Friday"
+            ]
+          },
+          {
+            "id": 14,
+            "date": "2016-08-01",
+            "start_at": "09:20",
+            "stop_at": "09:30",
+            "week_days": []
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "name": "Test Spot 2",
+        "church_id": 1,
+        "activity_type": "dynamic",
+        "latitude": 14,
+        "longitude": 15,
+        "priest": {
+          "id": 24,
+          "name": "Test Priest",
+          "surname": "Surnemaehere"
+        },
+        "recurrences": []
       }
     ]
   EOS
 
   def index
-    render json: @spots
   end
 
 
@@ -161,8 +220,9 @@ class Api::V1::SpotsController < Api::V1::V1Controller
 
   def set_spots
     if params[:me] == true
-      @spots = current_user.spots
+      @spots = current_user.spots.includes(:recurrences)
     else
+      @spots = Spot.active
       @spots = @spots.of_type(params[:type]) if params[:type].present?
       @spots = @spots.of_priest(params[:priest_id]) if params[:priest_id].to_i > 0
       @spots = @spots.joins(:recurrences).now if params[:now]
