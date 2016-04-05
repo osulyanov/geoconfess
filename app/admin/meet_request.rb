@@ -1,6 +1,11 @@
 ActiveAdmin.register MeetRequest do
   permit_params :priest_id, :penitent_id, :status
 
+  scope :all, default: true
+  scope 'Active' do |items|
+    items.active
+  end
+
   index do
     selectable_column
     id_column
