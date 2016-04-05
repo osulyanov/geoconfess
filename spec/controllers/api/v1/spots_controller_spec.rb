@@ -24,6 +24,23 @@ RSpec.describe Api::V1::SpotsController, type: :controller do
     end
   end
 
+  describe 'GET #index, me=true' do
+    let(:token) { create :access_token, resource_owner_id: priest.id }
+    let(:other_priest) { create :user, role: :priest, parish: parish }
+    let!(:other_spot) { create :spot, church: church, priest: other_priest }
+
+    before do
+      get :index, format: :json, me: true, access_token: token.token
+    end
+
+    it { expect(response).to have_http_status(:success) }
+
+    it 'returns spots of current priest as json' do
+      ids = json.map { |r| r['id'] }
+      expect(ids).to contain_exactly(spot.id)
+    end
+  end
+
 
   describe 'GET #show' do
     let(:token) { create :access_token, resource_owner_id: user.id }
