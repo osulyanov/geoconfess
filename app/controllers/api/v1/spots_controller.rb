@@ -35,7 +35,6 @@ class Api::V1::SpotsController < Api::V1::V1Controller
         "recurrences": [
           {
             "id": 13,
-            "date": null,
             "start_at": "08:00",
             "stop_at": "08:30",
             "week_days": [
@@ -48,8 +47,7 @@ class Api::V1::SpotsController < Api::V1::V1Controller
             "id": 14,
             "date": "2016-08-01",
             "start_at": "09:20",
-            "stop_at": "09:30",
-            "week_days": []
+            "stop_at": "09:30"
           }
         ]
       },
@@ -93,7 +91,6 @@ class Api::V1::SpotsController < Api::V1::V1Controller
         "recurrences": [
           {
             "id": 13,
-            "date": null,
             "start_at": "08:00",
             "stop_at": "08:30",
             "week_days": [
@@ -106,8 +103,7 @@ class Api::V1::SpotsController < Api::V1::V1Controller
             "id": 14,
             "date": "2016-08-01",
             "start_at": "09:20",
-            "stop_at": "09:30",
-            "week_days": []
+            "stop_at": "09:30"
           }
         ]
       },
@@ -152,7 +148,6 @@ class Api::V1::SpotsController < Api::V1::V1Controller
       "recurrences": [
         {
           "id": 13,
-          "date": null,
           "start_at": "08:00",
           "stop_at": "08:30",
           "week_days": [
@@ -165,8 +160,7 @@ class Api::V1::SpotsController < Api::V1::V1Controller
           "id": 14,
           "date": "2016-08-01",
           "start_at": "09:20",
-          "stop_at": "09:30",
-          "week_days": []
+          "stop_at": "09:30"
         }
       ]
     }

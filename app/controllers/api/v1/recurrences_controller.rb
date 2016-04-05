@@ -28,7 +28,6 @@ class Api::V1::RecurrencesController < Api::V1::V1Controller
       {
         "id": 6,
         "spot_id": 4,
-        "date": null,
         "start_at": "10:00",
         "stop_at": "20:00",
         "week_days": [
@@ -58,7 +57,6 @@ class Api::V1::RecurrencesController < Api::V1::V1Controller
       "date": "2016-02-25",
       "start_at": "10:00",
       "stop_at": "20:00",
-      "week_days": []
     }
   EOS
 

@@ -16,8 +16,11 @@ unless params[:me]
 end
 json.recurrences spot.recurrences do |recurrence|
   json.id recurrence.id
-  json.date recurrence.date
   json.start_at recurrence.start_at.strftime('%H:%M')
   json.stop_at recurrence.stop_at.strftime('%H:%M')
-  json.week_days recurrence.week_days
+  if recurrence.date.present?
+    json.date recurrence.date
+  else
+    json.week_days recurrence.week_days
+  end
 end
