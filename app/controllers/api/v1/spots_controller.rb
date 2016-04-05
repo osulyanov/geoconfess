@@ -11,7 +11,7 @@ class Api::V1::SpotsController < Api::V1::V1Controller
   def_param_group :spot do
     param :spot, Hash, desc: 'Spot info' do
       param :name, String, desc: 'Name', required: true
-      param :church_id, Integer, desc: 'Church ID', required: true
+      param :church_id, Integer, desc: 'Church ID, for static spots only'
       param :activity_type, %w(static dynamic), desc: 'Type of spot'
       param :latitude, Float, desc: 'Latitude, for dynamic only'
       param :longitude, Float, desc: 'Longitude, for dynamic only'
@@ -28,8 +28,8 @@ class Api::V1::SpotsController < Api::V1::V1Controller
       {
         "id": 6,
         "name": "Test Spot1",
-        "church_id": 1,
         "activity_type": "static",
+        "church_id": 1,
         "latitude": 55.3232,
         "longitude": 80.234234,
         "recurrences": [
@@ -56,7 +56,6 @@ class Api::V1::SpotsController < Api::V1::V1Controller
       {
         "id": 7,
         "name": "Test Spot 2",
-        "church_id": 1,
         "activity_type": "dynamic",
         "latitude": 14,
         "longitude": 15,
@@ -81,8 +80,8 @@ class Api::V1::SpotsController < Api::V1::V1Controller
       {
         "id": 6,
         "name": "Test Spot1",
-        "church_id": 1,
         "activity_type": "static",
+        "church_id": 1,
         "latitude": 55.3232,
         "longitude": 80.234234,
         "priest": {
@@ -114,7 +113,6 @@ class Api::V1::SpotsController < Api::V1::V1Controller
       {
         "id": 7,
         "name": "Test Spot 2",
-        "church_id": 1,
         "activity_type": "dynamic",
         "latitude": 14,
         "longitude": 15,

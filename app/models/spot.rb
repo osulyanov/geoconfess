@@ -2,10 +2,11 @@ class Spot < ActiveRecord::Base
   enum activity_type: [:static, :dynamic]
 
   belongs_to :priest, class_name: 'User', foreign_key: 'priest_id', inverse_of: 'spots', required: true
-  belongs_to :church, required: true
+  belongs_to :church
   has_many :recurrences, dependent: :destroy
 
   validates :name, presence: true
+  validates :church, presence: true, if: 'static?'
   validates :latitude, presence: true, if: 'dynamic?'
   validates :longitude, presence: true, if: 'dynamic?'
 
