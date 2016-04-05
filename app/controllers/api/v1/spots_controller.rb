@@ -177,11 +177,27 @@ class Api::V1::SpotsController < Api::V1::V1Controller
     Returns code 201 with no content if spot successfully created.
   EOS
   param_group :spot
+  example <<-EOS
+    {
+      "id": 6,
+      "name": "Test Spot1",
+      "church_id": 1,
+      "activity_type": "static",
+      "latitude": 55.3232,
+      "longitude": 80.234234,
+      "priest": {
+        "id": 24,
+        "name": "Test Priest",
+        "surname": "Surnemaehere"
+      },
+      "recurrences": []
+    }
+  EOS
 
   def create
     @spot = current_user.spots.new(spot_params)
     if @spot.save
-      head status: :created
+      render :show, status: :created
     else
       render status: :unprocessable_entity, json: { errors: @spot.errors }
     end
