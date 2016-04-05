@@ -139,17 +139,37 @@ class Api::V1::SpotsController < Api::V1::V1Controller
   EOS
   example <<-EOS
     {
-      "id": 1,
-      "name": "Inactive right now Spot",
+      "id": 6,
+      "name": "Test Spot1",
       "church_id": 1,
       "activity_type": "static",
       "latitude": 55.3232,
       "longitude": 80.234234,
       "priest": {
-        "id": 9,
-        "name": "Oleg",
-        "surname": "Test 1"
-      }
+        "id": 24,
+        "name": "Test Priest",
+        "surname": "Surnemaehere"
+      },
+      "recurrences": [
+        {
+          "id": 13,
+          "date": null,
+          "start_at": "08:00",
+          "stop_at": "08:30",
+          "week_days": [
+            "Monday",
+            "Wednesday",
+            "Friday"
+          ]
+        },
+        {
+          "id": 14,
+          "date": "2016-08-01",
+          "start_at": "09:20",
+          "stop_at": "09:30",
+          "week_days": []
+        }
+      ]
     }
   EOS
 
