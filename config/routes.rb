@@ -20,6 +20,7 @@ Rails.application.routes.draw do
         resources :passwords, only: :create
       end
       get '/me' => 'credentials#show'
+      get '/me/spots' => 'spots#index', me: true
       resources :users, only: [:show, :update, :destroy] do
         member do
           put :activate
