@@ -24,7 +24,7 @@ class Api::V1::MeetRequestsController < Api::V1::V1Controller
   EOS
 
   def index
-    @meet_requests = MeetRequest.all_for_user(current_user.id)
+    @meet_requests = MeetRequest.active.for_user(current_user.id)
   end
 
 
