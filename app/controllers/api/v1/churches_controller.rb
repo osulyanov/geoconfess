@@ -60,7 +60,20 @@ class Api::V1::ChurchesController < Api::V1::V1Controller
   description <<-EOS
     ## Description
     Creates church. For admin and priest only.
-    Returns code 201 with no content if church successfully created.
+    Returns code 201 with church data if church successfully created.
+  EOS
+  example <<-EOS
+    {
+      "id": 1,
+      "name": "Test Church",
+      "latitude": 55.3232,
+      "longitude": 80.234234,
+      "street": "Some street",
+      "postcode": "453534534",
+      "city": "Paris",
+      "state": "PA",
+      "country": "FR"
+    }
   EOS
   param :church, Hash, desc: 'Church info' do
     param :name, String, desc: 'Name', required: true
@@ -76,7 +89,7 @@ class Api::V1::ChurchesController < Api::V1::V1Controller
   def create
     @church = Church.where(church_params).first_or_initialize
     if @church.save
-      head status: :created
+      render :show, status: :created
     else
       render status: :unprocessable_entity, json: { errors: @church.errors }
     end
