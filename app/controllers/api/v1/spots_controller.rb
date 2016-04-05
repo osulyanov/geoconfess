@@ -67,6 +67,7 @@ class Api::V1::SpotsController < Api::V1::V1Controller
   def me_spots_stub
   end
 
+
   api :GET, '/v1/spots', 'Spots list'
   description <<-EOS
     ## Description
