@@ -18,7 +18,31 @@ class Api::V1::SpotsController < Api::V1::V1Controller
     end
   end
 
-  api! 'Spots list'
+  api :GET, '/v1/me/spots', 'My Spots (for priest only)'
+  description <<-EOS
+    ## Description
+    List of all spots of current user.
+  EOS
+  example <<-EOS
+    [
+      {
+        "id": 6,
+        "name": "Test Spot",
+        "priest_id": 24,
+        "church_id": 1,
+        "created_at": "2016-04-05T04:28:02.044Z",
+        "updated_at": "2016-04-05T04:28:02.044Z",
+        "activity_type": "static",
+        "latitude": 12,
+        "longitude": 13
+      }
+    ]
+  EOS
+  # Stub function for documentation only
+  def me_spots_stub
+  end
+
+  api :GET, '/v1/spots', 'Spots list'
   description <<-EOS
     ## Description
     List of all spots.
@@ -136,9 +160,12 @@ class Api::V1::SpotsController < Api::V1::V1Controller
   end
 
   def set_spots
-    @spots = Spot.active
-    @spots = @spots.of_type(params[:type]) if params[:type].present?
-    @spots = @spots.of_priest(params[:priest_id]) if params[:priest_id].to_i > 0
-    @spots = @spots.joins(:recurrences).now if params[:now]
+    if params[:me] == true
+      @spots = current_user.spots
+    else
+      @spots = @spots.of_type(params[:type]) if params[:type].present?
+      @spots = @spots.of_priest(params[:priest_id]) if params[:priest_id].to_i > 0
+      @spots = @spots.joins(:recurrences).now if params[:now]
+    end
   end
 end
