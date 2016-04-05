@@ -31,7 +31,7 @@ class User < ActiveRecord::Base
   end
 
   def send_welcome_message
-    UserMailer.registered(id).deliver
+    UserMailer.registered(id).deliver_now
   end
 end
 
