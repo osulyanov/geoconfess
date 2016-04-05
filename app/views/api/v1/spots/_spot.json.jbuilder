@@ -9,6 +9,15 @@ elsif spot.church
   json.latitude spot.church.latitude
   json.longitude spot.church.longitude
 end
-json.priest do
-  json.partial! 'api/v1/users/user_embedded', user: spot.priest
+unless params[:me]
+  json.priest do
+    json.partial! 'api/v1/users/user_embedded', user: spot.priest
+  end
+end
+json.recurrences spot.recurrences do |recurrence|
+  json.id recurrence.id
+  json.date recurrence.date
+  json.start_at recurrence.start_at.strftime('%H:%M')
+  json.stop_at recurrence.stop_at.strftime('%H:%M')
+  json.week_days recurrence.week_days
 end
