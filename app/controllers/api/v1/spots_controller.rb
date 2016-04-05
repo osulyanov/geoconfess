@@ -56,8 +56,7 @@ class Api::V1::SpotsController < Api::V1::V1Controller
         "name": "Test Spot 2",
         "activity_type": "dynamic",
         "latitude": 14,
-        "longitude": 15,
-        "recurrences": []
+        "longitude": 15
       }
     ]
   EOS
@@ -117,8 +116,7 @@ class Api::V1::SpotsController < Api::V1::V1Controller
           "id": 24,
           "name": "Test Priest",
           "surname": "Surnemaehere"
-        },
-        "recurrences": []
+        }
       }
     ]
   EOS
