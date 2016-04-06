@@ -2,6 +2,8 @@ class Notification < ActiveRecord::Base
   belongs_to :user
   belongs_to :notificationable, polymorphic: true
 
+  default_scope -> { order unread: :desc, created_at: :desc }
+
   scope :unread, -> { where unread: true }
 
   validates :user, presence: true
