@@ -1,6 +1,9 @@
 class Notification < ActiveRecord::Base
   belongs_to :user
   belongs_to :notificationable, polymorphic: true
+
+  validates :user, presence: true
+  validates :notificationable, presence: true
 end
 
 # == Schema Information
