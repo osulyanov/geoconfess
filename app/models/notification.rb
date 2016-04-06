@@ -5,9 +5,21 @@ class Notification < ActiveRecord::Base
   default_scope -> { order unread: :desc, created_at: :desc }
 
   scope :unread, -> { where unread: true }
+  scope :actual, -> do
+    where('notifications.created_at >= NOW() - \'1 month\'::INTERVAL').last 99
+  end
 
   validates :user, presence: true
   validates :notificationable, presence: true
+
+  def set_read
+    self.unread = false
+  end
+
+  def set_read!
+    self.set_read
+    self.save
+  end
 end
 
 # == Schema Information
