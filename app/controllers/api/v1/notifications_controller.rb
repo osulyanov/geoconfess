@@ -1,7 +1,7 @@
 class Api::V1::NotificationsController < Api::V1::V1Controller
   before_action :doorkeeper_authorize!
   before_action :set_notification, only: [:show, :read]
-  load_and_authoreze_resource
+  load_and_authorize_resource
 
   resource_description do
     short 'Notifications'
