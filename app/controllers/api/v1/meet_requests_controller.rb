@@ -10,16 +10,19 @@ class Api::V1::MeetRequestsController < Api::V1::V1Controller
   api! 'All requests of current user'
   description <<-EOS
     ## Description
-    All active requests where priest_id or penitent_id equal to current_user.id
+    All active requests where priest_id or penitent_id equal to current_user.id.
+    User's location available for priest only.
   EOS
   param :party_id, Integer, desc: 'Filter by the other party of meeting'
   example <<-EOS
     [
       {
-        "id": 2,
-        "priest_id": 2,
-        "penitent_id": 1,
-        "status": "pending"
+        "id": 4,
+        "priest_id": 24,
+        "penitent_id": 25,
+        "status": "pending",
+        "latitude": "24.123234",
+        "longitude": "21.234234"
       }
     ]
   EOS
@@ -33,14 +36,17 @@ class Api::V1::MeetRequestsController < Api::V1::V1Controller
   api! 'Show request'
   description <<-EOS
     ## Description
-    Show request with certain ID
+    Show request with certain ID.
+    User's location available for priest only.
   EOS
   example <<-EOS
     {
-      "id": 2,
-      "priest_id": 2,
-      "penitent_id": 1,
-      "status": "pending"
+      "id": 4,
+      "priest_id": 24,
+      "penitent_id": 25,
+      "status": "pending",
+      "latitude": "24.123234",
+      "longitude": "21.234234"
     }
   EOS
 
@@ -56,6 +62,8 @@ class Api::V1::MeetRequestsController < Api::V1::V1Controller
   EOS
   param :request, Hash, desc: 'User info' do
     param :priest_id, Integer, desc: 'Priest ID', required: true
+    param :latitude, Integer, desc: 'Current user\'s latitude', required: true
+    param :longitude, Integer, desc: 'Current user\'s longitude', required: true
     param :status, ['pending', 'accepted', 'refused'], desc: 'Status. For admin only.'
   end
 
@@ -140,7 +148,7 @@ class Api::V1::MeetRequestsController < Api::V1::V1Controller
   private
 
   def request_params
-    params.require(:request).permit(:priest_id, :status).tap do |wl|
+    params.require(:request).permit(:priest_id, :status, :latitude, :longitude).tap do |wl|
       # Don't allow status for non-admin users
       wl.delete(:status) unless current_user.admin? || current_user.id == @meet_request.priest_id
     end
