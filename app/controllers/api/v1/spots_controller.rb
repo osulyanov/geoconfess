@@ -172,7 +172,7 @@ class Api::V1::SpotsController < Api::V1::V1Controller
   description <<-EOS
     ## Description
     Creates spot. For admin and priest only.
-    Returns code 201 with no content if spot successfully created.
+    Returns code 201 with spot data if spot successfully created.
   EOS
   param_group :spot
   example <<-EOS

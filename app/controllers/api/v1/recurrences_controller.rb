@@ -68,7 +68,7 @@ class Api::V1::RecurrencesController < Api::V1::V1Controller
   description <<-EOS
     ## Description
     Creates recurrence. For admin and priest only.
-    Returns code 201 with no content if recurrence successfully created.
+    Returns code 201 with recurrence data if recurrence successfully created.
   EOS
   param_group :recurrence
   example <<-EOS
