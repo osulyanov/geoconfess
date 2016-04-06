@@ -9,7 +9,9 @@ class User < ActiveRecord::Base
   has_many :tokens, class_name: 'Doorkeeper::AccessToken',
            foreign_key: 'resource_owner_id', dependent: :destroy
   has_many :spots, foreign_key: 'priest_id', dependent: :destroy
+  has_many :notifications, dependent: :destroy
   belongs_to :parish
+
   accepts_nested_attributes_for :parish
 
   scope :priests, -> { where role: roles[:priest] }

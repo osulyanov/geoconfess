@@ -5,6 +5,7 @@ class MeetRequest < ActiveRecord::Base
 
   belongs_to :priest, class_name: 'User', required: true
   belongs_to :penitent, class_name: 'User', required: true
+  has_one :notification, as: :notificationable
 
   scope :active, -> do
     where('meet_requests.created_at >= NOW() - \'1 day\'::INTERVAL')
@@ -16,6 +17,12 @@ class MeetRequest < ActiveRecord::Base
 
   validates :latitude, presence: true
   validates :longitude, presence: true
+
+  after_create :send_notification
+
+  def send_notification
+    # TODO: send notification to priest
+  end
 end
 
 # == Schema Information

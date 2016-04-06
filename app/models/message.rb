@@ -1,6 +1,7 @@
 class Message < ActiveRecord::Base
   belongs_to :sender, class_name: 'User'
   belongs_to :recipient, class_name: 'User'
+  has_one :notification, as: :notificationable
 
   scope :with_user, lambda { |user_id|
     where 'messages.sender_id = ? OR messages.recipient_id = ?', user_id, user_id
