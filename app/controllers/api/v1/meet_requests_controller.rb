@@ -12,6 +12,7 @@ class Api::V1::MeetRequestsController < Api::V1::V1Controller
     ## Description
     All active requests where priest_id or penitent_id equal to current_user.id
   EOS
+  param :party_id, Integer, desc: 'Filter by the other party of meeting'
   example <<-EOS
     [
       {
@@ -25,6 +26,7 @@ class Api::V1::MeetRequestsController < Api::V1::V1Controller
 
   def index
     @meet_requests = MeetRequest.active.for_user(current_user.id)
+    @meet_requests = @meet_requests.for_user(params[:party_id]) if params[:party_id]
   end
 
 
