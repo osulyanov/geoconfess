@@ -1,5 +1,5 @@
 ActiveAdmin.register MeetRequest do
-  permit_params :priest_id, :penitent_id, :status
+  permit_params :priest_id, :penitent_id, :status, :latitude, :longitude
 
   scope :all, default: true
   scope 'Active' do |items|
@@ -25,6 +25,8 @@ ActiveAdmin.register MeetRequest do
       f.input :priest, as: :select, collection: User.priest
       f.input :penitent
       f.input :status, as: :select, collection: MeetRequest.statuses.keys
+      f.input :latitude
+      f.input :longitude
     end
     f.actions
   end
