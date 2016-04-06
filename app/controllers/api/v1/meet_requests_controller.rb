@@ -11,7 +11,7 @@ class Api::V1::MeetRequestsController < Api::V1::V1Controller
   description <<-EOS
     ## Description
     All active requests where priest_id or penitent_id equal to current_user.id.
-    User's location available for priest only.
+    Extended penitent's information available for priest only.
   EOS
   param :party_id, Integer, desc: 'Filter by the other party of meeting'
   example <<-EOS
@@ -19,10 +19,22 @@ class Api::V1::MeetRequestsController < Api::V1::V1Controller
       {
         "id": 4,
         "priest_id": 24,
-        "penitent_id": 25,
         "status": "pending",
-        "latitude": "24.123234",
-        "longitude": "21.234234"
+        "penitent": {
+          "id": 25,
+          "name": "Test user",
+          "surname": "Surname",
+          "latitude": "24.123234",
+          "longitude": "21.234234"
+        }
+      },
+      {
+        "id": 8,
+        "priest_id": 2,
+        "status": "pending",
+        "penitent": {
+          "penitent_id": 24
+        }
       }
     ]
   EOS
@@ -37,16 +49,20 @@ class Api::V1::MeetRequestsController < Api::V1::V1Controller
   description <<-EOS
     ## Description
     Show request with certain ID.
-    User's location available for priest only.
+    Extended penitent's information available for priest only.
   EOS
   example <<-EOS
     {
       "id": 4,
       "priest_id": 24,
-      "penitent_id": 25,
       "status": "pending",
-      "latitude": "24.123234",
-      "longitude": "21.234234"
+      "penitent": {
+        "id": 25,
+        "name": "Test user",
+        "surname": "Surname",
+        "latitude": "24.123234",
+        "longitude": "21.234234"
+      }
     }
   EOS
 
@@ -66,6 +82,16 @@ class Api::V1::MeetRequestsController < Api::V1::V1Controller
     param :longitude, Integer, desc: 'Current user\'s longitude', required: true
     param :status, ['pending', 'accepted', 'refused'], desc: 'Status. For admin only.'
   end
+  example <<-EOS
+    {
+      "id": 8,
+      "priest_id": 2,
+      "status": "pending",
+      "penitent": {
+        "penitent_id": 24
+      }
+    }
+  EOS
 
   def create
     @meet_request = MeetRequest.new(request_params)
