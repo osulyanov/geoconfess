@@ -33,6 +33,11 @@ Rails.application.routes.draw do
           put :refuse
         end
       end
+      resources :notifications, only: [:index, :show] do
+        member do
+          put :read
+        end
+      end
       resources :churches, only: [:index, :show, :create, :update, :destroy]
       resources :spots, only: [:index, :show, :create, :update, :destroy] do
         member do
