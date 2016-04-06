@@ -65,7 +65,7 @@ RSpec.describe Api::V1::MeetRequestsController, type: :controller do
 
     before do
       post :create, format: :json, access_token: token.token,
-           request: { priest_id: priest.id, status: 'accepted' }
+           request: attributes_for(:request, priest_id: priest.id, status: 'accepted')
     end
 
     it { expect(response).to have_http_status(:success) }
