@@ -3,6 +3,7 @@ class Ability
 
   def initialize(user)
     alias_action :create, :read, :update, :destroy, to: :crud
+
     user ||= User.new
     if user.admin?
       can :manage, :all
@@ -50,6 +51,8 @@ class Ability
       can :destroy, Message do |request|
         request.sender_id == user.id || request.recipient_id == user.id
       end
+
+      can :read, MeetRequest, user_id: user.id
     end
   end
 end
