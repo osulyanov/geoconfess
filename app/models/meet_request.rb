@@ -1,6 +1,8 @@
 class MeetRequest < ActiveRecord::Base
   enum status: [:pending, :accepted, :refused]
 
+  store_accessor :params, :latitude, :longitude
+
   belongs_to :priest, class_name: 'User', required: true
   belongs_to :penitent, class_name: 'User', required: true
 
@@ -11,6 +13,9 @@ class MeetRequest < ActiveRecord::Base
   scope :for_user, -> (user_id) do
     where('priest_id = ? OR penitent_id = ?', user_id, user_id)
   end
+
+  validates :latitude, presence: true
+  validates :longitude, presence: true
 end
 
 # == Schema Information
@@ -23,6 +28,7 @@ end
 #  status      :integer          default(0), not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  params      :hstore           default({}), not null
 #
 # Indexes
 #
