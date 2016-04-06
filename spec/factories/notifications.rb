@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :notification do
-    unread true
+
   end
 end
 
