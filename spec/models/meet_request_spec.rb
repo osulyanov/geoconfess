@@ -19,6 +19,35 @@ RSpec.describe MeetRequest, type: :model do
     subject.penitent = nil
     expect(subject).not_to be_valid
   end
+
+  context 'after create' do
+    before do
+      subject.save
+    end
+    let (:notification) { subject.notification }
+
+    it 'creates notification' do
+      expect(notification).to be_persisted
+    end
+
+    context 'with attributes' do
+      it 'unread is true' do
+        expect(notification).to be_unread
+      end
+
+      it 'user eq to priest' do
+        expect(notification.user_id).to eq(priest.id)
+      end
+
+      it 'notificationable_type eq to MeetRequest' do
+        expect(notification.notificationable_type).to eq('MeetRequest')
+      end
+
+      it 'notificationable_id eq to ID of just created meet request' do
+        expect(notification.notificationable_id).to eq(subject.id)
+      end
+    end
+  end
 end
 
 # == Schema Information
