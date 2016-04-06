@@ -11,10 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160226110311) do
+ActiveRecord::Schema.define(version: 20160406091147) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "hstore"
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -47,9 +48,10 @@ ActiveRecord::Schema.define(version: 20160226110311) do
   create_table "meet_requests", force: :cascade do |t|
     t.integer  "priest_id"
     t.integer  "penitent_id"
-    t.integer  "status",      default: 0, null: false
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.integer  "status",      default: 0,  null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.hstore   "params",      default: {}, null: false
   end
 
   add_index "meet_requests", ["penitent_id"], name: "index_meet_requests_on_penitent_id", using: :btree
