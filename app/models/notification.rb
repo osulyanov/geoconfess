@@ -33,6 +33,7 @@ end
 #  unread                :boolean          default(TRUE), not null
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
+#  action                :string
 #
 # Indexes
 #
