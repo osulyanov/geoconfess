@@ -26,4 +26,17 @@ ActiveAdmin.register Recurrence do
     end
     f.actions
   end
+
+  show do
+    attributes_table do
+      row :id
+      row :spot_id
+      row :date
+      row(:start_at) { |r| r.start_at.strftime('%H:%M') }
+      row(:stop_at) { |r| r.stop_at.strftime('%H:%M') }
+      row(:days) { |r| r.week_days.join ', ' }
+      row :created_at
+      row :updated_at
+    end
+  end
 end
