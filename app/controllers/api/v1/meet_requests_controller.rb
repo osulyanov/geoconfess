@@ -52,7 +52,7 @@ class Api::V1::MeetRequestsController < Api::V1::V1Controller
   description <<-EOS
     ## Description
     Creates request
-    Returns code 201 with no content if request successfully created.
+    Returns code 201 with request data if request successfully created.
   EOS
   param :request, Hash, desc: 'User info' do
     param :priest_id, Integer, desc: 'Priest ID', required: true
@@ -63,7 +63,7 @@ class Api::V1::MeetRequestsController < Api::V1::V1Controller
     @meet_request = MeetRequest.new(request_params)
     @meet_request.penitent_id = current_user.id
     if @meet_request.save
-      head status: :created
+      render :show, status: :created
     else
       render status: :unprocessable_entity, json: { errors: @meet_request.errors }
     end
