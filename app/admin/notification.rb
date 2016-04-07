@@ -10,6 +10,7 @@ ActiveAdmin.register Notification do
     selectable_column
     id_column
     column :user
+    column :action
     column :notificationable
     column :unread
     column :created_at
@@ -17,12 +18,14 @@ ActiveAdmin.register Notification do
   end
 
   filter :user
+  filter :action, as: :select, collection: Notification.all.pluck(:action).uniq
   filter :notificationable_type
   filter :notificationable_id
 
   form do |f|
     f.inputs 'Notification Details' do
       f.input :user
+      f.input :action
       f.input :notificationable_type, as: :select, collection: ['MeetRequest', 'Message']
       f.input :notificationable_id
       f.input :unread
