@@ -11,7 +11,8 @@ class Api::V1::MeetRequestsController < Api::V1::V1Controller
   description <<-EOS
     ## Description
     All active requests where priest_id or penitent_id equal to current_user.id.
-    Extended information about penitent's available for priest only.
+    Extended information about penitent available for priest only.
+    Extended information about priest available for penitent only.
   EOS
   param :party_id, Integer, desc: 'Filter by the other party of meeting'
   example <<-EOS
@@ -29,11 +30,15 @@ class Api::V1::MeetRequestsController < Api::V1::V1Controller
         }
       },
       {
-        "id": 8,
-        "priest_id": 2,
+        "id": 9,
         "status": "pending",
         "penitent": {
-          "penitent_id": 24
+          "id": 24
+        },
+        "priest": {
+          "id": 2,
+          "name": null,
+          "surname": null
         }
       }
     ]
@@ -49,7 +54,8 @@ class Api::V1::MeetRequestsController < Api::V1::V1Controller
   description <<-EOS
     ## Description
     Show request with certain ID.
-    Extended information about penitent's available for priest only.
+    Extended information about penitent available for priest only.
+    Extended information about priest available for penitent only.
   EOS
   example <<-EOS
     {

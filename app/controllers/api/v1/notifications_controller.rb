@@ -31,6 +31,24 @@ class Api::V1::NotificationsController < Api::V1::V1Controller
             "longitude": "23.345"
           }
         }
+      },
+      {
+        "id": 6,
+        "unread": true,
+        "model": "MeetRequest",
+        "action": "sent",
+        "meet_request": {
+          "id": 12,
+          "status": "pending",
+          "penitent": {
+            "id": 25
+          },
+          "priest": {
+            "id": 24,
+            "name": "Test Priest",
+            "surname": "Surnemaehere"
+          }
+        }
       }
     ]
   EOS
