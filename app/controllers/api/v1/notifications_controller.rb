@@ -13,7 +13,26 @@ class Api::V1::NotificationsController < Api::V1::V1Controller
     Last 99 notifications of current user not older than 1 month
   EOS
   example <<-EOS
-    # TODO
+    [
+      {
+        "id": 3,
+        "unread": false,
+        "model": "MeetRequest",
+        "action": "create",
+        "meet_request": {
+          "id": 10,
+          "priest_id": 24,
+          "status": "pending",
+          "penitent": {
+            "id": 25,
+            "name": "Test user",
+            "surname": "Surname",
+            "latitude": "12.234",
+            "longitude": "23.345"
+          }
+        }
+      }
+    ]
   EOS
 
   def index
@@ -26,7 +45,24 @@ class Api::V1::NotificationsController < Api::V1::V1Controller
     Show notification by ID
   EOS
   example <<-EOS
-    TODO
+    {
+      "id": 3,
+      "unread": false,
+      "model": "MeetRequest",
+      "action": "create",
+      "meet_request": {
+        "id": 10,
+        "priest_id": 24,
+        "status": "pending",
+        "penitent": {
+          "id": 25,
+          "name": "Test user",
+          "surname": "Surname",
+          "latitude": "12.234",
+          "longitude": "23.345"
+        }
+      }
+    }
   EOS
 
   def show
