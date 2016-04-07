@@ -69,7 +69,7 @@ class Api::V1::NotificationsController < Api::V1::V1Controller
   end
 
 
-  api! 'Mark notification as read'
+  api :PUT, '/v1/notifications/:id/mark_read', 'Mark notification as read'
   description <<-EOS
     Mark notification by ID as read.
     Returns code 200 with no content if notification successfully updated.
