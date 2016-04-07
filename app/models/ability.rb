@@ -52,7 +52,8 @@ class Ability
         request.sender_id == user.id || request.recipient_id == user.id
       end
 
-      can :read, MeetRequest, user_id: user.id
+      can :read, Notification, user_id: user.id
+      can :mark_read, Notification, user_id: user.id
     end
   end
 end
