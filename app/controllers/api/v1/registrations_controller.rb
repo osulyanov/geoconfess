@@ -22,7 +22,6 @@ class Api::V1::RegistrationsController < Api::V1::V1Controller
     param :newsletter, :bool, desc: 'Newsletter'
     param :parish_attributes, Hash, desc: 'Parish attributes for Priest only' do
       param :name, String, desc: 'Name', required: true
-      param :email, String, desc: 'Email', required: true
     end
   end
 
@@ -45,7 +44,7 @@ class Api::V1::RegistrationsController < Api::V1::V1Controller
     params.require(:user).permit(:role, :email, :password, :name, :surname,
                                  :phone, :notification, :newsletter,
                                  :celebret_url,
-                                 parish_attributes: [:name, :email]).tap do |wl|
+                                 parish_attributes: [:name]).tap do |wl|
       # Don't allow parish for non-priest users
       wl.delete(:parish_attributes) unless params[:user][:role] == 'priest'
     end

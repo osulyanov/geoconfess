@@ -11,11 +11,6 @@ RSpec.describe Parish, type: :model do
     subject.name = nil
     expect(subject).not_to be_valid
   end
-
-  it 'not valid without email' do
-    subject.email = nil
-    expect(subject).not_to be_valid
-  end
 end
 
 # == Schema Information
@@ -24,7 +19,6 @@ end
 #
 #  id         :integer          not null, primary key
 #  name       :string
-#  email      :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
