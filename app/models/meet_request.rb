@@ -21,7 +21,8 @@ class MeetRequest < ActiveRecord::Base
   after_create :send_notification
 
   def send_notification
-    priest.notifications.create notificationable: self, action: 'created'
+    priest.notifications.create notificationable: self, action: 'received'
+    penitent.notifications.create notificationable: self, action: 'sent', unread: false
   end
 end
 
