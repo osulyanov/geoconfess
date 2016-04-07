@@ -39,7 +39,7 @@ class Api::V1::NotificationsController < Api::V1::V1Controller
     Returns code 200 with no content if notification successfully updated.
   EOS
 
-  def read
+  def mark_read
     if @notification.set_read!
       head status: :ok
     else

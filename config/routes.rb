@@ -35,7 +35,7 @@ Rails.application.routes.draw do
       end
       resources :notifications, only: [:index, :show] do
         member do
-          put :read
+          put :mark_read
         end
       end
       resources :churches, only: [:index, :show, :create, :update, :destroy]
