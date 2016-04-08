@@ -27,6 +27,8 @@ ActiveAdmin.register User do
       f.input :active
       f.input :notification
       f.input :newsletter
+      f.input :os, as: :select, collection: %w(ios android)
+      f.input :push_token
       if f.object.new_record?
         f.input :password
         f.input :password_confirmation
