@@ -8,9 +8,9 @@ namespace :push do
     RailsPushNotifications::APNSApp.destroy_all
     puts 'create a new one'
     app = RailsPushNotifications::APNSApp.new
-    app.apns_dev_cert = File.read('config/development.pem')
+    app.apns_dev_cert = File.read('config/production.pem')
     app.apns_prod_cert = File.read('config/production.pem')
-    app.sandbox_mode = true
+    app.sandbox_mode = false
     app.save!
   end
 
