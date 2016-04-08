@@ -13,6 +13,10 @@ Apipie.configure do |config|
     *   grant_type=password
     *   username=admin@example.com
     *   password=1q2w3e4r
+    *   os=ios|android
+    *   push_token=3kjh123iu42i314g123
+
+    os and push_token attributes are optional.
 
     In response you'll receive access token and refresh token, like that:
     *   {
