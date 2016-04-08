@@ -4,13 +4,15 @@ class Notification < ActiveRecord::Base
 
   default_scope -> { order unread: :desc, created_at: :desc }
 
-  scope :unread, -> { where unread: true }
+  scope :unread, -> { actual.where unread: true }
   scope :actual, -> do
     where('notifications.created_at >= NOW() - \'1 month\'::INTERVAL').last 99
   end
 
   validates :user, presence: true
   validates :notificationable, presence: true
+
+  after_create :send_push
 
   def set_read
     self.unread = false
@@ -19,6 +21,20 @@ class Notification < ActiveRecord::Base
   def set_read!
     self.set_read
     self.save
+  end
+
+  def send_push
+    return unless unread? && text.present? &&
+      user.push_token.present? && user.notification?
+    PushService.new({
+                      user: user,
+                      text: text,
+                      aps: {
+                        model: notificationable_type,
+                        id: notificationable_id,
+                        action: action
+                      }
+                    }).push!
   end
 end
 
@@ -34,6 +50,7 @@ end
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #  action                :string
+#  text                  :string
 #
 # Indexes
 #
