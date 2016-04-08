@@ -1,6 +1,7 @@
 ActiveAdmin.register User do
   permit_params :name, :surname, :email, :phone, :role, :active, :notification,
-                :newsletter, :celebret_url, :password, :password_confirmation
+                :newsletter, :celebret_url, :password, :password_confirmation,
+                :os, :push_token
 
   index do
     selectable_column
