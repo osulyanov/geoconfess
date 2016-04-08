@@ -28,6 +28,12 @@ RSpec.describe User, type: :model do
     expect(subject).not_to be_valid
   end
 
+  it 'not valid with push_token but without os' do
+    subject.os = nil
+    subject.push_token = '123456'
+    expect(subject).not_to be_valid
+  end
+
 end
 
 # == Schema Information
