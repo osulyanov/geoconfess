@@ -19,6 +19,7 @@ gem 'maruku'
 gem 'week_sauce'
 gem 'country_select'
 gem 'postmark-rails'
+gem 'rails-push-notifications', '~> 0.2.0'
 
 group :production do
   gem 'rails_12factor'
