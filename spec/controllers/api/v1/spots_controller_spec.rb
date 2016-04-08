@@ -2,8 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Api::V1::SpotsController, type: :controller do
 
-  let(:parish) { create :parish }
-  let(:priest) { create :user, role: :priest, parish: parish }
+  let(:priest) { create :user, role: :priest }
   let(:user) { create :user }
   let(:admin) { create :user, :admin }
   let(:church) { create :church }
@@ -26,7 +25,7 @@ RSpec.describe Api::V1::SpotsController, type: :controller do
 
   describe 'GET #index, me=true' do
     let(:token) { create :access_token, resource_owner_id: priest.id }
-    let(:other_priest) { create :user, role: :priest, parish: parish }
+    let(:other_priest) { create :user, role: :priest }
     let!(:other_spot) { create :spot, church: church, priest: other_priest }
 
     before do

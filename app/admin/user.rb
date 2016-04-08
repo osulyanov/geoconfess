@@ -1,14 +1,12 @@
 ActiveAdmin.register User do
-  permit_params :name, :surname, :email, :phone, :parish_id, :role, :active,
-                :notification, :newsletter, :celebret_url,
-                :password, :password_confirmation
+  permit_params :name, :surname, :email, :phone, :role, :active, :notification,
+                :newsletter, :celebret_url, :password, :password_confirmation
 
   index do
     selectable_column
     id_column
     column :role
     column(:name) { |u| "#{u.name} #{u.surname}" }
-    column :parish
     column :email
     column :active
     column :created_at
@@ -24,7 +22,6 @@ ActiveAdmin.register User do
       f.input :surname
       f.input :email
       f.input :phone
-      f.input :parish, as: :select, collection: Parish.all
       f.input :role, as: :select, collection: User.roles.keys
       f.input :celebret_url
       f.input :active

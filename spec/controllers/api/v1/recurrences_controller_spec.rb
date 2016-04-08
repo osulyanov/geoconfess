@@ -2,8 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Api::V1::RecurrencesController, type: :controller do
 
-  let(:parish) { create :parish }
-  let(:priest) { create :user, role: :priest, parish: parish }
+  let(:priest) { create :user, role: :priest }
   let(:user) { create :user }
   let(:admin) { create :user, :admin }
   let(:church) { create :church }
@@ -127,7 +126,7 @@ RSpec.describe Api::V1::RecurrencesController, type: :controller do
   end
 
   describe 'GET #for_priest' do
-    let(:other_priest) { create :user, role: :priest, parish: (create :parish) }
+    let(:other_priest) { create :user, role: :priest }
     let(:other_spot) { create :spot, church: (create :church), priest: other_priest, name: 'Other one' }
     let!(:other_recurrence) { create :recurrence, spot: other_spot }
     let(:token) { create :access_token, resource_owner_id: user.id }

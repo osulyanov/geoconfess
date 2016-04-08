@@ -18,20 +18,15 @@ RSpec.describe Api::V1::RegistrationsController, type: :controller do
         expect(User.last).to be_active
       end
 
-      context 'priest with parish' do
-        let(:parish_data) { attributes_for(:parish) }
+      context 'priest' do
         let(:user_data) do
-          attributes_for(:user, role: :priest).merge(parish_attributes: parish_data)
+          attributes_for(:user, role: :priest)
         end
 
         it { expect(response).to have_http_status(:created) }
 
         it 'new priest user is inactive' do
           expect(User.last).not_to be_active
-        end
-
-        it 'has the parish' do
-          expect(User.last.parish.name).to eq(parish_data[:name])
         end
       end
     end

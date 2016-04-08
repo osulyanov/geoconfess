@@ -10,9 +10,6 @@ class User < ActiveRecord::Base
            foreign_key: 'resource_owner_id', dependent: :destroy
   has_many :spots, foreign_key: 'priest_id', dependent: :destroy
   has_many :notifications, dependent: :destroy
-  belongs_to :parish
-
-  accepts_nested_attributes_for :parish
 
   scope :priests, -> { where role: roles[:priest] }
   scope :active, -> { where active: true }
@@ -21,7 +18,6 @@ class User < ActiveRecord::Base
   validates :name, presence: true
   validates :surname, presence: true
   validates :phone, format: { with: /\A\+?\d{10,11}\z/ }, if: 'phone.present?'
-  validates :parish, presence: true, if: 'priest?'
 
   def display_name
     return [name, surname].join(' ') if name.present? || surname.present?

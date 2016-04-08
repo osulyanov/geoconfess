@@ -2,8 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Api::V1::MeetRequestsController, type: :controller do
 
-  let(:parish) { create :parish }
-  let(:priest) { create :user, role: :priest, parish: parish }
+  let(:priest) { create :user, role: :priest }
   let(:user) { create :user }
   let(:other_user) { create :user }
   let!(:request_1) { create :request, priest: priest, penitent: user }

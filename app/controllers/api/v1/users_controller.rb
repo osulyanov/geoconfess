@@ -17,7 +17,6 @@ class Api::V1::UsersController < Api::V1::V1Controller
       "id": 1,
       "name": "Oleg",
       "surname": "Sulyanov",
-      "parish_id": 1,
       "active": false,
       "role": "admin",
       "email": "admin@example.com",

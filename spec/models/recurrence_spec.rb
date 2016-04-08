@@ -1,8 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Recurrence, type: :model do
-  let(:parish) { create :parish }
-  let(:priest) { create :user, role: :priest, parish: parish }
+  let(:priest) { create :user, role: :priest }
   let(:church) { create :church }
   let(:spot) { create(:spot, priest: priest, church: church) }
   subject { build(:recurrence, spot: spot) }

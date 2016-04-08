@@ -1,8 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Spot, type: :model do
-  let(:parish) { create :parish }
-  let(:priest) { create :user, role: :priest, parish: parish }
+  let(:priest) { create :user, role: :priest }
   let(:church) { create :church }
   subject { build(:spot, priest: priest, church: church) }
 

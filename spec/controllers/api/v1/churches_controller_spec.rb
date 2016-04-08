@@ -2,8 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Api::V1::ChurchesController, type: :controller do
 
-  let(:parish) { create :parish }
-  let(:priest) { create :user, role: :priest, parish: parish }
+  let(:priest) { create :user, role: :priest }
   let(:user) { create :user }
   let(:admin) { create :user, :admin }
   let!(:church) { create :church }
