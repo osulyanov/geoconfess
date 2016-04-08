@@ -1,5 +1,6 @@
 ActiveAdmin.register Notification do
-  permit_params :user_id, :notificationable_type, :notificationable_id, :unread
+  permit_params :user_id, :notificationable_type, :notificationable_id, :unread,
+                :text
 
   scope :all, default: true
   scope 'Unread' do |items|
