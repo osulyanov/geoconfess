@@ -18,6 +18,7 @@ class User < ActiveRecord::Base
   validates :name, presence: true
   validates :surname, presence: true
   validates :phone, format: { with: /\A\+?\d{10,11}\z/ }, if: 'phone.present?'
+  validates :os, inclusion: { in: %w(ios android) }, if: 'os.present?'
 
   def display_name
     return [name, surname].join(' ') if name.present? || surname.present?
@@ -59,6 +60,8 @@ end
 #  active                 :boolean          default(FALSE), not null
 #  parish_id              :integer
 #  celebret_url           :string
+#  os                     :string
+#  push_token             :string
 #
 # Indexes
 #
