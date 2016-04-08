@@ -16,6 +16,18 @@ RSpec.describe User, type: :model do
     subject.password = nil
     expect(subject).not_to be_valid
   end
+
+  it 'valid without os and push_token' do
+    subject.os = nil
+    subject.push_token = nil
+    expect(subject).to be_valid
+  end
+
+  it 'not valid with wrong os' do
+    subject.os = 'windowsphone'
+    expect(subject).not_to be_valid
+  end
+
 end
 
 # == Schema Information
@@ -42,9 +54,14 @@ end
 #  notification           :boolean          default(FALSE), not null
 #  newsletter             :boolean          default(FALSE), not null
 #  active                 :boolean          default(FALSE), not null
+#  parish_id              :integer
 #  celebret_url           :string
+#  os                     :string
+#  push_token             :string
 #
 # Indexes
 #
+#  index_users_on_email                 (email) UNIQUE
+#  index_users_on_parish_id             (parish_id)
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #

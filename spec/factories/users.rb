@@ -9,6 +9,8 @@ FactoryGirl.define do
     surname 'Durov'
     phone '+1234567890'
     active true
+    os 'ios'
+    push_token '76312362136213128732444'
 
     trait :admin do
       name 'Admin'
@@ -41,10 +43,14 @@ end
 #  notification           :boolean          default(FALSE), not null
 #  newsletter             :boolean          default(FALSE), not null
 #  active                 :boolean          default(FALSE), not null
+#  parish_id              :integer
 #  celebret_url           :string
+#  os                     :string
+#  push_token             :string
 #
 # Indexes
 #
 #  index_users_on_email                 (email) UNIQUE
+#  index_users_on_parish_id             (parish_id)
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
