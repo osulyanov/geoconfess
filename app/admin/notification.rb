@@ -13,6 +13,7 @@ ActiveAdmin.register Notification do
     column :action
     column :notificationable
     column :unread
+    column(:text) { |n| truncate n.text, length: 50 }
     column :created_at
     actions
   end
@@ -29,6 +30,7 @@ ActiveAdmin.register Notification do
       f.input :notificationable_type, as: :select, collection: ['MeetRequest', 'Message']
       f.input :notificationable_id
       f.input :unread
+      f.input :text
     end
     f.actions
   end
