@@ -1,5 +1,6 @@
 class Recurrence < ActiveRecord::Base
   include ApplicationHelper
+  include Askable
 
   belongs_to :spot, required: true
 
