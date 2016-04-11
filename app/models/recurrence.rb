@@ -45,6 +45,18 @@ class Recurrence < ActiveRecord::Base
     days = Date::DAYNAMES.map { |d| values.include?(d) ? 1 : 0 }
     write_attribute(:days, days.join.to_i(2))
   end
+
+  def today?
+    time = Time.now.utc
+    time_now = Time.new(2000, 01, 01, time.strftime('%H'), time.strftime('%M')).utc
+    today = Time.zone.today
+
+    puts "#{start_at} > #{time_now}"
+
+    ((date.present? && date == today) ||
+      (week_days.include? today.strftime('%A'))
+    ) && start_at > time_now
+  end
 end
 
 # == Schema Information
