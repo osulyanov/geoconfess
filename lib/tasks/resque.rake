@@ -1,3 +1,3 @@
 require 'resque/tasks'
-task "resque:setup" => :environment
-Dir["#{Rails.root}/app/jobs/*.rb"].each { |file| require file }
+require 'resque/scheduler/tasks'
+task 'resque:setup' => :environment
