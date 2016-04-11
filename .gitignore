@@ -16,5 +16,8 @@
 !/log/.keep
 /tmp
 
+# Ignore Procfile for foreman
+/Procfile
+
 # Ignore local .env
 /.env
