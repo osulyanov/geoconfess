@@ -26,14 +26,16 @@ end
 #
 # Table name: recurrences
 #
-#  id         :integer          not null, primary key
-#  spot_id    :integer
-#  date       :date
-#  start_at   :time
-#  stop_at    :time
-#  days       :integer          default(0), not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id          :integer          not null, primary key
+#  spot_id     :integer
+#  date        :date
+#  start_at    :time
+#  stop_at     :time
+#  days        :integer          default(0), not null
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  active_date :date
+#  busy_count  :integer          default(0), not null
 #
 # Indexes
 #

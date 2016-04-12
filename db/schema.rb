@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160408095223) do
+ActiveRecord::Schema.define(version: 20160412050316) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -168,9 +168,11 @@ ActiveRecord::Schema.define(version: 20160408095223) do
     t.date     "date"
     t.time     "start_at"
     t.time     "stop_at"
-    t.integer  "days",       default: 0, null: false
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.integer  "days",        default: 0, null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.date     "active_date"
+    t.integer  "busy_count",  default: 0, null: false
   end
 
   add_index "recurrences", ["spot_id"], name: "index_recurrences_on_spot_id", using: :btree
