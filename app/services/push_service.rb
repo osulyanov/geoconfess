@@ -7,15 +7,17 @@ class PushService
   end
 
   def push
-    Rails.logger.info "push - create push"
-    send("push_#{@user.os}") if @user.push_token.present? && @text.present?
+    Rails.logger.info "push - add to queue"
+    return false unless @user.push_token.present? && @text.present?
+    send("push_#{@user.os}")
   end
 
   def push!
     Rails.logger.info "push - creating"
-    notification = push
-    Rails.logger.info "push - send"
-    notification.app.push_notifications
+    if notification = push
+      Rails.logger.info "push - send"
+      notification.app.push_notifications
+    end
   end
 
   def push_ios
