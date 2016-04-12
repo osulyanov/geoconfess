@@ -5,7 +5,7 @@ class MeetRequest < ActiveRecord::Base
 
   belongs_to :priest, class_name: 'User', required: true
   belongs_to :penitent, class_name: 'User', required: true
-  has_one :notification, as: :notificationable
+  has_many :notifications, as: :notificationable
 
   scope :active, -> do
     where('meet_requests.created_at >= NOW() - \'1 day\'::INTERVAL')
