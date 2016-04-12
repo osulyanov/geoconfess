@@ -25,6 +25,15 @@ module Askable
     create_job
   end
 
+  def confirm_availability
+    update_attributes busy_count: 0, active_date: Time.zone.today
+  end
+
+  def confirm_availability!
+    confirm_availability
+    save
+  end
+
   module ClassMethods
   end
 end
