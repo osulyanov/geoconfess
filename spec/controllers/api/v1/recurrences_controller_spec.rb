@@ -141,7 +141,25 @@ RSpec.describe Api::V1::RecurrencesController, type: :controller do
       names = json.map { |r| r['name'] }
       expect(names).to contain_exactly(recurrence.spot.name)
     end
+  end
 
+  describe 'PUT #confirm_availability' do
+    let(:token) { create :access_token, resource_owner_id: priest.id }
+
+    before do
+      put :confirm_availability, format: :json, access_token: token.token, id: recurrence.id
+      recurrence.reload
+    end
+
+    it { expect(response).to have_http_status(:success) }
+
+    it 'set active_date to current date' do
+      expect(recurrence.active_date).to eq(Time.zone.today)
+    end
+
+    it 'reset busy_count' do
+      expect(recurrence.busy_count).to eq(0)
+    end
   end
 
 end
