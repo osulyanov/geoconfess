@@ -1,7 +1,8 @@
 class Api::V1::RecurrencesController < Api::V1::V1Controller
   before_action :doorkeeper_authorize!
   before_action :set_spot, only: [:index, :create]
-  before_action :set_recurrence, only: [:show, :update, :destroy]
+  before_action :set_recurrence, only: [:show, :update, :destroy,
+                                        :confirm_availability]
   before_action :set_priest, only: [:for_priest]
   load_and_authorize_resource
 
@@ -144,6 +145,22 @@ class Api::V1::RecurrencesController < Api::V1::V1Controller
   def for_priest
     spot_ids = @priest.spot_ids
     @recurrences = Recurrence.in_the_future.where(spot_id: spot_ids)
+  end
+
+
+  api! 'Confirm priest availability'
+  description <<-EOS
+    ## Description
+    Confirm priest availability for the recurrence for today.
+    Do nothing if priest unavailable.
+  EOS
+
+  def confirm_availability
+    if @recurrence.confirm_availability!
+      head status: :ok
+    else
+      render status: :unprocessable_entity, json: { errors: @recurrence.errors }
+    end
   end
 
   private
