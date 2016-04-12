@@ -20,6 +20,11 @@ module Askable
     Resque.enqueue_at(start_today_at - 1.hour, AskPriestJob, id)
   end
 
+  def update_job
+    remove_old_job
+    create_job
+  end
+
   module ClassMethods
   end
 end
