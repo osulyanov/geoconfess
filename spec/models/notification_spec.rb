@@ -51,7 +51,7 @@ RSpec.describe Notification, type: :model do
     end
 
     it 'returns unread notification' do
-      expect(subject.last.created_at).not_to be > 1.month.ago
+      expect(subject.last.created_at).to be > 1.month.ago #+ 1.second
     end
   end
 

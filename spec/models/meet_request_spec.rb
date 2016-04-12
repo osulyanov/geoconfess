@@ -19,31 +19,60 @@ RSpec.describe MeetRequest, type: :model do
     expect(subject).not_to be_valid
   end
 
-  context 'after create' do
+  context 'creates notification to priest' do
     before do
       subject.save
     end
-    let (:notification) { subject.notification }
+    let (:notification_to_priest) { subject.notifications.find_by(user_id: priest.id) }
 
-    it 'creates notification' do
-      expect(notification).to be_persisted
+    it 'persisted' do
+      expect(notification_to_priest).to be_persisted
     end
 
     context 'with attributes' do
-      it 'unread is true' do
-        expect(notification).to be_unread
+      it 'received is received' do
+        expect(notification_to_priest.action).to eq('received')
       end
 
-      it 'user eq to priest' do
-        expect(notification.user_id).to eq(priest.id)
+      it 'unread is true' do
+        expect(notification_to_priest).to be_unread
       end
 
       it 'notificationable_type eq to MeetRequest' do
-        expect(notification.notificationable_type).to eq('MeetRequest')
+        expect(notification_to_priest.notificationable_type).to eq('MeetRequest')
       end
 
       it 'notificationable_id eq to ID of just created meet request' do
-        expect(notification.notificationable_id).to eq(subject.id)
+        expect(notification_to_priest.notificationable_id).to eq(subject.id)
+      end
+    end
+  end
+
+  context 'creates notification to penitent' do
+    before do
+      subject.save
+    end
+    let (:notification_to_penitent) { subject.notifications.find_by(user_id: penitent.id) }
+
+    it 'persisted' do
+      expect(notification_to_penitent).to be_persisted
+    end
+
+    context 'with attributes' do
+      it 'received is sent' do
+        expect(notification_to_penitent.action).to eq('sent')
+      end
+
+      it 'unread is true' do
+        expect(notification_to_penitent).to be_unread
+      end
+
+      it 'notificationable_type eq to MeetRequest' do
+        expect(notification_to_penitent.notificationable_type).to eq('MeetRequest')
+      end
+
+      it 'notificationable_id eq to ID of just created meet request' do
+        expect(notification_to_penitent.notificationable_id).to eq(subject.id)
       end
     end
   end
