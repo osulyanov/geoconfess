@@ -48,6 +48,9 @@ Rails.application.routes.draw do
         collection do
           get 'for_priest/:priest_id', to: 'recurrences#for_priest'
         end
+        member do
+          put :confirm_availability
+        end
       end
       resources :messages, only: [:index, :show, :create, :update, :destroy]
     end
