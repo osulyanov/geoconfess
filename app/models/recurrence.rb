@@ -47,12 +47,18 @@ class Recurrence < ActiveRecord::Base
   end
 
   def today?
-    time = Time.now
-    time_now = Time.new(2000, 01, 01, time.strftime('%H'), time.strftime('%M')).utc
+    ctime = Time.now
+    time_now = Time.new(2000, 01, 01, ctime.strftime('%H'), ctime.strftime('%M')).utc
     today = Time.zone.today
     ((date.present? && date == today) ||
       (week_days.include? today.strftime('%A'))
     ) && start_at > time_now
+  end
+
+  def start_today_at
+    today = Time.zone.today
+    Time.new(today.strftime('%Y'), today.strftime('%m'), today.strftime('%d'),
+             start_at.strftime('%H'), start_at.strftime('%M'))
   end
 end
 
