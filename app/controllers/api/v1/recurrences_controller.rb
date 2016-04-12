@@ -152,7 +152,7 @@ class Api::V1::RecurrencesController < Api::V1::V1Controller
   description <<-EOS
     ## Description
     Confirm priest availability for the recurrence for today.
-    Do nothing if priest unavailable.
+    Returns code 200 with no content if recurrence successfully updated.
   EOS
 
   def confirm_availability
