@@ -1,5 +1,6 @@
 ActiveAdmin.register Recurrence do
-  permit_params :spot_id, :date, :start_at, :stop_at, :days, week_days: []
+  permit_params :spot_id, :date, :start_at, :stop_at, :days,
+                :active_date, :busy_count, week_days: []
 
   index do
     selectable_column
@@ -8,6 +9,8 @@ ActiveAdmin.register Recurrence do
     column :date
     column(:days) { |r| r.week_days.join ', ' }
     column(:time) { |r| "#{r.start_at.strftime('%H:%M')}–#{r.stop_at.strftime('%H:%M')}" }
+    column :active_date
+    column :busy_count
     column :created_at
     actions
   end
@@ -23,6 +26,8 @@ ActiveAdmin.register Recurrence do
       f.input :stop_at
       # f.input :days, as: :number
       f.input :week_days, as: :check_boxes, collection: Date::DAYNAMES
+      f.input :active_date
+      f.input :busy_count
     end
     f.actions
   end
@@ -35,6 +40,8 @@ ActiveAdmin.register Recurrence do
       row(:start_at) { |r| r.start_at.strftime('%H:%M') }
       row(:stop_at) { |r| r.stop_at.strftime('%H:%M') }
       row(:days) { |r| r.week_days.join ', ' }
+      row :active_date
+      row :busy_count
       row :created_at
       row :updated_at
     end
