@@ -40,6 +40,7 @@ class Ability
       end
       can :create, Recurrence if user.priest?
       can :for_priest, Recurrence
+      can :confirm_availability, Recurrence if user.priest?
 
       can :create, Message
       can :read, Message do |request|
