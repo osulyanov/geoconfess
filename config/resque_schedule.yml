@@ -1,5 +1,5 @@
 create_ask_jobs_for_today:
-  cron: "21 6 * * * Europe/Paris"
+  cron: "0 0 * * * Europe/Paris"
   class: "CreateAskPriestJobsForTodayJob"
   queue: simple
   description: "This job creates jobs to ask priests availability today"
