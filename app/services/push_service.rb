@@ -7,12 +7,8 @@ class PushService
   end
 
   def push
-    if @user.push_token.present? && @text.present?
-      Rails.logger.info "push - create push"
-      send("push_#{@user.os}")
-    else
-      Rails.logger.info "push - push_token or text doesn't present"
-    end
+    Rails.logger.info "push - create push"
+    send("push_#{@user.os}") if @user.push_token.present? && @text.present?
   end
 
   def push!
