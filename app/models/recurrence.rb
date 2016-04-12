@@ -47,12 +47,9 @@ class Recurrence < ActiveRecord::Base
   end
 
   def today?
-    time = Time.now.utc
+    time = Time.now
     time_now = Time.new(2000, 01, 01, time.strftime('%H'), time.strftime('%M')).utc
     today = Time.zone.today
-
-    puts "#{start_at} > #{time_now}"
-
     ((date.present? && date == today) ||
       (week_days.include? today.strftime('%A'))
     ) && start_at > time_now
