@@ -41,7 +41,7 @@ class MeetRequest < ActiveRecord::Base
   def send_refuse_notification
     penitent.notifications.create notificationable: self,
                                   action: 'refused',
-                                  text: ''
+                                  text: 'Votre demande de confession a été refusée.'
   end
 end
 
