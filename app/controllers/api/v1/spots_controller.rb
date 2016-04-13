@@ -252,7 +252,7 @@ class Api::V1::SpotsController < Api::V1::V1Controller
       @spots = Spot.active
       @spots = @spots.of_type(params[:type]) if params[:type].present?
       @spots = @spots.of_priest(params[:priest_id]) if params[:priest_id].to_i > 0
-      @spots = @spots.joins(:recurrences).now if params[:now]
+      @spots = @spots.now if params[:now]
     end
   end
 end
