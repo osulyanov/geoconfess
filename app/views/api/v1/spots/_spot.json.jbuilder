@@ -1,13 +1,12 @@
 json.id spot.id
 json.name spot.name
 json.activity_type spot.activity_type
-if spot.dynamic?
-  json.latitude spot.latitude
-  json.longitude spot.longitude
-elsif spot.church
-  json.church_id spot.church_id
-  json.latitude spot.church.latitude
-  json.longitude spot.church.longitude
+json.latitude spot.latitude
+json.longitude spot.longitude
+if spot.static?
+  json.church do
+    json.partial! 'api/v1/churches/church', church: spot.church
+  end
   json.recurrences spot.recurrences do |recurrence|
     json.partial! 'api/v1/recurrences/recurrence', recurrence: recurrence
   end

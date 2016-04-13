@@ -82,7 +82,17 @@ class Api::V1::SpotsController < Api::V1::V1Controller
         "id": 6,
         "name": "Test Spot1",
         "activity_type": "static",
-        "church_id": 1,
+        "church": {
+          "id": 1,
+          "name": "Test Church",
+          "latitude": 55.3232123,
+          "longitude": 80.234234,
+          "street": "Some street",
+          "postcode": "453534531",
+          "city": "Paris",
+          "state": "PA",
+          "country": "FR"
+        },
         "latitude": 55.3232,
         "longitude": 80.234234,
         "priest": {
@@ -137,7 +147,17 @@ class Api::V1::SpotsController < Api::V1::V1Controller
     {
       "id": 6,
       "name": "Test Spot1",
-      "church_id": 1,
+      "church": {
+        "id": 1,
+        "name": "Test Church",
+        "latitude": 55.3232123,
+        "longitude": 80.234234,
+        "street": "Some street",
+        "postcode": "453534531",
+        "city": "Paris",
+        "state": "PA",
+        "country": "FR"
+      },
       "activity_type": "static",
       "latitude": 55.3232,
       "longitude": 80.234234,
@@ -182,7 +202,17 @@ class Api::V1::SpotsController < Api::V1::V1Controller
     {
       "id": 6,
       "name": "Test Spot1",
-      "church_id": 1,
+      "church": {
+        "id": 1,
+        "name": "Test Church",
+        "latitude": 55.3232123,
+        "longitude": 80.234234,
+        "street": "Some street",
+        "postcode": "453534531",
+        "city": "Paris",
+        "state": "PA",
+        "country": "FR"
+      },
       "activity_type": "static",
       "latitude": 55.3232,
       "longitude": 80.234234,
