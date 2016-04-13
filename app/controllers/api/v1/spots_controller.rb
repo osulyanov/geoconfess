@@ -73,6 +73,9 @@ class Api::V1::SpotsController < Api::V1::V1Controller
   param :priest_id, Integer, desc: 'Filter by Priest'
   param :now, :bool, desc: 'Show only active right now spots'
   param :type, %w(static dynamic), desc: 'Show only spots of given type'
+  param :lat, Float, desc: 'Current latitude. Required to filter by distance'
+  param :lng, Float, desc: 'Current longitude. Required to filter by distance'
+  param :distance, Integer, desc: 'Distance in km. Required to filter by distance'
   example <<-EOS
     [
       {
@@ -252,6 +255,9 @@ class Api::V1::SpotsController < Api::V1::V1Controller
       @spots = Spot.active
       @spots = @spots.of_type(params[:type]) if params[:type].present?
       @spots = @spots.of_priest(params[:priest_id]) if params[:priest_id].to_i > 0
+      if params[:lat].present? && params[:lng].present? && params[:distance].present?
+        @spots = @spots.nearest(params[:lat], params[:lng], params[:distance])
+      end
       @spots = @spots.now if params[:now]
     end
   end
