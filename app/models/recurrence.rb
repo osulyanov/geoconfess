@@ -5,6 +5,7 @@ class Recurrence < ActiveRecord::Base
   belongs_to :spot, required: true
 
   scope :in_the_future, -> { where('recurrences.date >= ? OR recurrences.date ISNULL', Time.zone.today) }
+  scope :confirmed_availability, -> { where active_date: Time.zone.today }
 
   validates :start_at, presence: true
   validates :stop_at, presence: true
