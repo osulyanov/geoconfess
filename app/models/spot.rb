@@ -1,4 +1,6 @@
 class Spot < ActiveRecord::Base
+  reverse_geocoded_by :latitude, :longitude
+
   enum activity_type: [:static, :dynamic]
 
   belongs_to :priest, class_name: 'User', foreign_key: 'priest_id', inverse_of: 'spots', required: true
