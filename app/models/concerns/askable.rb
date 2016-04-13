@@ -26,12 +26,12 @@ module Askable
   end
 
   def confirm_availability
-    update_attributes busy_count: 0, active_date: Time.zone.today
+    self.assign_attributes busy_count: 0, active_date: Time.zone.today
   end
 
   def confirm_availability!
-    confirm_availability
-    save
+    self.confirm_availability
+    self.save
   end
 
   module ClassMethods
