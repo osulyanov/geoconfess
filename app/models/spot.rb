@@ -7,8 +7,8 @@ class Spot < ActiveRecord::Base
 
   validates :name, presence: true
   validates :church, presence: true, if: 'static?'
-  validates :latitude, presence: true, if: 'dynamic?'
-  validates :longitude, presence: true, if: 'dynamic?'
+  validates :latitude, presence: true
+  validates :longitude, presence: true
 
   scope :active, lambda {
     where('spots.priest_id IN (SELECT id FROM users WHERE users.active IS TRUE)')
@@ -28,11 +28,21 @@ class Spot < ActiveRecord::Base
   scope :of_type, lambda { |type|
     where('spots.activity_type = ? ', Spot.activity_types[type.to_s])
   }
+  scope :nearest, lambda { |lat, lng, distance|
+    near([lat, lng], distance, order: 'distance', units: :km)
+  }
+
+  before_validation :cache_coordinates
 
   def active_today?
     dynamic? || recurrences.select do |r|
       r.date ==Time.zone.today || r.week_days_arr[Time.zone.today.wday] == 1
     end.any?
+  end
+
+  def cache_coordinates
+    return unless static? && church.present?
+    assign_attributes latitude: church.latitude, longitude: church.longitude
   end
 end
 
