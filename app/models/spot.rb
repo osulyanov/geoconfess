@@ -15,8 +15,11 @@ class Spot < ActiveRecord::Base
   }
   scope :now, lambda {
     current_time = Time.zone.now.strftime('%H:%M')
-    where('recurrences.date = ? OR recurrences.date ISNULL', Time.zone.today).
+    joins(:recurrences).
+      where('recurrences.active_date = ?', Time.zone.today).
+      where('recurrences.date = ? OR recurrences.date ISNULL', Time.zone.today).
       where('recurrences.start_at <= time ? AND recurrences.stop_at >= time ?', current_time, current_time).
+      distinct.
       select { |s| s.active_today? }
   }
   scope :of_priest, lambda { |priest_id|
