@@ -4,6 +4,13 @@ class Church < ActiveRecord::Base
   validates :name, presence: true
   validates :latitude, presence: true
   validates :longitude, presence: true
+
+  after_update :update_spots_coordinates
+
+  def update_spots_coordinates
+    return unless latitude_changed? || longitude_changed?
+    spots.update_all(latitude: latitude, longitude: longitude)
+  end
 end
 
 # == Schema Information
