@@ -18,14 +18,30 @@ class MeetRequest < ActiveRecord::Base
   validates :latitude, presence: true
   validates :longitude, presence: true
 
-  after_create :send_notification
+  after_create :send_create_notification
+  after_update :send_accept_notification,
+               if: Proc.new { |r| r.status_changed? && r.accepted? }
+  after_update :send_refuse_notification,
+               if: Proc.new { |r| r.status_changed? && r.refused? }
 
-  def send_notification
+  def send_create_notification
     priest.notifications.create notificationable: self,
                                 action: 'received',
                                 text: "#{penitent.name} demande une confession!"
     penitent.notifications.create notificationable: self,
                                   action: 'sent'
+  end
+
+  def send_accept_notification
+    penitent.notifications.create notificationable: self,
+                                  action: 'accepted',
+                                  text: 'Votre demande de confession a été acceptée!'
+  end
+
+  def send_refuse_notification
+    penitent.notifications.create notificationable: self,
+                                  action: 'refused',
+                                  text: ''
   end
 end
 
