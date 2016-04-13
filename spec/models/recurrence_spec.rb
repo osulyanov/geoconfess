@@ -22,7 +22,7 @@ RSpec.describe Recurrence, type: :model do
   end
 
   context '#confirm_availability' do
-    subject { create(:recurrence, spot: spot, busy_count: 3, active_date: 5.days.ago) }
+    subject { create(:recurrence, spot: spot, busy_count: 3, active_date: 5.days.ago.to_date) }
 
     before do
       subject.confirm_availability
@@ -39,15 +39,15 @@ RSpec.describe Recurrence, type: :model do
     it 'doesn\'t save changes' do
       subject.reload
       expect(subject.busy_count).to eq(3)
-      expect(subject.active_date).to eq(5.days.ago)
+      expect(subject.active_date).to eq(5.days.ago.to_date)
     end
   end
 
   context '#confirm_availability!' do
-    subject { create(:recurrence, spot: spot, busy_count: 3, active_date: 5.days.ago) }
+    subject { create(:recurrence, spot: spot, busy_count: 3, active_date: 5.days.ago.to_date) }
 
     before do
-      subject.confirm_availability
+      subject.confirm_availability!
     end
 
     it 'resets busy_count' do
