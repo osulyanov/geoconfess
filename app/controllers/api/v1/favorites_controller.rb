@@ -1,0 +1,70 @@
+class Api::V1::FavoritesController < Api::V1::V1Controller
+  before_action :doorkeeper_authorize!
+  before_action :set_favorite, only: [:destroy]
+  load_and_authorize_resource
+
+  resource_description do
+    short 'Favorites'
+  end
+
+  api! 'All favorites of current user'
+  description <<-EOS
+    ## Description
+    All favorites of current_user.
+  EOS
+  example <<-EOS
+  EOS
+
+  def index
+    @favorites = current_user.favorites
+  end
+
+
+  api! 'Create favorite'
+  description <<-EOS
+    ## Description
+    Add priest to favorites
+    Returns code 201 with favorite data if favorite successfully created.
+  EOS
+  param :favorite, Hash, desc: 'User info' do
+    param :priest_id, Integer, desc: 'Priest ID', required: true
+  end
+  example <<-EOS
+
+  EOS
+
+  def create
+    @favorite = current_user.favorites.new(favorite_params)
+    if @favorite.save
+      render :show, status: :created
+    else
+      render status: :unprocessable_entity, json: { errors: @favorite.errors }
+    end
+  end
+
+
+  api! 'Destroy favorite'
+  description <<-EOS
+    ## Description
+    Remove priest from favorites
+    Returns code 200 with no content if favorite successfully destroyed.
+  EOS
+
+  def destroy
+    if @favorite.destroy
+      head status: :ok
+    else
+      render status: :unprocessable_entity, json: { errors: @favorite.errors }
+    end
+  end
+
+  private
+
+  def favorite_params
+    params.require(:favorite).permit(:priest_id)
+  end
+
+  def set_favorite
+    @favorite = Favorite.find(params[:id])
+  end
+end
