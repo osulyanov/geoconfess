@@ -1,10 +1,4 @@
 Rails.application.routes.draw do
-  namespace :api do
-    namespace :v1 do
-      get 'passwords/create'
-    end
-  end
-
   root 'home#index'
 
   apipie
@@ -33,6 +27,7 @@ Rails.application.routes.draw do
           put :refuse
         end
       end
+      resources :favorites, only: [:index, :create, :destroy]
       resources :notifications, only: [:index, :show] do
         member do
           put :mark_read
