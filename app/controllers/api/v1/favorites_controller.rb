@@ -51,7 +51,7 @@ class Api::V1::FavoritesController < Api::V1::V1Controller
   EOS
 
   def create
-    @favorite = current_user.favorites.new(favorite_params)
+    @favorite = current_user.favorites.where(favorite_params).first_or_initialize
     if @favorite.save
       render :show, status: :created
     else
