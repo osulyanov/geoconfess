@@ -13,6 +13,16 @@ class Api::V1::FavoritesController < Api::V1::V1Controller
     All favorites of current_user.
   EOS
   example <<-EOS
+    [
+      {
+        "id": 1,
+        "priest": {
+          "id": 17,
+          "name": "Oleg",
+          "surname": "Test"
+        }
+      }
+    ]
   EOS
 
   def index
@@ -30,7 +40,14 @@ class Api::V1::FavoritesController < Api::V1::V1Controller
     param :priest_id, Integer, desc: 'Priest ID', required: true
   end
   example <<-EOS
-
+    {
+      "id": 1,
+      "priest": {
+        "id": 17,
+        "name": "Oleg",
+        "surname": "Test"
+      }
+    }
   EOS
 
   def create
