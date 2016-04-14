@@ -16,13 +16,8 @@ class Spot < ActiveRecord::Base
     where('spots.priest_id IN (SELECT id FROM users WHERE users.active IS TRUE)')
   }
   scope :now, lambda {
-    current_time = Time.zone.now.strftime('%H:%M')
-    joins(:recurrences).
-      where('recurrences.active_date = ?', Time.zone.today).
-      where('recurrences.date = ? OR recurrences.date ISNULL', Time.zone.today).
-      where('recurrences.start_at <= time ? AND recurrences.stop_at >= time ?', current_time, current_time).
-      distinct.
-      select { |s| s.active_today? }
+    where('spots.activity_type = ? OR spots.id IN (?)', Spot.activity_types[:dynamic],
+          Recurrence.now.map { |r| r[:spot_id] })
   }
   scope :of_priest, lambda { |priest_id|
     where('spots.priest_id = ? ', priest_id.to_i)
