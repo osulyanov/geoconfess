@@ -6,6 +6,13 @@ class Recurrence < ActiveRecord::Base
 
   scope :in_the_future, -> { where('recurrences.date >= ? OR recurrences.date ISNULL', Time.zone.today) }
   scope :confirmed_availability, -> { where active_date: Time.zone.today }
+  scope :now, lambda {
+    current_time = Time.zone.now.strftime('%H:%M')
+    where('recurrences.active_date = ?', Time.zone.today).
+      where('recurrences.date = ? OR recurrences.date ISNULL', Time.zone.today).
+      where('recurrences.start_at <= time ? AND recurrences.stop_at >= time ?', current_time, current_time).
+      select { |s| s.active_this_wday? }
+  }
 
   validates :start_at, presence: true
   validates :stop_at, presence: true
@@ -45,6 +52,12 @@ class Recurrence < ActiveRecord::Base
   def week_days=(values)
     days = Date::DAYNAMES.map { |d| values.include?(d) ? 1 : 0 }
     write_attribute(:days, days.join.to_i(2))
+  end
+
+  def active_this_wday?
+    return true if date.present?
+    today = Time.zone.today
+    week_days.include? today.strftime('%A')
   end
 
   def today?
