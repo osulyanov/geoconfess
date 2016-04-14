@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
            foreign_key: 'resource_owner_id', dependent: :destroy
   has_many :spots, foreign_key: 'priest_id', dependent: :destroy
   has_many :notifications, dependent: :destroy
+  has_many :favorites, dependent: :destroy
 
   scope :priests, -> { where role: roles[:priest] }
   scope :active, -> { where active: true }
