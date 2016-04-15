@@ -4,7 +4,9 @@ create_ask_jobs_for_today:
   queue: default
   description: "This job creates jobs to ask priests availability today"
 cleanup_dynamic_spots:
-  cron: "5 * * * * * Europe/Paris"
+  every:
+    - "15m"
+    - :first_in: '120s'
   class: "CleanupDynamicSpotsJob"
   queue: default
   description: "This job removes outdated dynamic spots"

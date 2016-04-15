@@ -22,6 +22,7 @@ gem 'postmark-rails'
 gem 'rails-push-notifications', '~> 0.2.0'
 gem 'resque'
 gem 'resque-scheduler'
+gem 'active_scheduler'
 gem 'geocoder'
 
 group :production do
