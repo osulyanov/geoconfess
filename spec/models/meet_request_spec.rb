@@ -19,6 +19,24 @@ RSpec.describe MeetRequest, type: :model do
     expect(subject).not_to be_valid
   end
 
+  describe '.active' do
+    it 'returns requests created less than 1 day ago' do
+      request_23_h_ago = create(:meet_request, priest: priest, penitent: penitent, created_at: 23.hours.ago)
+
+      result = MeetRequest.active
+
+      expect(result).to include(request_23_h_ago)
+    end
+
+    it 'doesn\'t return requests created more than 1 day ago' do
+      request_25_h_ago = create(:meet_request, priest: priest, penitent: penitent, created_at: 25.hours.ago)
+
+      result = MeetRequest.active
+
+      expect(result).not_to include(request_25_h_ago)
+    end
+  end
+
   context 'creates notification to priest' do
     before do
       subject.save
@@ -30,7 +48,7 @@ RSpec.describe MeetRequest, type: :model do
     end
 
     context 'with attributes' do
-      it 'received is received' do
+      it 'action is received' do
         expect(notification_to_priest.action).to eq('received')
       end
 
@@ -59,7 +77,7 @@ RSpec.describe MeetRequest, type: :model do
     end
 
     context 'with attributes' do
-      it 'received is sent' do
+      it 'action is sent' do
         expect(notification_to_penitent.action).to eq('sent')
       end
 
