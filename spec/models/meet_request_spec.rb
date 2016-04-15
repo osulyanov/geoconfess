@@ -19,6 +19,16 @@ RSpec.describe MeetRequest, type: :model do
     expect(subject).not_to be_valid
   end
 
+  it 'not valid without latitude' do
+    subject.latitude = nil
+    expect(subject).not_to be_valid
+  end
+
+  it 'not valid without longitude' do
+    subject.longitude = nil
+    expect(subject).not_to be_valid
+  end
+
   describe '.active' do
     it 'returns requests created less than 1 day ago' do
       request_23_h_ago = create(:meet_request, priest: priest, penitent: penitent, created_at: 23.hours.ago)
