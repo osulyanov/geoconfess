@@ -72,60 +72,62 @@ RSpec.describe MeetRequest, type: :model do
     end
   end
 
-  context 'creates notification to priest' do
-    before do
-      subject.save
-    end
-    let (:notification_to_priest) { subject.notifications.find_by(user_id: priest.id) }
+  context 'after creation' do
+    describe 'creates notification to priest' do
+      before do
+        subject.save
+      end
+      let (:notification_to_priest) { subject.notifications.find_by(user_id: priest.id) }
 
-    it 'persisted' do
-      expect(notification_to_priest).to be_persisted
-    end
-
-    context 'with attributes' do
-      it 'action is received' do
-        expect(notification_to_priest.action).to eq('received')
+      it 'persisted' do
+        expect(notification_to_priest).to be_persisted
       end
 
-      it 'unread is true' do
-        expect(notification_to_priest).to be_unread
+      context 'with attributes' do
+        it 'action is received' do
+          expect(notification_to_priest.action).to eq('received')
+        end
+
+        it 'unread is true' do
+          expect(notification_to_priest).to be_unread
+        end
+
+        it 'notificationable_type eq to MeetRequest' do
+          expect(notification_to_priest.notificationable_type).to eq('MeetRequest')
+        end
+
+        it 'notificationable_id eq to ID of just created meet request' do
+          expect(notification_to_priest.notificationable_id).to eq(subject.id)
+        end
       end
-
-      it 'notificationable_type eq to MeetRequest' do
-        expect(notification_to_priest.notificationable_type).to eq('MeetRequest')
-      end
-
-      it 'notificationable_id eq to ID of just created meet request' do
-        expect(notification_to_priest.notificationable_id).to eq(subject.id)
-      end
-    end
-  end
-
-  context 'creates notification to penitent' do
-    before do
-      subject.save
-    end
-    let (:notification_to_penitent) { subject.notifications.find_by(user_id: penitent.id) }
-
-    it 'persisted' do
-      expect(notification_to_penitent).to be_persisted
     end
 
-    context 'with attributes' do
-      it 'action is sent' do
-        expect(notification_to_penitent.action).to eq('sent')
+    describe 'creates notification to penitent' do
+      before do
+        subject.save
+      end
+      let (:notification_to_penitent) { subject.notifications.find_by(user_id: penitent.id) }
+
+      it 'persisted' do
+        expect(notification_to_penitent).to be_persisted
       end
 
-      it 'unread is true' do
-        expect(notification_to_penitent).to be_unread
-      end
+      context 'with attributes' do
+        it 'action is sent' do
+          expect(notification_to_penitent.action).to eq('sent')
+        end
 
-      it 'notificationable_type eq to MeetRequest' do
-        expect(notification_to_penitent.notificationable_type).to eq('MeetRequest')
-      end
+        it 'unread is true' do
+          expect(notification_to_penitent).to be_unread
+        end
 
-      it 'notificationable_id eq to ID of just created meet request' do
-        expect(notification_to_penitent.notificationable_id).to eq(subject.id)
+        it 'notificationable_type eq to MeetRequest' do
+          expect(notification_to_penitent.notificationable_type).to eq('MeetRequest')
+        end
+
+        it 'notificationable_id eq to ID of just created meet request' do
+          expect(notification_to_penitent.notificationable_id).to eq(subject.id)
+        end
       end
     end
   end
