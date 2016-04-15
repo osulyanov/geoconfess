@@ -5,7 +5,7 @@ class Spot < ActiveRecord::Base
 
   belongs_to :priest, class_name: 'User', foreign_key: 'priest_id',
              inverse_of: 'spots', required: true
-  belongs_to :church, dependent: :destroy
+  belongs_to :church
   has_many :recurrences, dependent: :destroy
 
   validates :name, presence: true
