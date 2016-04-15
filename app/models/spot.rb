@@ -39,7 +39,7 @@ class Spot < ActiveRecord::Base
   def self.find_or_new(params)
     dynamic_id = activity_types[:dynamic]
     spot = find_by(activity_type: dynamic_id) if params[:activity_type] == 'dynamic'
-    spot ||= new(spot_params)
+    spot ||= new(params)
   end
 
   def active_today?
