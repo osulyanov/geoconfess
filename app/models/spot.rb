@@ -31,6 +31,12 @@ class Spot < ActiveRecord::Base
 
   before_validation :cache_coordinates
 
+  def self.find_or_new(params)
+    dynamic_id = Spot.activity_types[:dynamic]
+    spot = find_by(activity_type: dynamic_id) if params[:activity_type] == 'dynamic'
+    spot ||= new(spot_params)
+  end
+
   def active_today?
     dynamic? || recurrences.select do |r|
       r.date ==Time.zone.today || r.week_days_arr[Time.zone.today.wday] == 1
