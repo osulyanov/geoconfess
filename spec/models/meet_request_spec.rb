@@ -77,10 +77,11 @@ RSpec.describe MeetRequest, type: :model do
       before do
         subject.save
       end
+
       let (:notification_to_priest) { subject.notifications.find_by(user_id: priest.id) }
 
-      it 'persisted' do
-        expect(notification_to_priest).to be_persisted
+      it 'present' do
+        expect(notification_to_priest).to be_present
       end
 
       context 'with attributes' do
@@ -91,14 +92,6 @@ RSpec.describe MeetRequest, type: :model do
         it 'unread is true' do
           expect(notification_to_priest).to be_unread
         end
-
-        it 'notificationable_type eq to MeetRequest' do
-          expect(notification_to_priest.notificationable_type).to eq('MeetRequest')
-        end
-
-        it 'notificationable_id eq to ID of just created meet request' do
-          expect(notification_to_priest.notificationable_id).to eq(subject.id)
-        end
       end
     end
 
@@ -106,10 +99,11 @@ RSpec.describe MeetRequest, type: :model do
       before do
         subject.save
       end
+
       let (:notification_to_penitent) { subject.notifications.find_by(user_id: penitent.id) }
 
-      it 'persisted' do
-        expect(notification_to_penitent).to be_persisted
+      it 'present' do
+        expect(notification_to_penitent).to be_present
       end
 
       context 'with attributes' do
@@ -120,13 +114,59 @@ RSpec.describe MeetRequest, type: :model do
         it 'unread is true' do
           expect(notification_to_penitent).to be_unread
         end
+      end
+    end
+  end
 
-        it 'notificationable_type eq to MeetRequest' do
-          expect(notification_to_penitent.notificationable_type).to eq('MeetRequest')
+  context 'after accept' do
+    describe 'creates notification to penitent' do
+      before do
+        subject.save
+        subject.update_attribute :status, MeetRequest.statuses[:accepted]
+      end
+
+      let (:notification) { subject.notifications.find_by(user_id: penitent.id, action: 'accepted') }
+
+      it 'present' do
+        expect(notification).to be_present
+      end
+
+      context 'with attributes' do
+        it 'unread is true' do
+          expect(notification).to be_unread
         end
 
-        it 'notificationable_id eq to ID of just created meet request' do
-          expect(notification_to_penitent.notificationable_id).to eq(subject.id)
+        it 'has text' do
+          result = notification.text
+
+          expect(result).to eq('Votre demande de confession a été acceptée!')
+        end
+      end
+    end
+  end
+
+  context 'after refuse' do
+    describe 'creates notification to penitent' do
+      before do
+        subject.save
+        subject.update_attribute :status, MeetRequest.statuses[:refused]
+      end
+
+      let (:notification) { subject.notifications.find_by(user_id: penitent.id, action: 'refused') }
+
+      it 'present' do
+        expect(notification).to be_present
+      end
+
+      context 'with attributes' do
+        it 'unread is true' do
+          expect(notification).to be_unread
+        end
+
+        it 'has text' do
+          result = notification.text
+
+          expect(result).to eq('Votre demande de confession a été refusée.')
         end
       end
     end
