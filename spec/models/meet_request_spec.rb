@@ -37,6 +37,31 @@ RSpec.describe MeetRequest, type: :model do
     end
   end
 
+  describe '.for_user' do
+    let (:priest) { create(:user, role: :priest) }
+    let (:penitent) { create(:user, role: :user) }
+    let (:other_user) { create(:user, role: :user) }
+    let! (:meet_request) { create(:meet_request, priest: priest, penitent: penitent) }
+
+    it 'returns requests to user' do
+      result = MeetRequest.for_user(priest.id)
+
+      expect(result).to include(meet_request)
+    end
+
+    it 'returns requests from user' do
+      result = MeetRequest.for_user(penitent.id)
+
+      expect(result).to include(meet_request)
+    end
+
+    it 'doesn\'t return requests of other user' do
+      result = MeetRequest.for_user(other_user.id)
+
+      expect(result).not_to include(meet_request)
+    end
+  end
+
   context 'creates notification to priest' do
     before do
       subject.save
