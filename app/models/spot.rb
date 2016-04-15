@@ -17,7 +17,7 @@ class Spot < ActiveRecord::Base
     where('spots.priest_id IN (SELECT id FROM users WHERE users.active IS TRUE)')
   }
   scope :now, lambda {
-    where('spots.activity_type = ? OR spots.id IN (?)', activity_types[:dynamic],
+    where('(spots.activity_type = ? AND spots.updated_at > NOW() - \'15 minutes\'::INTERVAL) OR spots.id IN (?)', activity_types[:dynamic],
           Recurrence.now.map { |r| r[:spot_id] })
   }
   scope :of_priest, lambda { |priest_id|
