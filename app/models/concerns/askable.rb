@@ -17,7 +17,7 @@ module Askable
     Rails.logger.info "create_job #{id}"
     return unless today?
     Rails.logger.info "start job at #{start_today_at - 1.hour}"
-    Resque.enqueue_at(start_today_at - 1.hour, AskPriestJob, id)
+    AskPriestJob.set(wait_until: start_today_at - 1.hour).perform_later(id)
   end
 
   def update_job
