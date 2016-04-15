@@ -226,7 +226,7 @@ class Api::V1::SpotsController < Api::V1::V1Controller
   EOS
 
   def create
-    @spot = current_user.spots.find_or_new(spot_params)
+    @spot = current_user.spots.assign_or_new(spot_params)
     if @spot.save
       render :show, status: :created
     else

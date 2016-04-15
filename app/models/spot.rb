@@ -36,9 +36,12 @@ class Spot < ActiveRecord::Base
 
   before_validation :cache_coordinates
 
-  def self.find_or_new(params)
+  def self.assign_or_new(params)
     dynamic_id = activity_types[:dynamic]
-    spot = find_by(activity_type: dynamic_id) if params[:activity_type] == 'dynamic'
+    if params[:activity_type] == 'dynamic'
+      spot = find_by(activity_type: dynamic_id)
+      spot.assign_attributes params if spot
+    end
     spot ||= new(params)
   end
 
