@@ -1,9 +1,8 @@
-class CreateAskPriestJobsForTodayJob
-  @queue = :simple
+class CreateAskPriestJobsForTodayJob < ActiveJob::Base
+  queue_as :default
 
-  def self.perform
+  def perform
     today = Time.zone.today
-    Rails.logger.info "CreateAskPriestJobsForTodayJob #{today}"
     recurrences = Recurrence.where('recurrences.date = ? OR recurrences.date ISNULL', today)
     recurrences.each do |recurrence|
       next unless recurrence.today?
