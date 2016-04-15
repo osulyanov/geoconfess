@@ -1,9 +1,7 @@
-class AskPriestJob
-  @queue = :simple
+class AskPriestJob < ActiveJob::Base
+  queue_as :default
 
-  def self.perform(recurrence_id)
-    Rails.logger.info "AskPriestJob #{recurrence_id}"
-
+  def perform(recurrence_id)
     recurrence = Recurrence.includes(:spot, spot: [:priest]).find(recurrence_id)
     spot = recurrence.spot
 
