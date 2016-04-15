@@ -3,3 +3,8 @@ create_ask_jobs_for_today:
   class: "CreateAskPriestJobsForTodayJob"
   queue: default
   description: "This job creates jobs to ask priests availability today"
+cleanup_dynamic_spots:
+  cron: "5 * * * * * Europe/Paris"
+  class: "CleanupDynamicSpotsJob"
+  queue: default
+  description: "This job removes outdated dynamic spots"
