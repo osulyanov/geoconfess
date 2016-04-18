@@ -11,10 +11,10 @@ class Api::V1::SpotsController < Api::V1::V1Controller
   def_param_group :spot do
     param :spot, Hash, desc: 'Spot info' do
       param :name, String, desc: 'Name', required: true
-      param :church_id, Integer, desc: 'Church ID, for static spots only'
+      param :church_id, Integer, desc: 'Church ID, required for static spots only'
       param :activity_type, %w(static dynamic), desc: 'Type of spot'
-      param :latitude, Float, desc: 'Latitude, for dynamic only'
-      param :longitude, Float, desc: 'Longitude, for dynamic only'
+      param :latitude, Float, desc: 'Latitude, required for dynamic only'
+      param :longitude, Float, desc: 'Longitude, required for dynamic only'
     end
   end
 
