@@ -15,6 +15,16 @@ RSpec.describe Recurrence, type: :model do
     expect(subject).not_to be_valid
   end
 
+  it 'not valid without start_at' do
+    subject.start_at = nil
+    expect(subject).not_to be_valid
+  end
+
+  it 'not valid without stop_at' do
+    subject.stop_at = nil
+    expect(subject).not_to be_valid
+  end
+
   it 'not valid without date and days' do
     subject.date = nil
     subject.days = nil
