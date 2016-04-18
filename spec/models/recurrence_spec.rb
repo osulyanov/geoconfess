@@ -62,6 +62,96 @@ RSpec.describe Recurrence, type: :model do
     end
   end
 
+  describe '.now' do
+    context 'one-time' do
+      it 'returns recurrence which active right now' do
+        recurrence = create(:recurrence, spot: spot,
+                            date: Time.zone.today, start_at: '00:00',
+                            stop_at: '23:59')
+
+        result = Recurrence.now
+
+        expect(result).to include(recurrence)
+      end
+
+      it 'doesn\'t return recurrence if date is not today' do
+        recurrence = create(:recurrence, spot: spot,
+                            date: 1.day.from_now, start_at: '00:00',
+                            stop_at: '23:59')
+
+        result = Recurrence.now
+
+        expect(result).not_to include(recurrence)
+      end
+
+      it 'doesn\'t return recurrence if current time less than start_at' do
+        recurrence = create(:recurrence, spot: spot,
+                            date: Time.zone.today, start_at: '23:59',
+                            stop_at: '23:59')
+
+        result = Recurrence.now
+
+        expect(result).not_to include(recurrence)
+      end
+
+      it 'doesn\'t return recurrence if stop_at less than current time' do
+        recurrence = create(:recurrence, spot: spot,
+                            date: Time.zone.today, start_at: '00:00',
+                            stop_at: '00:00')
+
+        result = Recurrence.now
+
+        expect(result).not_to include(recurrence)
+      end
+    end
+
+    context 'recurred' do
+      it 'returns recurrence which active right now' do
+        recurrence = create(:recurrence, spot: spot, date: nil,
+                            start_at: '00:00', stop_at: '23:59',
+                            week_days: [Time.zone.today.strftime('%A')])
+
+        result = Recurrence.now
+
+        expect(result).to include(recurrence)
+      end
+
+      it 'doesn\'t return recurrence if current week day not listed' do
+        wdays = Date::DAYNAMES - [Time.zone.today.strftime('%A')]
+
+        recurrence = create(:recurrence, spot: spot, date: nil,
+                            start_at: '00:00', stop_at: '23:59',
+                            week_days: wdays)
+
+        result = Recurrence.now
+
+        expect(result).not_to include(recurrence)
+      end
+
+      it 'doesn\'t return recurrence if current time less than start_at' do
+        recurrence = create(:recurrence, spot: spot, date: nil,
+                            start_at: '23:59', stop_at: '23:59',
+                            week_days: [Time.zone.today.strftime('%A')])
+
+        result = Recurrence.now
+
+        expect(result).not_to include(recurrence)
+      end
+
+      it 'doesn\'t return recurrence if stop_at less than current time' do
+
+        recurrence = create(:recurrence, spot: spot, date: nil,
+                            start_at: '00:00', stop_at: '00:00',
+                            week_days: [Time.zone.today.strftime('%A')])
+
+        result = Recurrence.now
+
+        expect(result).not_to include(recurrence)
+      end
+
+    end
+  end
+
   context '#confirm_availability' do
     subject { create(:recurrence, spot: spot, busy_count: 3, active_date: 5.days.ago.to_date) }
 

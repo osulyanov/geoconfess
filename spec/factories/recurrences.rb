@@ -1,6 +1,7 @@
 FactoryGirl.define do
   factory :recurrence do
     date { Time.zone.today }
+    active_date { Time.zone.today }
     start_at '10:00'
     stop_at '18:00'
   end
