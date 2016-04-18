@@ -45,6 +45,23 @@ RSpec.describe Recurrence, type: :model do
     end
   end
 
+  describe '.confirmed_availability' do
+    let! (:recurrence_confirmed) { create(:recurrence, spot: spot, active_date: Time.zone.today) }
+    let! (:recurrence_not_confirmed) { create(:recurrence, spot: spot, active_date: 1.day.ago) }
+
+    it 'returns recurrences with active_date eq to current date' do
+      result = Recurrence.confirmed_availability
+
+      expect(result).to include(recurrence_confirmed)
+    end
+
+    it 'doesn\'t return recurrences with active_date in the past' do
+      result = Recurrence.confirmed_availability
+
+      expect(result).not_to include(recurrence_not_confirmed)
+    end
+  end
+
   context '#confirm_availability' do
     subject { create(:recurrence, spot: spot, busy_count: 3, active_date: 5.days.ago.to_date) }
 
