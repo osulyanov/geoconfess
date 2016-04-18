@@ -21,6 +21,30 @@ RSpec.describe Recurrence, type: :model do
     expect(subject).not_to be_valid
   end
 
+  describe '.in_the_future' do
+    let! (:recurrence_in_the_future) { create(:recurrence, spot: spot, date: 1.day.from_now) }
+    let! (:recurrence_in_the_today) { create(:recurrence, spot: spot, date: Time.zone.today) }
+    let! (:recurrence_in_the_past) { create(:recurrence, spot: spot, date: 1.day.ago) }
+
+    it 'returns recurrences in the future' do
+      result = Recurrence.in_the_future
+
+      expect(result).to include(recurrence_in_the_future)
+    end
+
+    it 'returns recurrences for today' do
+      result = Recurrence.in_the_future
+
+      expect(result).to include(recurrence_in_the_future)
+    end
+
+    it 'doesn\'t return recurrences in the past' do
+      result = Recurrence.in_the_future
+
+      expect(result).not_to include(recurrence_in_the_past)
+    end
+  end
+
   context '#confirm_availability' do
     subject { create(:recurrence, spot: spot, busy_count: 3, active_date: 5.days.ago.to_date) }
 
