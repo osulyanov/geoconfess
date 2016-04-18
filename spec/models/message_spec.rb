@@ -23,6 +23,29 @@ RSpec.describe Message, type: :model do
     subject.text = nil
     expect(subject).not_to be_valid
   end
+
+  describe '.with_user' do
+    let (:other_user) { create(:user, role: :user) }
+    let! (:message) { create(:message, sender: sender, recipient: recipient) }
+
+    it 'returns user\'s message to certain user' do
+      result = Message.with_user(recipient.id)
+
+      expect(result).to include(message)
+    end
+
+    it 'returns user\'s message from certain user' do
+      result = Message.with_user(sender.id)
+
+      expect(result).to include(message)
+    end
+
+    it 'doesn\'t return message of other users' do
+      result = Message.with_user(other_user.id)
+
+      expect(result).not_to include(message)
+    end
+  end
 end
 
 # == Schema Information
