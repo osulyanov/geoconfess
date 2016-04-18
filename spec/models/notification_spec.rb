@@ -33,7 +33,7 @@ RSpec.describe Notification, type: :model do
       expect(subject).to include(unread)
     end
 
-    it 'returns unread notification' do
+    it 'doesn\'t return read notification' do
       expect(subject).not_to include(read)
     end
   end
@@ -50,8 +50,8 @@ RSpec.describe Notification, type: :model do
       expect(subject.size).not_to be > 99
     end
 
-    it 'returns unread notification' do
-      expect(subject.last.created_at).to be > 1.month.ago #+ 1.second
+    it 'returns notification created les than 1 month ago' do
+      expect(subject.last.created_at).to be > 1.month.ago
     end
   end
 
