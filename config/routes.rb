@@ -33,7 +33,6 @@ Rails.application.routes.draw do
           put :mark_read
         end
       end
-      resources :churches, only: [:index, :show, :create, :update, :destroy]
       resources :spots, only: [:index, :show, :create, :update, :destroy] do
         member do
           resources :recurrences, only: [:index, :show, :create, :update, :destroy]

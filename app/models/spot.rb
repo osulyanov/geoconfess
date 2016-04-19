@@ -5,11 +5,9 @@ class Spot < ActiveRecord::Base
 
   belongs_to :priest, class_name: 'User', foreign_key: 'priest_id',
              inverse_of: 'spots', required: true
-  belongs_to :church
   has_many :recurrences, dependent: :destroy
 
   validates :name, presence: true
-  validates :church, presence: true, if: 'static?'
   validates :latitude, presence: true
   validates :longitude, presence: true
 
@@ -34,8 +32,6 @@ class Spot < ActiveRecord::Base
       where('spots.updated_at < NOW() - \'15 minutes\'::INTERVAL')
   }
 
-  before_validation :cache_coordinates
-
   def self.assign_or_new(params)
     dynamic_id = activity_types[:dynamic]
     if params[:activity_type] == 'dynamic'
@@ -49,11 +45,6 @@ class Spot < ActiveRecord::Base
     dynamic? || recurrences.select do |r|
       r.date == Time.zone.today || r.week_days_arr[Time.zone.today.wday] == 1
     end.any?
-  end
-
-  def cache_coordinates
-    return unless static? && church.present?
-    assign_attributes latitude: church.latitude, longitude: church.longitude
   end
 end
 
@@ -70,6 +61,11 @@ end
 #  activity_type :integer          default(0), not null
 #  latitude      :float
 #  longitude     :float
+#  street        :string
+#  postcode      :string
+#  city          :string
+#  state         :string
+#  country       :string
 #
 # Indexes
 #

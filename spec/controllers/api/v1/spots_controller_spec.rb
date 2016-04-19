@@ -5,8 +5,7 @@ RSpec.describe Api::V1::SpotsController, type: :controller do
   let(:priest) { create :user, role: :priest }
   let(:user) { create :user }
   let(:admin) { create :user, :admin }
-  let(:church) { create :church }
-  let!(:spot) { create :spot, church: church, priest: priest }
+  let!(:spot) { create :spot, priest: priest }
 
   describe 'GET #index' do
     let(:token) { create :access_token, resource_owner_id: user.id }
@@ -26,7 +25,7 @@ RSpec.describe Api::V1::SpotsController, type: :controller do
   describe 'GET #index, me=true' do
     let(:token) { create :access_token, resource_owner_id: priest.id }
     let(:other_priest) { create :user, role: :priest }
-    let!(:other_spot) { create :spot, church: church, priest: other_priest }
+    let!(:other_spot) { create :spot, priest: other_priest }
 
     before do
       get :index, format: :json, me: true, access_token: token.token
@@ -60,7 +59,7 @@ RSpec.describe Api::V1::SpotsController, type: :controller do
 
     before do
       post :create, format: :json, access_token: token.token,
-           spot: { name: 'New spot', church_id: church.id }
+           spot: attributes_for(:spot, name: 'New spot')
     end
 
     it { expect(response).to have_http_status(:success) }

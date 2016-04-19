@@ -21,9 +21,6 @@ class Ability
       can :accept, MeetRequest, priest_id: user.id
       can :refuse, MeetRequest, priest_id: user.id
 
-      can :create, Church if user.priest?
-      can :read, Church
-
       can :read, Spot
       if user.priest?
         can :create, Spot

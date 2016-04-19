@@ -2,8 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Spot, type: :model do
   let(:priest) { create :user, role: :priest }
-  let(:church) { create :church }
-  subject { build(:spot, priest: priest, church: church) }
+  subject { build(:spot, priest: priest) }
 
   it 'is valid' do
     expect(subject).to be_valid
@@ -11,11 +10,6 @@ RSpec.describe Spot, type: :model do
 
   it 'not valid without priest' do
     subject.priest = nil
-    expect(subject).not_to be_valid
-  end
-
-  it 'not valid without church' do
-    subject.church = nil
     expect(subject).not_to be_valid
   end
 
@@ -38,6 +32,11 @@ end
 #  activity_type :integer          default(0), not null
 #  latitude      :float
 #  longitude     :float
+#  street        :string
+#  postcode      :string
+#  city          :string
+#  state         :string
+#  country       :string
 #
 # Indexes
 #

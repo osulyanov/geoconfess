@@ -1,9 +1,0 @@
-json.id church.id
-json.name church.name
-json.latitude church.latitude
-json.longitude church.longitude
-json.street church.street
-json.postcode church.postcode
-json.city church.city
-json.state church.state
-json.country church.country

@@ -2,6 +2,13 @@ FactoryGirl.define do
   factory :spot do
     name 'Spot Name'
     activity_type :static
+    latitude 55.3585288
+    longitude 86.0740275
+    street 'Sobornaya 24'
+    postcode '650000'
+    city 'kemerovo'
+    state 'KO'
+    country 'Russia'
   end
 end
 
@@ -18,6 +25,11 @@ end
 #  activity_type :integer          default(0), not null
 #  latitude      :float
 #  longitude     :float
+#  street        :string
+#  postcode      :string
+#  city          :string
+#  state         :string
+#  country       :string
 #
 # Indexes
 #

@@ -11,10 +11,14 @@ class Api::V1::SpotsController < Api::V1::V1Controller
   def_param_group :spot do
     param :spot, Hash, desc: 'Spot info' do
       param :name, String, desc: 'Name', required: true
-      param :church_id, Integer, desc: 'Church ID, required for static spots only'
       param :activity_type, %w(static dynamic), desc: 'Type of spot'
-      param :latitude, Float, desc: 'Latitude, required for dynamic only'
-      param :longitude, Float, desc: 'Longitude, required for dynamic only'
+      param :latitude, Float, desc: 'Latitude', required: true
+      param :longitude, Float, desc: 'Longitude', required: true
+      param :street, String, desc: 'Street'
+      param :postcode, String, desc: 'Postcode'
+      param :city, String, desc: 'City'
+      param :state, String, desc: 'State'
+      param :country, String, desc: 'Country code (e.g. FR, GB, DE)'
     end
   end
 
@@ -26,37 +30,42 @@ class Api::V1::SpotsController < Api::V1::V1Controller
   example <<-EOS
     [
       {
-        "id": 6,
-        "name": "Test Spot1",
+        "id": 1,
+        "name": "Inactive right now Spot",
         "activity_type": "static",
-        "church_id": 1,
-        "latitude": 55.3232,
+        "latitude": 55.3232123,
         "longitude": 80.234234,
+        "street": "Sovetskiy prospect",
+        "postcode": "650000",
+        "city": "Kemerovo",
+        "state": "",
+        "country": "RU",
         "recurrences": [
           {
-            "id": 13,
-            "start_at": "08:00",
-            "stop_at": "08:30",
-            "week_days": [
-              "Monday",
-              "Wednesday",
-              "Friday"
-            ]
-          },
-          {
-            "id": 14,
-            "date": "2016-08-01",
-            "start_at": "09:20",
-            "stop_at": "09:30"
+            "id": 4,
+            "spot_id": 1,
+            "start_at": "10:00",
+            "stop_at": "16:00",
+            "date": "2016-04-11"
           }
-        ]
+        ],
+        "priest": {
+          "id": 9,
+          "name": "Oleg",
+          "surname": "Test 1"
+        }
       },
       {
-        "id": 7,
-        "name": "Test Spot 2",
+        "id": 16,
+        "name": "Dynamic Spot",
         "activity_type": "dynamic",
-        "latitude": 14,
-        "longitude": 15
+        "latitude": 54.2343423432,
+        "longitude": 12.234234334,
+        "priest": {
+          "id": 24,
+          "name": "Test Priest",
+          "surname": "Surnemaehere"
+        }
       }
     ]
   EOS
@@ -79,52 +88,37 @@ class Api::V1::SpotsController < Api::V1::V1Controller
   example <<-EOS
     [
       {
-        "id": 6,
-        "name": "Test Spot1",
+        "id": 1,
+        "name": "Inactive right now Spot",
         "activity_type": "static",
-        "church": {
-          "id": 1,
-          "name": "Test Church",
-          "latitude": 55.3232123,
-          "longitude": 80.234234,
-          "street": "Some street",
-          "postcode": "453534531",
-          "city": "Paris",
-          "state": "PA",
-          "country": "FR"
-        },
-        "latitude": 55.3232,
+        "latitude": 55.3232123,
         "longitude": 80.234234,
-        "priest": {
-          "id": 24,
-          "name": "Test Priest",
-          "surname": "Surnemaehere"
-        },
+        "street": "Sovetskiy prospect",
+        "postcode": "650000",
+        "city": "Kemerovo",
+        "state": "",
+        "country": "RU",
         "recurrences": [
           {
-            "id": 13,
-            "start_at": "08:00",
-            "stop_at": "08:30",
-            "week_days": [
-              "Monday",
-              "Wednesday",
-              "Friday"
-            ]
-          },
-          {
-            "id": 14,
-            "date": "2016-08-01",
-            "start_at": "09:20",
-            "stop_at": "09:30"
+            "id": 4,
+            "spot_id": 1,
+            "start_at": "10:00",
+            "stop_at": "16:00",
+            "date": "2016-04-11"
           }
-        ]
+        ],
+        "priest": {
+          "id": 9,
+          "name": "Oleg",
+          "surname": "Test 1"
+        }
       },
       {
-        "id": 7,
-        "name": "Test Spot 2",
+        "id": 16,
+        "name": "Dynamic Spot",
         "activity_type": "dynamic",
-        "latitude": 14,
-        "longitude": 15,
+        "latitude": 54.2343423432,
+        "longitude": 12.234234334,
         "priest": {
           "id": 24,
           "name": "Test Priest",
@@ -145,45 +139,30 @@ class Api::V1::SpotsController < Api::V1::V1Controller
   EOS
   example <<-EOS
     {
-      "id": 6,
-      "name": "Test Spot1",
-      "church": {
-        "id": 1,
-        "name": "Test Church",
-        "latitude": 55.3232123,
-        "longitude": 80.234234,
-        "street": "Some street",
-        "postcode": "453534531",
-        "city": "Paris",
-        "state": "PA",
-        "country": "FR"
-      },
+      "id": 1,
+      "name": "Inactive right now Spot",
       "activity_type": "static",
-      "latitude": 55.3232,
+      "latitude": 55.3232123,
       "longitude": 80.234234,
-      "priest": {
-        "id": 24,
-        "name": "Test Priest",
-        "surname": "Surnemaehere"
-      },
+      "street": "Sovetskiy prospect",
+      "postcode": "650000",
+      "city": "Kemerovo",
+      "state": "",
+      "country": "RU",
       "recurrences": [
         {
-          "id": 13,
-          "start_at": "08:00",
-          "stop_at": "08:30",
-          "week_days": [
-            "Monday",
-            "Wednesday",
-            "Friday"
-          ]
-        },
-        {
-          "id": 14,
-          "date": "2016-08-01",
-          "start_at": "09:20",
-          "stop_at": "09:30"
+          "id": 4,
+          "spot_id": 1,
+          "start_at": "10:00",
+          "stop_at": "16:00",
+          "date": "2016-04-11"
         }
-      ]
+      ],
+      "priest": {
+        "id": 9,
+        "name": "Oleg",
+        "surname": "Test 1"
+      }
     }
   EOS
 
@@ -200,28 +179,22 @@ class Api::V1::SpotsController < Api::V1::V1Controller
   param_group :spot
   example <<-EOS
     {
-      "id": 6,
-      "name": "Test Spot1",
-      "church": {
-        "id": 1,
-        "name": "Test Church",
-        "latitude": 55.3232123,
-        "longitude": 80.234234,
-        "street": "Some street",
-        "postcode": "453534531",
-        "city": "Paris",
-        "state": "PA",
-        "country": "FR"
-      },
+      "id": 17,
+      "name": "Test Static Spot",
       "activity_type": "static",
-      "latitude": 55.3232,
-      "longitude": 80.234234,
+      "latitude": 23.2323432,
+      "longitude": 32.1232332,
+      "street": "Sovetskiy prospect",
+      "postcode": "650000",
+      "city": "Kemerovo",
+      "state": "",
+      "country": "RU",
+      "recurrences": [],
       "priest": {
         "id": 24,
         "name": "Test Priest",
         "surname": "Surnemaehere"
-      },
-      "recurrences": []
+      }
     }
   EOS
 
@@ -270,8 +243,9 @@ class Api::V1::SpotsController < Api::V1::V1Controller
   private
 
   def spot_params
-    params.require(:spot).permit(:name, :church_id, :activity_type, :latitude,
-                                 :longitude)
+    params.require(:spot).permit(:name, :activity_type, :latitude,
+                                 :longitude, :street, :postcode, :city, :state,
+                                 :country)
   end
 
   def set_spot
