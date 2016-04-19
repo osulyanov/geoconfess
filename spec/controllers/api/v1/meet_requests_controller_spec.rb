@@ -63,6 +63,7 @@ RSpec.describe Api::V1::MeetRequestsController, type: :controller do
     let(:token) { create :access_token, resource_owner_id: user.id }
 
     before do
+      MeetRequest.destroy_all
       post :create, format: :json, access_token: token.token,
            request: attributes_for(:request, priest_id: priest.id, status: 'accepted')
     end

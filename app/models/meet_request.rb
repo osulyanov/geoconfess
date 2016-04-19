@@ -24,6 +24,12 @@ class MeetRequest < ActiveRecord::Base
   after_update :send_refuse_notification,
                if: Proc.new { |r| r.status_changed? && r.refused? }
 
+
+  def self.assign_or_new(params)
+    meet_request = find_by(priest_id: params[:priest_id]) || new(params)
+    meet_request.tap { |r| r.assign_attributes params }
+  end
+
   def send_create_notification
     priest.notifications.create notificationable: self,
                                 action: 'received',

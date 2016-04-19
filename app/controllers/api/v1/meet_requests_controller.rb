@@ -100,8 +100,7 @@ class Api::V1::MeetRequestsController < Api::V1::V1Controller
   EOS
 
   def create
-    @meet_request = MeetRequest.new(request_params)
-    @meet_request.penitent_id = current_user.id
+    @meet_request = current_user.outbound_requests.active.assign_or_new(request_params)
     if @meet_request.save
       render :show, status: :created
     else
