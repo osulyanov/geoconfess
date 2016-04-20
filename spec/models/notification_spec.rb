@@ -78,6 +78,19 @@ RSpec.describe Notification, type: :model do
       expect(subject).not_to be_unread
     end
   end
+
+  describe '#send_push' do
+    context 'unread with text and user has push_token and turned on notifications' do
+      it 'creates a push entry' do
+        notification = create(:notification, user: recipient,
+                              notificationable: message,
+                              text: 'Some text',
+                              action: 'created')
+
+        expect { notification.send_push }.to change { RailsPushNotifications::Notification.all.size }.by(1)
+      end
+    end
+  end
 end
 
 # == Schema Information
