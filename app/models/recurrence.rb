@@ -22,14 +22,7 @@ class Recurrence < ActiveRecord::Base
   def week_days_arr
     w = read_attribute(:days)
     return [] if w.blank? || w == 0
-
-    # first you have to convert the integer to a binary array
     days_as_binary = Math.log2(w).floor.downto(0).map { |nth_bit| w[nth_bit] }
-
-    # alternatively
-    # days_as_binary = read_attribute(:week_days).to_s(2).split('').map(&:to_i)
-
-    # make sure it has an element for every day of the week
     [0] * (7 - days_as_binary.size) + days_as_binary
   end
 
@@ -54,12 +47,14 @@ class Recurrence < ActiveRecord::Base
     write_attribute(:days, days.join.to_i(2))
   end
 
+  # true if recurrence is active by this week days
   def active_this_wday?
     return true if date.present?
     today = Time.zone.today
     week_days.include? today.strftime('%A')
   end
 
+  # true if recurrence will start today
   def today?
     ctime = Time.now
     time_now = Time.new(2000, 01, 01, ctime.strftime('%H'), ctime.strftime('%M')).utc
@@ -69,6 +64,7 @@ class Recurrence < ActiveRecord::Base
     ) && start_at > time_now
   end
 
+  # DateTime when recurrence starts today
   def start_today_at
     today = Time.zone.today
     Time.new(today.strftime('%Y'), today.strftime('%m'), today.strftime('%d'),
