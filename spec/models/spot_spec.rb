@@ -94,6 +94,28 @@ RSpec.describe Spot, type: :model do
       end
     end
   end
+
+  describe '.of_priest' do
+    let(:other_priest) { create :user, role: :priest }
+    let!(:other_spot) { create(:spot, priest: other_priest) }
+    let!(:spot) { create(:spot, priest: priest) }
+
+    it 'returns spots with certain priest_id' do
+      spot = create(:spot, activity_type: :dynamic, priest: priest)
+
+      result = Spot.of_priest(priest.id)
+
+      expect(result).to include(spot)
+    end
+
+    it 'does\'n return spots with other priest_id' do
+      spot = create(:spot, activity_type: :dynamic, priest: priest)
+
+      result = Spot.of_priest(priest.id)
+
+      expect(result).not_to include(other_spot)
+    end
+  end
 end
 
 # == Schema Information
