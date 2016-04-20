@@ -72,6 +72,59 @@ RSpec.describe MeetRequest, type: :model do
     end
   end
 
+  describe '.assign_or_new' do
+    let (:priest) { create(:user, role: :priest) }
+    let (:penitent) { create(:user, role: :user) }
+    let (:other_user) { create(:user, role: :user) }
+    let! (:other_meet_request) { create(:meet_request, priest_id: priest.id,
+                                        penitent_id: other_user.id) }
+    let (:meet_request_attrs) do
+      attributes_for(:meet_request, priest_id: priest.id, latitude: 11.2,
+                     longitude: 22.2)
+    end
+
+    context 'request doesn\'t exist' do
+      subject { penitent.outbound_requests.assign_or_new(meet_request_attrs) }
+
+      it 'initialize a new one' do
+        expect(subject).to be_a_new(MeetRequest)
+      end
+
+      it 'with priest' do
+        expect(subject.priest_id).to eq(priest.id)
+      end
+
+      it 'with penitent' do
+        expect(subject.penitent_id).to eq(penitent.id)
+      end
+    end
+
+    context 'request already exists' do
+      let! (:meet_request) do
+        create(:meet_request, priest: priest, penitent: penitent,
+               latitude: 11.1, longitude: 22.1)
+      end
+      subject { penitent.outbound_requests.assign_or_new(meet_request_attrs) }
+
+      it 'return existing request' do
+        expect(subject.id).to be(meet_request.id)
+      end
+
+      it 'with priest' do
+        expect(subject.priest_id).to eq(priest.id)
+      end
+
+      it 'with penitent' do
+        expect(subject.penitent_id).to eq(penitent.id)
+      end
+
+      it 'with new coordinates' do
+        expect(subject.latitude).to eq(meet_request_attrs[:latitude])
+        expect(subject.longitude).to eq(meet_request_attrs[:longitude])
+      end
+    end
+  end
+
   context 'after creation' do
     describe 'creates notification to priest' do
       before do
