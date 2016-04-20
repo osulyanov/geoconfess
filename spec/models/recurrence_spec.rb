@@ -291,6 +291,18 @@ RSpec.describe Recurrence, type: :model do
       end
     end
   end
+
+  describe '#start_today_at' do
+    it 'returns DateTime when recurrence starts today' do
+      recurrence = create(:recurrence, spot: spot,
+                          date: Time.zone.today, start_at: '12:25')
+
+      result = recurrence.start_today_at
+
+      expect(result).to eq(Time.zone.now.strftime '%Y-%m-%d 12:25:00 CEST +02:00')
+
+    end
+  end
 end
 
 # == Schema Information
