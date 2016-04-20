@@ -31,6 +31,25 @@ RSpec.describe Spot, type: :model do
   it 'not valid with wrang activity_type' do
     expect { subject.activity_type = 3 }.to raise_error(ArgumentError, "'3' is not a valid activity_type")
   end
+
+  describe '.active' do
+    let(:active_priest) { create :user, role: :priest }
+    let!(:active_spot) { create(:spot, priest: active_priest) }
+    let(:inactive_priest) { create :user, role: :priest, active: false }
+    let!(:inactive_spot) { create(:spot, priest: inactive_priest) }
+
+    it 'returns spots with active priests' do
+      result = Spot.active
+
+      expect(result).to include(active_spot)
+    end
+
+    it 'doesn\'t return spots with inactive priests' do
+      result = Spot.active
+
+      expect(result).not_to include(inactive_spot)
+    end
+  end
 end
 
 # == Schema Information
