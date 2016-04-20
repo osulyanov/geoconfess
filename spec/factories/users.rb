@@ -9,6 +9,7 @@ FactoryGirl.define do
     surname 'Durov'
     phone '+1234567890'
     active true
+    notification true
     os 'ios'
     push_token '76312362136213128732444'
 
