@@ -101,6 +101,7 @@ GEM
       countries (~> 1.2.0)
       sort_alphabetical (~> 1.0)
     currencies (0.4.2)
+    database_cleaner (1.5.1)
     debug_inspector (0.0.2)
     devise (3.5.2)
       bcrypt (~> 3.0)
@@ -319,6 +320,7 @@ DEPENDENCIES
   cancancan (~> 1.10)
   coffee-rails (~> 4.1.0)
   country_select
+  database_cleaner
   devise
   doorkeeper
   factory_girl_rails (~> 4.0)
