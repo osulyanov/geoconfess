@@ -50,6 +50,50 @@ RSpec.describe Spot, type: :model do
       expect(result).not_to include(inactive_spot)
     end
   end
+
+  describe '.now' do
+    context 'dynamic' do
+      it 'returns spot updated less than 15 minutes ago' do
+        spot = create(:spot, activity_type: :dynamic, priest: priest,
+                      updated_at: 10.minutes.ago)
+
+        result = Spot.now
+
+        expect(result).to include(spot)
+      end
+
+      it 'doesn\'t return spot updated more than 15 minutes ago' do
+        spot = create(:spot, activity_type: :dynamic, priest: priest,
+                      updated_at: 20.minutes.ago)
+
+        result = Spot.now
+
+        expect(result).not_to include(spot)
+      end
+    end
+
+    context 'static' do
+      it 'returns spot with active right now recurrence' do
+        spot = create(:spot, activity_type: :static, priest: priest)
+        create(:recurrence, spot: spot, date: Time.zone.today,
+               start_at: '00:00', stop_at: '23:59')
+
+        result = Spot.now
+
+        expect(result).to include(spot)
+      end
+
+      it 'doesn\'t return spot without active right now recurrence' do
+        spot = create(:spot, activity_type: :static, priest: priest)
+        create(:recurrence, spot: spot, date: 1.day.from_now,
+               start_at: '00:00', stop_at: '23:59')
+
+        result = Spot.now
+
+        expect(result).not_to include(spot)
+      end
+    end
+  end
 end
 
 # == Schema Information
