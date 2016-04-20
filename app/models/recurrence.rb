@@ -67,7 +67,7 @@ class Recurrence < ActiveRecord::Base
   # DateTime when recurrence starts today
   def start_today_at
     today = Time.zone.today
-    Time.new(today.strftime('%Y'), today.strftime('%m'), today.strftime('%d'),
+    Time.zone.local(today.strftime('%Y'), today.strftime('%m'), today.strftime('%d'),
              start_at.strftime('%H'), start_at.strftime('%M'))
   end
 end
