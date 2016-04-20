@@ -17,6 +17,20 @@ RSpec.describe Spot, type: :model do
     subject.name = nil
     expect(subject).not_to be_valid
   end
+
+  it 'not valid without latitude' do
+    subject.latitude = nil
+    expect(subject).not_to be_valid
+  end
+
+  it 'not valid without longitude' do
+    subject.longitude = nil
+    expect(subject).not_to be_valid
+  end
+
+  it 'not valid with wrang activity_type' do
+    expect { subject.activity_type = 3 }.to raise_error(ArgumentError, "'3' is not a valid activity_type")
+  end
 end
 
 # == Schema Information
