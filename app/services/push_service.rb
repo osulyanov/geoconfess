@@ -31,7 +31,7 @@ class PushService
   end
 
   def push_android
-    app = RailsPushNotifications::APNSApp.first
+    app = RailsPushNotifications::GCMApp.first
     app.notifications.create(
       destinations: [@user.push_token],
       data: { text: @text }
