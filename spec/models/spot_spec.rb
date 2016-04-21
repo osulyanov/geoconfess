@@ -116,6 +116,23 @@ RSpec.describe Spot, type: :model do
       expect(result).not_to include(other_spot)
     end
   end
+
+  describe '.of_type' do
+    let!(:dynamic_spot) { create(:spot, priest: priest, activity_type: :dynamic) }
+    let!(:static_spot) { create(:spot, priest: priest, activity_type: :static) }
+
+    it 'returns spots of certain type' do
+      result = Spot.of_type(:static)
+
+      expect(result).to include(static_spot)
+    end
+
+    it 'does\'n return spots of other types' do
+      result = Spot.of_type(:static)
+
+      expect(result).not_to include(dynamic_spot)
+    end
+  end
 end
 
 # == Schema Information
