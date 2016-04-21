@@ -133,6 +133,36 @@ RSpec.describe Spot, type: :model do
       expect(result).not_to include(dynamic_spot)
     end
   end
+
+  describe '.nearest' do
+    let!(:spot_in_5km) do
+      create(:spot, priest: priest, latitude: 55.35223644610148, longitude: 85.99620691142812)
+    end
+    let!(:spot_in_20km) do
+      create(:spot, priest: priest, latitude: 55.21905341631711, longitude: 85.87318871934184)
+    end
+    let!(:spot_in_15km) do
+      create(:spot, priest: priest, latitude: 55.487328778339084, longitude: 86.02263019255177)
+    end
+
+    it 'returns spots in certain radius' do
+      result = Spot.nearest(55.3585288, 86.0740275, 10)
+
+      expect(result).to include(spot_in_5km)
+    end
+
+    it 'does\'n return spots of other types' do
+      result = Spot.nearest(55.3585288, 86.0740275, 10)
+
+      expect(result).not_to include(spot_in_20km)
+    end
+
+    it 'sorts spots by distance' do
+      result = Spot.nearest(55.3585288, 86.0740275, 30)
+
+      expect(result).to eq([spot_in_5km, spot_in_15km, spot_in_20km])
+    end
+  end
 end
 
 # == Schema Information
