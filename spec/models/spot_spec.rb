@@ -163,6 +163,36 @@ RSpec.describe Spot, type: :model do
       expect(result).to eq([spot_in_5km, spot_in_15km, spot_in_20km])
     end
   end
+
+  describe '.outdated' do
+    let!(:dynamic_spot_10min) do
+      create(:spot, priest: priest, activity_type: :dynamic, updated_at: 10.minutes.ago)
+    end
+    let!(:dynamic_spot_20min) do
+      create(:spot, priest: priest, activity_type: :dynamic, updated_at: 20.minutes.ago)
+    end
+    let!(:static_spot_10min) do
+      create(:spot, priest: priest, activity_type: :static, updated_at: 10.minutes.ago)
+    end
+
+    it 'returns dynamic spots created more than 15 minutes ago' do
+      result = Spot.outdated
+
+      expect(result).to include(dynamic_spot_20min)
+    end
+
+    it 'does\'n return dynamic spots created less than 15 minutes ago' do
+      result = Spot.outdated
+
+      expect(result).not_to include(dynamic_spot_10min)
+    end
+
+    it 'does\'n return static spots' do
+      result = Spot.outdated
+
+      expect(result).not_to include(static_spot_10min)
+    end
+  end
 end
 
 # == Schema Information
