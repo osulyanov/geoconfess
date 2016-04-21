@@ -40,12 +40,6 @@ class Spot < ActiveRecord::Base
     end
     spot ||= new(params)
   end
-
-  def active_today?
-    dynamic? || recurrences.select do |r|
-      r.date == Time.zone.today || r.week_days_arr[Time.zone.today.wday] == 1
-    end.any?
-  end
 end
 
 # == Schema Information
