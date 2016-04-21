@@ -32,6 +32,11 @@ RSpec.configure do |config|
     Rails.application.load_seed
   end
 
+  config.before(:each) do
+    allow_any_instance_of(RailsPushNotifications::APNSApp).to receive(:push_notifications).and_return(true)
+    allow_any_instance_of(RailsPushNotifications::GCMApp).to receive(:push_notifications).and_return(true)
+  end
+
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
