@@ -193,6 +193,61 @@ RSpec.describe Spot, type: :model do
       expect(result).not_to include(static_spot_10min)
     end
   end
+
+  describe '.assign_or_new' do
+    context 'if dynamic spot for the priest already exists' do
+      let!(:spot) { create(:spot, activity_type: :dynamic, priest: priest, latitude: 11.01, longitude: 22.01) }
+      let!(:static_spot) { create(:spot, activity_type: :static, priest: priest) }
+      let(:other_priest) { create :user, role: :priest }
+      let!(:other_spot) { create(:spot, activity_type: :dynamic, priest: other_priest) }
+      let(:spot_attrs) { { activity_type: :dynamic, latitude: 11.02, longitude: 22.02 } }
+
+      it 'returns existing dynamic spot of current user' do
+        result = priest.spots.assign_or_new(spot_attrs).id
+
+        expect(result).to eq(spot.id)
+      end
+
+      it 'updates coordinates' do
+        result = priest.spots.assign_or_new(spot_attrs)
+
+        expect(result.latitude).to eq(spot_attrs[:latitude])
+        expect(result.longitude).to eq(spot_attrs[:longitude])
+      end
+    end
+
+    context 'if dynamic spot for the priest doesn\'t exist' do
+      let!(:static_spot) { create(:spot, activity_type: :static, priest: priest) }
+      let(:other_priest) { create :user, role: :priest }
+      let!(:other_spot) { create(:spot, activity_type: :dynamic, priest: other_priest) }
+      let(:spot_attrs) { { activity_type: :dynamic, latitude: 11.02, longitude: 22.02 } }
+
+      it 'creates a new one' do
+        result = priest.spots.assign_or_new(spot_attrs)
+
+        expect(result).to be_a_new(Spot)
+      end
+
+      it 'sets priest' do
+        result = priest.spots.assign_or_new(spot_attrs)
+
+        expect(result.priest_id).to eq(priest.id)
+      end
+
+      it 'sets type dynamic' do
+        result = priest.spots.assign_or_new(spot_attrs)
+
+        expect(result).to be_dynamic
+      end
+
+      it 'sets coordinates' do
+        result = priest.spots.assign_or_new(spot_attrs)
+
+        expect(result.latitude).to eq(spot_attrs[:latitude])
+        expect(result.longitude).to eq(spot_attrs[:longitude])
+      end
+    end
+  end
 end
 
 # == Schema Information
