@@ -33,8 +33,8 @@ class Spot < ActiveRecord::Base
   }
 
   def self.assign_or_new(params)
-    dynamic_id = activity_types[:dynamic]
-    if params[:activity_type] == 'dynamic'
+    if params[:activity_type].to_sym == :dynamic
+      dynamic_id = activity_types[:dynamic]
       spot = find_by(activity_type: dynamic_id)
       spot.assign_attributes params if spot
     end
