@@ -22,8 +22,8 @@ RSpec.describe User, type: :model do
     expect(subject).not_to be_valid
   end
 
-  it 'not valid without phone' do
-    subject.phone = nil
+  it 'not valid without correct phone' do
+    subject.phone = '123'
     expect(subject).not_to be_valid
   end
 
@@ -52,6 +52,40 @@ RSpec.describe User, type: :model do
     subject.os = nil
     subject.push_token = '123456'
     expect(subject).not_to be_valid
+  end
+
+  describe '#display_name' do
+    it 'returns name and surname if both present' do
+      user = create(:user, name: 'Alex', surname: 'Pushkin')
+
+      result = user.display_name
+
+      expect(result).to eq('Alex Pushkin')
+    end
+
+    it 'returns name if name present but surname not' do
+      user = build(:user, name: 'Alex', surname: '')
+
+      result = user.display_name
+
+      expect(result).to eq('Alex')
+    end
+
+    it 'returns surname if surname present but name not' do
+      user = build(:user, name: '', surname: 'Pushkin')
+
+      result = user.display_name
+
+      expect(result).to eq('Pushkin')
+    end
+
+    it 'returns email if both name and surname not specified' do
+      user = build(:user, email: 'em@il.ru', name: '', surname: '')
+
+      result = user.display_name
+
+      expect(result).to eq('em@il.ru')
+    end
   end
 
 end
