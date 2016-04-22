@@ -9,53 +9,62 @@ RSpec.describe User, type: :model do
 
   it 'not valid without role' do
     subject.role = nil
+
     expect(subject).not_to be_valid
   end
 
   it 'not valid without name' do
     subject.name = nil
+
     expect(subject).not_to be_valid
   end
 
   it 'not valid without surname' do
     subject.surname = nil
+
     expect(subject).not_to be_valid
   end
 
   it 'not valid without correct phone' do
     subject.phone = '123'
+
     expect(subject).not_to be_valid
   end
 
   it 'not valid without email' do
     subject.email = nil
+
     expect(subject).not_to be_valid
   end
 
   it 'not valid without password' do
     subject.password = nil
+
     expect(subject).not_to be_valid
   end
 
   it 'valid without os and push_token' do
     subject.os = nil
     subject.push_token = nil
+
     expect(subject).to be_valid
   end
 
   it 'not valid with wrong os' do
     subject.os = 'windowsphone'
+
     expect(subject).not_to be_valid
   end
 
   it 'not valid with push_token but without os' do
     subject.os = nil
     subject.push_token = '123456'
+
     expect(subject).not_to be_valid
   end
 
   describe '#display_name' do
-    it 'returns name and surname if both present' do
+    it 'returns the concatenated first and last name if both are present' do
       user = create(:user, name: 'Alex', surname: 'Pushkin')
 
       result = user.display_name
