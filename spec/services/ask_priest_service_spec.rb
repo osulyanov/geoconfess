@@ -94,4 +94,11 @@ describe AskPriestService do
       end
     end
   end
+
+  describe '#increase_busy_counter' do
+    it 'increase busy_count of recurrence by 1' do
+      expect { subject.increase_busy_counter }
+        .to change { recurrence.reload.busy_count }.by(1)
+    end
+  end
 end
