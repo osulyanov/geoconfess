@@ -54,4 +54,14 @@ describe PushService do
       end
     end
   end
+
+  describe '#push_ios' do
+    let(:user) { create(:user, os: :ios) }
+
+    it 'creates APNS notification' do
+      app = RailsPushNotifications::APNSApp.first
+
+      expect { subject.push_ios }.to change { app.notifications.all.size }.by(1)
+    end
+  end
 end
