@@ -11,7 +11,7 @@ RSpec.describe CleanupDynamicSpotsJob, type: :job do
   end
 
   it 'is in default queue' do
-    expect(CleanupDynamicSpotsJob.new.queue_name).to eq('default')
+    expect(described_class.new.queue_name).to eq('default')
   end
 
   it 'executes perform' do
@@ -20,4 +20,3 @@ RSpec.describe CleanupDynamicSpotsJob, type: :job do
     perform_enqueued_jobs { job }
   end
 end
-å
