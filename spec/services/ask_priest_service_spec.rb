@@ -101,4 +101,11 @@ describe AskPriestService do
         .to change { recurrence.reload.busy_count }.by(1)
     end
   end
+
+  describe '#create_push' do
+    it 'creates push notification object' do
+      expect { subject.create_push }
+        .to change { RailsPushNotifications::Notification.all.size }.by(1)
+    end
+  end
 end
