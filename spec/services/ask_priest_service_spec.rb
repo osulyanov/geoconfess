@@ -17,14 +17,14 @@ describe AskPriestService do
     end
   end
 
-  describe '#is_inactive' do
+  describe '#inactive?' do
     context 'recurrence busy_count=2' do
       let!(:recurrence) { create(:recurrence, spot: spot, date: Time.zone.today,
                                  start_at: '14:00', stop_at: '15:00',
                                  busy_count: 2) }
 
       it 'return false' do
-        result = subject.is_inactive
+        result = subject.inactive?
 
         expect(result).to be false
       end
@@ -36,7 +36,7 @@ describe AskPriestService do
                                  busy_count: 3) }
 
       it 'return true' do
-        result = subject.is_inactive
+        result = subject.inactive?
 
         expect(result).to be true
       end
@@ -48,7 +48,7 @@ describe AskPriestService do
                                  busy_count: 4) }
 
       it 'return true' do
-        result = subject.is_inactive
+        result = subject.inactive?
 
         expect(result).to be true
       end
@@ -61,17 +61,36 @@ describe AskPriestService do
                                  start_at: '14:00', stop_at: '15:00',
                                  busy_count: 4) }
 
-      it 'return false' do
+      it 'return true' do
         result = subject.destroy_if_old
 
         expect(result).to be true
       end
 
-      it 'doesn\'t remove recurrence' do
+      it 'removes recurrence' do
         subject.destroy_if_old
 
         expect { recurrence.reload }
           .to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+
+    context 'recurrence is active' do
+      let!(:recurrence) { create(:recurrence, spot: spot, date: Time.zone.today,
+                                 start_at: '14:00', stop_at: '15:00',
+                                 busy_count: 2) }
+
+      it 'return false' do
+        result = subject.destroy_if_old
+
+        expect(result).to be false
+      end
+
+      it 'doesn\'t remove recurrence' do
+        subject.destroy_if_old
+        recurrence.reload
+
+        expect(recurrence).to be_persisted
       end
     end
   end

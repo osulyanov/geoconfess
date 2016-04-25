@@ -13,15 +13,15 @@ class AskPriestService
   end
 
   # Check if priest doesn't available for 3 times before that
-  def is_inactive
+  def inactive?
     @recurrence.busy_count >= 3
   end
 
   def destroy_if_old
-    return false unless is_inactive
+    return false unless inactive?
     # Completely remove the recurrence
     @recurrence.destroy
-    return true
+    true
   end
 
   # Increase busy counter
