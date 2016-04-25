@@ -64,4 +64,14 @@ describe PushService do
       expect { subject.push_ios }.to change { app.notifications.all.size }.by(1)
     end
   end
+
+  describe '#push_android' do
+    let(:user) { create(:user, os: :android) }
+
+    it 'creates GCM notification' do
+      app = RailsPushNotifications::GCMApp.first
+
+      expect { subject.push_android }.to change { app.notifications.all.size }.by(1)
+    end
+  end
 end
