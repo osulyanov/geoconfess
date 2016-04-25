@@ -5,7 +5,7 @@ class AskPriestService
   end
 
   def notify
-    return unless destroy_if_old
+    return if destroy_if_old
 
     increase_busy_counter
 
@@ -13,12 +13,15 @@ class AskPriestService
   end
 
   # Check if priest doesn't available for 3 times before that
+  def is_outdated
+    @recurrence.busy_count >= 3
+  end
+
   def destroy_if_old
-    if @recurrence.busy_count >= 3
-      # Completely remove the recurrence
-      @recurrence.destroy
-      return true
-    end
+    return false unless is_outdated
+    # Completely remove the recurrence
+    @recurrence.destroy
+    return true
   end
 
   # Increase busy counter
