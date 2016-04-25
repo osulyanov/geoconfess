@@ -16,25 +16,26 @@ describe AskPriestService do
     end
   end
 
-  describe '#is_outdated' do
+  describe '#is_inactive' do
     context 'recurrence busy_count=2' do
       let!(:recurrence) { create(:recurrence, spot: spot, date: Time.zone.today,
                                  start_at: '14:00', stop_at: '15:00',
                                  busy_count: 2) }
 
       it 'return false' do
-        result = subject.is_outdated
+        result = subject.is_inactive
 
         expect(result).to be false
       end
     end
+
     context 'recurrence busy_count=3' do
       let!(:recurrence) { create(:recurrence, spot: spot, date: Time.zone.today,
                                  start_at: '14:00', stop_at: '15:00',
                                  busy_count: 3) }
 
       it 'return true' do
-        result = subject.is_outdated
+        result = subject.is_inactive
 
         expect(result).to be true
       end
@@ -46,11 +47,10 @@ describe AskPriestService do
                                  busy_count: 4) }
 
       it 'return true' do
-        result = subject.is_outdated
+        result = subject.is_inactive
 
         expect(result).to be true
       end
     end
   end
-
 end
