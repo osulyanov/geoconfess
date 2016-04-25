@@ -10,10 +10,26 @@ describe PushService do
   describe '#push' do
     context 'passing valid parameters' do
       context 'os is iOS' do
-        xit 'calls push_ios' do
-          result = subject.push
+        let(:user) { create(:user, os: :ios) }
 
-          expect(result).to receive(:push_ios)
+        it 'calls push_ios' do
+          allow(subject).to receive(:push_ios)
+
+          subject.push
+
+          expect(subject).to have_received(:push_ios)
+        end
+      end
+
+      context 'os is Android' do
+        let(:user) { create(:user, os: :android) }
+
+        it 'calls push_android' do
+          allow(subject).to receive(:push_android)
+
+          subject.push
+
+          expect(subject).to have_received(:push_android)
         end
       end
     end
