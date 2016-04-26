@@ -30,6 +30,7 @@ class Notification < ActiveRecord::Base
 
   def send_pusher
     pusher_data = notificationable.pusher_data
+    pusher_data.merge!({ notification_id: id })
     Pusher.trigger(notificationable.recipient.channel,
                    "#{notificationable_type}:#{action}", pusher_data)
   end
@@ -47,7 +48,8 @@ class Notification < ActiveRecord::Base
       aps: {
         model: notificationable_type,
         id: notificationable_id,
-        action: action
+        action: action,
+        notification_id: id
       }
     }
   end
