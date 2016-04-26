@@ -49,6 +49,24 @@ class MeetRequest < ActiveRecord::Base
                                   action: 'refused',
                                   text: 'Votre demande de confession a été refusée.'
   end
+
+  def pusher_data
+    {
+      priest: {
+        id: priest.id,
+        name: priest.name,
+        surname: priest.surname,
+      },
+      penitent: {
+        id: penitent.id,
+        name: penitent.name,
+        surname: penitent.surname,
+        latitude: latitude,
+        longitude: longitude
+      },
+      status: status
+    }
+  end
 end
 
 # == Schema Information
