@@ -18,6 +18,13 @@ class Message < ActiveRecord::Base
                                    action: 'received',
                                    text: 'Message'
   end
+
+  def pusher_data
+    {
+      sender_id: sender_id,
+      text: text
+    }
+  end
 end
 
 # == Schema Information
