@@ -36,6 +36,10 @@ class User < ActiveRecord::Base
   def send_welcome_message
     UserMailer.registered(id).deliver_now
   end
+
+  def channel
+    "private-#{id}"
+  end
 end
 
 # == Schema Information
@@ -66,6 +70,7 @@ end
 #  celebret_url           :string
 #  os                     :string
 #  push_token             :string
+#  pusher_socket_id       :string
 #
 # Indexes
 #
