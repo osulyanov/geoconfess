@@ -127,6 +127,7 @@ end
 #  celebret_url           :string
 #  os                     :string
 #  push_token             :string
+#  pusher_socket_id       :string
 #
 # Indexes
 #
