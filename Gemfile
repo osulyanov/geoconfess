@@ -24,6 +24,7 @@ gem 'resque'
 gem 'resque-scheduler'
 gem 'active_scheduler'
 gem 'geocoder'
+gem 'pusher'
 
 group :production do
   gem 'rails_12factor'
