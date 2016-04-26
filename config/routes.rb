@@ -13,6 +13,7 @@ Rails.application.routes.draw do
         put '/me' => 'credentials#update'
         resources :passwords, only: :create
       end
+      post '/pusher/auth'
       get '/me' => 'credentials#show'
       get '/me/spots' => 'spots#index', me: true
       resources :users, only: [:show, :update, :destroy] do
