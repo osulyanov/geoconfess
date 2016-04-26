@@ -20,7 +20,12 @@ RSpec.describe Api::V1::NotificationsController, type: :controller do
 
     it 'returns notifications of current user as json' do
       ids = json.map { |r| r['id'] }
-      expect(ids).to contain_exactly(notification.id)
+      expect(ids).to include(notification.id)
+    end
+
+    it 'doesn\'t return notifications of other users' do
+      ids = json.map { |r| r['id'] }
+      expect(ids).not_to include(other_notification.id)
     end
 
     context 'with expired access_token' do
