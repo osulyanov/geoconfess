@@ -3,3 +3,10 @@
 <% if user_signed_in? %>
     <p><%= link_to 'Log out', destroy_user_session_path, method: :delete %></p>
 <% end %>
+<script src="//js.pusher.com/3.0/pusher.min.js"></script>
+<script>
+  var pusher = new Pusher('<%= Rails.application.secrets.pusher_key %>', {
+    cluster: '<%= Rails.application.secrets.pusher_cluster %>',
+    authEndpoint: 'http://<%= Rails.application.secrets.domain_name %>/api/v1/pusher/auth?access_token=6626f0b05facae6faf55d9d3cdd730cc92f9a9523ce9688f63576de33f06fc1d'
+  });
+</script>
