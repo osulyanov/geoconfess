@@ -10,6 +10,14 @@ class Message < ActiveRecord::Base
   validates :sender_id, presence: true
   validates :recipient_id, presence: true
   validates :text, presence: true
+
+  after_create :send_create_notification
+
+  def send_create_notification
+    recipient.notifications.create notificationable: self,
+                                   action: 'received',
+                                   text: 'Message'
+  end
 end
 
 # == Schema Information
