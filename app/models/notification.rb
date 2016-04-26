@@ -12,7 +12,7 @@ class Notification < ActiveRecord::Base
   validates :user, presence: true
   validates :notificationable, presence: true
 
-  after_create :send_push
+  after_create :send_notifications
 
   def set_read
     self.unread = false
@@ -23,18 +23,33 @@ class Notification < ActiveRecord::Base
     self.save
   end
 
+  def send_notifications
+    SendPusherNotificationJob.perform_later(id)
+    SendPushNotificationJob.set(wait: 1.minute).perform_later(id)
+  end
+
+  def send_pusher
+    pusher_data = notificationable.pusher_data
+    Pusher.trigger(notificationable.recipient.channel,
+                   "#{notificationable_type}:#{action}", pusher_data)
+  end
+
   def send_push
     return unless unread? && text.present? &&
       user.push_token.present? && user.notification?
-    PushService.new({
-                      user: user,
-                      text: text,
-                      aps: {
-                        model: notificationable_type,
-                        id: notificationable_id,
-                        action: action
-                      }
-                    }).push!
+    PushService.new(push_data).push!
+  end
+
+  def push_data
+    {
+      user: user,
+      text: text,
+      aps: {
+        model: notificationable_type,
+        id: notificationable_id,
+        action: action
+      }
+    }
   end
 end
 
