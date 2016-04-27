@@ -11,10 +11,10 @@ Apipie.configure do |config|
     ## OAuth authorisation
     Just send POST request to **/oauth/token** with parameters
     *   grant_type=password
-    *   username= User email
-    *   password= User password
-    *   os= Client OS type: ios or android
-    *   push_token= Client push token
+    *   username – User email
+    *   password – User password
+    *   os – Client OS type: ios or android
+    *   push_token – Client push token
 
     os and push_token attributes are optional.
 
