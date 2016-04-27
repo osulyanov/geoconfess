@@ -47,6 +47,7 @@ Rails.application.routes.draw do
           put :confirm_availability
         end
       end
+      resources :chats, only: [:index, :show]
       resources :messages, only: [:index, :show, :create, :update, :destroy]
     end
   end
