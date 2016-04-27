@@ -33,7 +33,7 @@ class Api::V1::MessagesController < Api::V1::V1Controller
   EOS
 
   def index
-    @messages = current_user.messages
+    @messages = current_user.messages.order(created_at: :desc)
     @messages = @messages.with_user(params[:interlocutor_id]) if params[:interlocutor_id].present?
   end
 
