@@ -123,7 +123,6 @@ RSpec.describe User, type: :model do
                                  date: Time.zone.today,
                                  active_date: Time.zone.today) }
 
-
       it 'returns active recurrence' do
         expect(subject).to eq(spot)
       end
