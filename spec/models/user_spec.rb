@@ -109,6 +109,8 @@ RSpec.describe User, type: :model do
     end
 
     context 'without active spots' do
+      let!(:inactive_recurrence) { create(:recurrence, spot: subject, date: 1.day.ago) }
+
       it 'returns nil' do
         expect(result).to be_nil
       end
