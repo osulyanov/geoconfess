@@ -4,7 +4,7 @@ class CreateAskPriestJobsForTodayService
   end
 
   def process
-    @recurrences.each &:process_recurrence
+    @recurrences.each { |r| process_recurrence(r) }
   end
 
   def process_recurrence(recurrence)
