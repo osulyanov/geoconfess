@@ -30,6 +30,16 @@ RSpec.describe Recurrence, type: :model do
     expect(subject).not_to be_valid
   end
 
+  context 'after save' do
+    it 'active_date eq to current date' do
+      subject.save
+
+      result = subject.active_date
+
+      expect(result).to eq(Time.zone.today)
+    end
+  end
+
   describe '.in_the_future' do
     let! (:recurrence_in_the_future) { create(:recurrence, spot: spot, date: 1.day.from_now) }
     let! (:recurrence_in_the_today) { create(:recurrence, spot: spot, date: Time.zone.today) }
