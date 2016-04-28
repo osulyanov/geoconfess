@@ -19,6 +19,12 @@ class Recurrence < ActiveRecord::Base
   validates :date, presence: true, if: 'week_days.blank?'
   validates :days, presence: true, if: 'date.blank?'
 
+  before_create :set_active_date, if: 'active_date.blank?'
+
+  def set_active_date
+    self.active_date = Time.zone.today
+  end
+
   def week_days_arr
     w = read_attribute(:days)
     return [] if w.blank? || w == 0
@@ -68,7 +74,7 @@ class Recurrence < ActiveRecord::Base
   def start_today_at
     today = Time.zone.today
     Time.zone.local(today.strftime('%Y'), today.strftime('%m'), today.strftime('%d'),
-             start_at.strftime('%H'), start_at.strftime('%M'))
+                    start_at.strftime('%H'), start_at.strftime('%M'))
   end
 end
 
