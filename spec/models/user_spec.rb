@@ -97,6 +97,18 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe '#active_spot' do
+    let(:user) { create(:user, role: :priest) }
+    subject { user.active_spot }
+
+    context 'not priest' do
+      let(:user) { create(:user, role: :user) }
+      it 'returns nil' do
+        expect(result).to be_nil
+      end
+    end
+  end
+
 end
 
 # == Schema Information
