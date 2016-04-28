@@ -116,6 +116,18 @@ RSpec.describe User, type: :model do
         expect(subject).to be_nil
       end
     end
+
+    context 'with active dynamic spot' do
+      let(:spot) { create(:spot, activity_type: :static, priest: user) }
+      let!(:recurrence) { create(:recurrence, spot: spot,
+                                 date: Time.zone.today,
+                                 active_date: Time.zone.today) }
+
+
+      it 'returns active recurrence' do
+        expect(subject).to eq(spot)
+      end
+    end
   end
 
 end
