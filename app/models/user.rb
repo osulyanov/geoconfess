@@ -40,6 +40,12 @@ class User < ActiveRecord::Base
   def channel
     "private-#{id}"
   end
+
+  def active_spot
+    return nil unless priest?
+    spots.find_by(activity_type: Spot.activity_types[:dynamic]) ||
+      spots.now.first
+  end
 end
 
 # == Schema Information
