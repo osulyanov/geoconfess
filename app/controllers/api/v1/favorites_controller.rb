@@ -11,11 +11,22 @@ class Api::V1::FavoritesController < Api::V1::V1Controller
   description <<-EOS
     ## Description
     All favorites of current_user.
+    Priest has location attributes if he is active right now.
   EOS
   example <<-EOS
     [
       {
         "id": 1,
+        "priest": {
+          "id": 17,
+          "name": "Oleg",
+          "surname": "Test",
+          "latitude": 55.3232123,
+          "longitude": 80.234234
+        }
+      },
+      {
+        "id": 2,
         "priest": {
           "id": 17,
           "name": "Oleg",
@@ -45,7 +56,9 @@ class Api::V1::FavoritesController < Api::V1::V1Controller
       "priest": {
         "id": 17,
         "name": "Oleg",
-        "surname": "Test"
+        "surname": "Test",
+        "latitude": 55.3232123,
+        "longitude": 80.234234
       }
     }
   EOS
