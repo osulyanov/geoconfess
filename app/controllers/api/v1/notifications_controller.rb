@@ -49,7 +49,21 @@ class Api::V1::NotificationsController < Api::V1::V1Controller
             "surname": "Surnemaehere"
           }
         }
-      }
+      },
+      {
+        "id": 24,
+        "unread": true,
+        "model": "Message",
+        "action": "received",
+        "message": {
+          "id": 12,
+          "sender_id": 24,
+          "recipient_id": 24,
+          "text": "Hello user 24",
+          "created_at": "2016-04-27T08:58:28.917+02:00",
+          "updated_at": "2016-04-27T08:58:28.917+02:00"
+        }
+  },
     ]
   EOS
 
