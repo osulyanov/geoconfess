@@ -107,6 +107,12 @@ RSpec.describe User, type: :model do
         expect(result).to be_nil
       end
     end
+
+    context 'without active spots' do
+      it 'returns nil' do
+        expect(result).to be_nil
+      end
+    end
   end
 
 end
