@@ -63,7 +63,7 @@ class Api::V1::NotificationsController < Api::V1::V1Controller
           "created_at": "2016-04-27T08:58:28.917+02:00",
           "updated_at": "2016-04-27T08:58:28.917+02:00"
         }
-  },
+      }
     ]
   EOS
 
