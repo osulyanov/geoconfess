@@ -104,15 +104,16 @@ RSpec.describe User, type: :model do
     context 'not priest' do
       let(:user) { create(:user, role: :user) }
       it 'returns nil' do
-        expect(result).to be_nil
+        expect(subject).to be_nil
       end
     end
 
     context 'without active spots' do
-      let!(:inactive_recurrence) { create(:recurrence, spot: subject, date: 1.day.ago) }
+      let(:spot) { create(:spot, activity_type: :static, priest: user) }
+      let!(:inactive_recurrence) { create(:recurrence, spot: spot, date: 1.day.ago) }
 
       it 'returns nil' do
-        expect(result).to be_nil
+        expect(subject).to be_nil
       end
     end
   end
