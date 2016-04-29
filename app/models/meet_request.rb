@@ -11,6 +11,10 @@ class MeetRequest < ActiveRecord::Base
     where('meet_requests.created_at >= NOW() - \'1 day\'::INTERVAL')
   end
 
+  scope :outdated, -> do
+    where('meet_requests.created_at < NOW() - \'1 day\'::INTERVAL')
+  end
+
   scope :for_user, -> (user_id) do
     where('priest_id = ? OR penitent_id = ?', user_id, user_id)
   end
