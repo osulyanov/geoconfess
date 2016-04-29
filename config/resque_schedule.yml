@@ -10,3 +10,10 @@ cleanup_dynamic_spots:
   class: "CleanupDynamicSpotsJob"
   queue: default
   description: "This job removes outdated dynamic spots"
+cleanup_outdated_meet_requests:
+  every:
+    - "15m"
+    - :first_in: '120s'
+  class: "CleanupOutdatedMeetRequestJob"
+  queue: default
+  description: "This job removes outdated meet requests"
