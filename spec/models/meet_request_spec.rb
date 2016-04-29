@@ -47,6 +47,24 @@ RSpec.describe MeetRequest, type: :model do
     end
   end
 
+  describe '.outdated' do
+    it 'returns requests older than 1 day' do
+      request_25_h_ago = create(:meet_request, priest: priest, penitent: penitent, created_at: 25.hours.ago)
+
+      result = MeetRequest.outdated
+
+      expect(result).to include(request_25_h_ago)
+    end
+
+    it 'doesn\'t return requests created less than 1 day ago' do
+      request_23_h_ago = create(:meet_request, priest: priest, penitent: penitent, created_at: 23.hours.ago)
+
+      result = MeetRequest.outdated
+
+      expect(result).not_to include(request_23_h_ago)
+    end
+  end
+
   describe '.for_user' do
     let (:priest) { create(:user, role: :priest) }
     let (:penitent) { create(:user, role: :user) }
