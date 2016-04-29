@@ -2,6 +2,6 @@ class CleanupDynamicSpotsJob < ActiveJob::Base
   queue_as :default
 
   def perform
-    Spot.outdated.destroy_all
+    CleanupDynamicSpotsService.new.perform
   end
 end
