@@ -101,28 +101,36 @@ describe Api::V1::MeetRequestsController, type: :controller do
   describe 'POST #create' do
     let(:token) { create :access_token, resource_owner_id: user.id }
 
-    before do
-      MeetRequest.destroy_all
-      post :create, format: :json, access_token: token.token,
-           request: attributes_for(:request, priest_id: priest.id, status: 'accepted')
-    end
+    context 'request haven\'t sent to the priest' do
 
-    it { expect(response).to have_http_status(:success) }
+      before do
+        MeetRequest.destroy_all
+        post :create, format: :json, access_token: token.token,
+             request: attributes_for(:request, priest_id: priest.id, status: 'accepted')
+      end
 
-    it 'creates request' do
-      result = MeetRequest.last.penitent_id
+      it { expect(response).to have_http_status(:success) }
 
-      expect(result).to eq(user.id)
-    end
+      it 'creates request' do
+        result = MeetRequest.last.penitent_id
 
-    it 'status is pending' do
-      result = MeetRequest.last
+        expect(result).to eq(user.id)
+      end
 
-      expect(result).to be_pending
+      it 'status is pending' do
+        result = MeetRequest.last
+
+        expect(result).to be_pending
+      end
     end
 
     context 'with expired access_token' do
       let (:token) { create :access_token, resource_owner_id: user.id, expires_in: 0 }
+
+      before do
+        post :create, format: :json, access_token: token.token,
+             request: attributes_for(:request, priest_id: priest.id, status: 'accepted')
+      end
 
       it { expect(response).to have_http_status(:unauthorized) }
 
