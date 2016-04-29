@@ -1,11 +1,13 @@
 require 'rails_helper'
 
-RSpec.describe Api::V1::FavoritesController, type: :controller do
+describe Api::V1::FavoritesController, type: :controller do
   let(:priest) { create :user, role: :priest }
   let(:user) { create :user }
-  let!(:favorite) { create :favorite, priest: priest, user: user }
+  let(:other_user) { create :user }
+  let!(:other_favorite) { create :favorite, priest: priest, user: other_user }
 
   describe 'GET #index' do
+    let!(:favorite) { create :favorite, priest: priest, user: user }
     let(:token) { create :access_token, resource_owner_id: user.id }
 
     before do
@@ -15,8 +17,9 @@ RSpec.describe Api::V1::FavoritesController, type: :controller do
     it { expect(response).to have_http_status(:success) }
 
     it 'returns favorites if current user as json' do
-      ids = json.map { |r| r['id'] }
-      expect(ids).to contain_exactly(favorite.id)
+      result = json.map { |r| r['id'] }
+
+      expect(result).to contain_exactly(favorite.id)
     end
 
     context 'with expired access_token' do
@@ -39,13 +42,15 @@ RSpec.describe Api::V1::FavoritesController, type: :controller do
     it { expect(response).to have_http_status(:success) }
 
     it 'creates favorite' do
-      last_favorite = Favorite.last
-      expect(last_favorite.user_id).to eq(user.id)
+      result = Favorite.last.user_id
+
+      expect(result).to eq(user.id)
     end
 
     it 'with priest' do
-      last_favorite = Favorite.last
-      expect(last_favorite.priest_id).to eq(priest.id)
+      result = Favorite.last.priest_id
+
+      expect(result).to eq(priest.id)
     end
 
     context 'with expired access_token' do
@@ -58,6 +63,7 @@ RSpec.describe Api::V1::FavoritesController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
+    let!(:favorite) { create :favorite, priest: priest, user: user }
     let(:token) { create :access_token, resource_owner_id: user.id }
 
     before do
@@ -67,7 +73,9 @@ RSpec.describe Api::V1::FavoritesController, type: :controller do
     it { expect(response).to have_http_status(:success) }
 
     it 'destroys favorite' do
-      expect(Favorite.all).not_to include(favorite)
+      result = Favorite.all
+
+      expect(result).not_to include(favorite)
     end
 
     context 'priest cannot destroy favorite' do
@@ -77,7 +85,10 @@ RSpec.describe Api::V1::FavoritesController, type: :controller do
 
       it 'didn\'t destroy the favorite' do
         favorite.reload
-        expect(favorite).to be_persisted
+
+        result = favorite
+
+        expect(result).to be_persisted
       end
     end
   end
