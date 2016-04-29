@@ -51,6 +51,21 @@ describe Api::V1::MeetRequestsController, type: :controller do
         expect(result).to contain_exactly(request_to_other_priest.id)
       end
     end
+
+    context 'filter by user' do
+      let(:token) { create :access_token, resource_owner_id: priest.id }
+
+      before do
+        get :index, format: :json, access_token: token.token,
+            party_id: other_user.id
+      end
+
+      it 'returns request from certain user' do
+        result = json.map { |r| r['id'] }
+
+        expect(result).to contain_exactly(request_2.id)
+      end
+    end
   end
 
 
