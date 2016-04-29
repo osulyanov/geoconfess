@@ -239,7 +239,7 @@ class Api::V1::SpotsController < Api::V1::V1Controller
   end
 
   def set_spot
-    @spot = Spot.find(params[:id])
+    @spot = Spot.find_by(id: params[:id])
   end
 
   def set_spots

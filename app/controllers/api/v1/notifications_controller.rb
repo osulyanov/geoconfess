@@ -118,6 +118,6 @@ class Api::V1::NotificationsController < Api::V1::V1Controller
   private
 
   def set_notification
-    Notification.find(params[:id])
+    Notification.find_by(id: params[:id])
   end
 end

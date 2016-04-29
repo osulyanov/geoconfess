@@ -111,6 +111,6 @@ class Api::V1::UsersController < Api::V1::V1Controller
   end
 
   def set_user
-    @user = User.find(params[:id])
+    @user = User.find_by(id: params[:id])
   end
 end

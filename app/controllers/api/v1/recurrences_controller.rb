@@ -171,14 +171,14 @@ class Api::V1::RecurrencesController < Api::V1::V1Controller
   end
 
   def set_spot
-    @spot = Spot.find(params[:spot_id] || params[:id])
+    @spot = Spot.find_by(id: params[:spot_id] || params[:id])
   end
 
   def set_recurrence
-    @recurrence = Recurrence.find(params[:id])
+    @recurrence = Recurrence.find_by(id: params[:id])
   end
 
   def set_priest
-    @priest = User.active.priests.find(params[:priest_id])
+    @priest = User.active.priests.find_by(id: params[:priest_id])
   end
 end

@@ -95,6 +95,6 @@ class Api::V1::FavoritesController < Api::V1::V1Controller
   end
 
   def set_favorite
-    @favorite = Favorite.find(params[:id])
+    @favorite = Favorite.find_by(id: params[:id])
   end
 end

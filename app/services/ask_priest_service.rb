@@ -1,6 +1,7 @@
 class AskPriestService
   def initialize(recurrence_id)
-    @recurrence = Recurrence.includes(:spot, spot: [:priest]).find(recurrence_id)
+    @recurrence = Recurrence.includes(:spot, spot: [:priest])
+                    .find_by(id: recurrence_id)
     @spot = @recurrence.spot
   end
 

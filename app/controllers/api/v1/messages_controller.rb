@@ -117,6 +117,6 @@ class Api::V1::MessagesController < Api::V1::V1Controller
   end
 
   def set_message
-    @message = Message.find(params[:id])
+    @message = Message.find_by(id: params[:id])
   end
 end

@@ -186,6 +186,6 @@ class Api::V1::MeetRequestsController < Api::V1::V1Controller
   end
 
   def set_meet_request
-    @meet_request = MeetRequest.find(params[:id])
+    @meet_request = MeetRequest.find_by(id: params[:id])
   end
 end
