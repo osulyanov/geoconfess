@@ -34,11 +34,10 @@ describe Api::V1::FavoritesController, type: :controller do
 
       it 'doesn\'t return priest location' do
         priest_row = json.select { |r| r['priest']['id'] == unavailable_priest.id }.first
-        latitude = priest_row['priest']['latitude']
-        longitude = priest_row['priest']['longitude']
+        latitude, longitude = priest_row['priest']['latitude'],
+          priest_row['priest']['longitude']
 
-        expect(latitude).to be_nil
-        expect(longitude).to be_nil
+        expect([latitude, longitude]).to eq([nil, nil])
       end
     end
 
@@ -56,11 +55,10 @@ describe Api::V1::FavoritesController, type: :controller do
 
       it 'doesn\'t return priest location' do
         priest_row = json.select { |r| r['priest']['id'] == available_priest.id }.first
-        latitude = priest_row['priest']['latitude']
-        longitude = priest_row['priest']['longitude']
+        latitude, longitude = priest_row['priest']['latitude'],
+          priest_row['priest']['longitude']
 
-        expect(latitude).to eq(12.555)
-        expect(longitude).to eq(34.666)
+        expect([latitude, longitude]).to eq([12.555, 34.666])
       end
     end
 
