@@ -34,27 +34,57 @@ describe Api::V1::FavoritesController, type: :controller do
   describe 'POST #create' do
     let(:token) { create :access_token, resource_owner_id: user.id }
 
-    before do
-      post :create, format: :json, access_token: token.token,
-           favorite: { priest_id: priest.id }
+    context 'priest already in favorites of this user' do
+      let!(:favorite) { create :favorite, priest: priest, user: user }
+
+      before do
+        post :create, format: :json, access_token: token.token,
+             favorite: { priest_id: priest.id }
+      end
+
+      it { expect(response).to have_http_status(:success) }
+
+      it 'returns already created favorite' do
+        result = json['id']
+
+        expect(result).to eq(favorite.id)
+      end
+
+      it 'with priest' do
+        result = json['priest']['id']
+
+        expect(result).to eq(priest.id)
+      end
     end
 
-    it { expect(response).to have_http_status(:success) }
+    context 'priest not in the favorites yet' do
+      before do
+        post :create, format: :json, access_token: token.token,
+             favorite: { priest_id: priest.id }
+      end
 
-    it 'creates favorite' do
-      result = Favorite.last.user_id
+      it { expect(response).to have_http_status(:success) }
 
-      expect(result).to eq(user.id)
-    end
+      it 'creates favorite' do
+        result = Favorite.last.user_id
 
-    it 'with priest' do
-      result = Favorite.last.priest_id
+        expect(result).to eq(user.id)
+      end
 
-      expect(result).to eq(priest.id)
+      it 'with priest' do
+        result = Favorite.last.priest_id
+
+        expect(result).to eq(priest.id)
+      end
     end
 
     context 'with expired access_token' do
       let (:token) { create :access_token, resource_owner_id: user.id, expires_in: 0 }
+      
+      before do
+        post :create, format: :json, access_token: token.token,
+             favorite: { priest_id: priest.id }
+      end
 
       it { expect(response).to have_http_status(:unauthorized) }
 
