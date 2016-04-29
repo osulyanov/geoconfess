@@ -10,20 +10,44 @@ describe Api::V1::FavoritesController, type: :controller do
     let!(:favorite) { create :favorite, priest: priest, user: user }
     let(:token) { create :access_token, resource_owner_id: user.id }
 
-    before do
-      get :index, format: :json, access_token: token.token
+    context 'basic functionality' do
+      before do
+        get :index, format: :json, access_token: token.token
+      end
+
+      it { expect(response).to have_http_status(:success) }
+
+      it 'returns favorites if current user as json' do
+        result = json.map { |r| r['id'] }
+
+        expect(result).to contain_exactly(favorite.id)
+      end
     end
 
-    it { expect(response).to have_http_status(:success) }
+    context 'priest is unavailable right now' do
+      let(:available_priest) { create(:user, role: :priest) }
 
-    it 'returns favorites if current user as json' do
-      result = json.map { |r| r['id'] }
+      before do
+        create(:favorite, priest: available_priest, user: user)
+        get :index, format: :json, access_token: token.token
+      end
 
-      expect(result).to contain_exactly(favorite.id)
+      it 'doesn\'t return priest location' do
+        priest_row = json.select { |r| r['priest']['id'] == available_priest.id }.first
+        latitude = priest_row['priest']['latitude']
+        longitude = priest_row['priest']['longitude']
+
+        expect(latitude).to be_nil
+        expect(longitude).to be_nil
+      end
     end
 
     context 'with expired access_token' do
       let (:token) { create :access_token, resource_owner_id: user.id, expires_in: 0 }
+
+      before do
+        get :index, format: :json, access_token: token.token
+      end
 
       it { expect(response).to have_http_status(:unauthorized) }
 
@@ -80,7 +104,7 @@ describe Api::V1::FavoritesController, type: :controller do
 
     context 'with expired access_token' do
       let (:token) { create :access_token, resource_owner_id: user.id, expires_in: 0 }
-      
+
       before do
         post :create, format: :json, access_token: token.token,
              favorite: { priest_id: priest.id }
