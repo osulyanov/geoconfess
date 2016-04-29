@@ -11,24 +11,45 @@ describe Api::V1::MeetRequestsController, type: :controller do
   describe 'GET #index' do
     let(:token) { create :access_token, resource_owner_id: user.id }
 
-    before do
-      get :index, format: :json, access_token: token.token
+    context 'basic functions' do
+
+      before do
+        get :index, format: :json, access_token: token.token
+      end
+
+      it { expect(response).to have_http_status(:success) }
+
+      it 'returns requests if current user as json' do
+        result = json.map { |r| r['id'] }
+
+        expect(result).to contain_exactly(request_1.id)
+      end
+
+      context 'with expired access_token' do
+        let (:token) { create :access_token, resource_owner_id: user.id, expires_in: 0 }
+
+        it { expect(response).to have_http_status(:unauthorized) }
+
+        it { expect(response.body).to be_empty }
+      end
     end
 
-    it { expect(response).to have_http_status(:success) }
+    context 'filter by priest' do
+      let(:other_priest) { create :user, role: :priest }
+      let!(:request_to_other_priest) do
+        create :request, priest: other_priest, penitent: user
+      end
 
-    it 'returns requests if current user as json' do
-      result = json.map { |r| r['id'] }
+      before do
+        get :index, format: :json, access_token: token.token,
+            party_id: other_priest.id
+      end
 
-      expect(result).to contain_exactly(request_1.id)
-    end
+      it 'returns request to certain priest' do
+        result = json.map { |r| r['id'] }
 
-    context 'with expired access_token' do
-      let (:token) { create :access_token, resource_owner_id: user.id, expires_in: 0 }
-
-      it { expect(response).to have_http_status(:unauthorized) }
-
-      it { expect(response.body).to be_empty }
+        expect(result).to contain_exactly(request_to_other_priest.id)
+      end
     end
   end
 
