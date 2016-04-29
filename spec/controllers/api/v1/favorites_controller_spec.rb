@@ -25,7 +25,29 @@ describe Api::V1::FavoritesController, type: :controller do
     end
 
     context 'priest is unavailable right now' do
+      let(:unavailable_priest) { create(:user, role: :priest) }
+
+      before do
+        create(:favorite, priest: unavailable_priest, user: user)
+        get :index, format: :json, access_token: token.token
+      end
+
+      it 'doesn\'t return priest location' do
+        priest_row = json.select { |r| r['priest']['id'] == unavailable_priest.id }.first
+        latitude = priest_row['priest']['latitude']
+        longitude = priest_row['priest']['longitude']
+
+        expect(latitude).to be_nil
+        expect(longitude).to be_nil
+      end
+    end
+
+    context 'priest is available right now' do
       let(:available_priest) { create(:user, role: :priest) }
+      let!(:spot) do
+        create(:spot, activity_type: :dynamic, priest: available_priest,
+               latitude: 12.555, longitude: 34.666)
+      end
 
       before do
         create(:favorite, priest: available_priest, user: user)
@@ -37,8 +59,8 @@ describe Api::V1::FavoritesController, type: :controller do
         latitude = priest_row['priest']['latitude']
         longitude = priest_row['priest']['longitude']
 
-        expect(latitude).to be_nil
-        expect(longitude).to be_nil
+        expect(latitude).to eq(12.555)
+        expect(longitude).to eq(34.666)
       end
     end
 
