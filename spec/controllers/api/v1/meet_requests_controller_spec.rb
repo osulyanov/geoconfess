@@ -101,7 +101,29 @@ describe Api::V1::MeetRequestsController, type: :controller do
   describe 'POST #create' do
     let(:token) { create :access_token, resource_owner_id: user.id }
 
-    context 'request haven\'t sent to the priest' do
+    context 'request has already been sent to the priest' do
+
+      before do
+        post :create, format: :json, access_token: token.token,
+             request: attributes_for(:request, priest_id: priest.id, status: 'accepted')
+      end
+
+      it { expect(response).to have_http_status(:success) }
+
+      it 'creates request' do
+        result = json['id']
+
+        expect(result).to eq(request_1.id)
+      end
+
+      it 'status is pending' do
+        result = json['status']
+
+        expect(result).to eq('pending')
+      end
+    end
+
+    context 'request has not been sent to the priest' do
 
       before do
         MeetRequest.destroy_all
