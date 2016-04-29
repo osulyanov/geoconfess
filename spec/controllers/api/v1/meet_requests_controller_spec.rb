@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Api::V1::MeetRequestsController, type: :controller do
+describe Api::V1::MeetRequestsController, type: :controller do
 
   let(:priest) { create :user, role: :priest }
   let(:user) { create :user }
@@ -18,8 +18,9 @@ RSpec.describe Api::V1::MeetRequestsController, type: :controller do
     it { expect(response).to have_http_status(:success) }
 
     it 'returns requests if current user as json' do
-      ids = json.map { |r| r['id'] }
-      expect(ids).to contain_exactly(request_1.id)
+      result = json.map { |r| r['id'] }
+
+      expect(result).to contain_exactly(request_1.id)
     end
 
     context 'with expired access_token' do
@@ -44,7 +45,9 @@ RSpec.describe Api::V1::MeetRequestsController, type: :controller do
       it { expect(response).to have_http_status(:success) }
 
       it 'returns current user as json' do
-        expect(json['id']).to eq(request_1.id)
+        result = json['id']
+
+        expect(result).to eq(request_1.id)
       end
     end
 
@@ -71,13 +74,15 @@ RSpec.describe Api::V1::MeetRequestsController, type: :controller do
     it { expect(response).to have_http_status(:success) }
 
     it 'creates request' do
-      last_request = MeetRequest.last
-      expect(last_request.penitent_id).to eq(user.id)
+      result = MeetRequest.last.penitent_id
+
+      expect(result).to eq(user.id)
     end
 
     it 'status is pending' do
-      last_request = MeetRequest.last
-      expect(last_request).to be_pending
+      result = MeetRequest.last
+
+      expect(result).to be_pending
     end
 
     context 'with expired access_token' do
@@ -100,8 +105,9 @@ RSpec.describe Api::V1::MeetRequestsController, type: :controller do
     it { expect(response).to have_http_status(:success) }
 
     it 'updates request data' do
-      request_1.reload
-      expect(request_1).to be_accepted
+      result = request_1.reload
+
+      expect(result).to be_accepted
     end
 
     context 'with expired access_token' do
@@ -123,7 +129,9 @@ RSpec.describe Api::V1::MeetRequestsController, type: :controller do
     it { expect(response).to have_http_status(:success) }
 
     it 'destroys request' do
-      expect(MeetRequest.all).not_to include(request_1)
+      result = MeetRequest.all
+
+      expect(result).not_to include(request_1)
     end
 
     context 'penitent cannot destroy request' do
@@ -132,8 +140,9 @@ RSpec.describe Api::V1::MeetRequestsController, type: :controller do
       it { expect(response).to have_http_status(:unauthorized) }
 
       it 'didn\'t destroy the request' do
-        request_1.reload
-        expect(request_1).to be_persisted
+        result = request_1.reload
+
+        expect(result).to be_persisted
       end
     end
   end
@@ -148,8 +157,9 @@ RSpec.describe Api::V1::MeetRequestsController, type: :controller do
     it { expect(response).to have_http_status(:success) }
 
     it 'updates request data' do
-      request_1.reload
-      expect(request_1).to be_accepted
+      result = request_1.reload
+
+      expect(result).to be_accepted
     end
 
     context 'penitent cannot accept request' do
@@ -158,8 +168,9 @@ RSpec.describe Api::V1::MeetRequestsController, type: :controller do
       it { expect(response).to have_http_status(:unauthorized) }
 
       it 'didn\'t update the request' do
-        request_1.reload
-        expect(request_1).not_to be_accepted
+        result = request_1.reload
+
+        expect(result).not_to be_accepted
       end
     end
   end
@@ -175,8 +186,9 @@ RSpec.describe Api::V1::MeetRequestsController, type: :controller do
     it { expect(response).to have_http_status(:success) }
 
     it 'updates request data' do
-      request_1.reload
-      expect(request_1).to be_refused
+      result = request_1.reload
+
+      expect(result).to be_refused
     end
 
     context 'penitent cannot refuse request' do
@@ -185,8 +197,9 @@ RSpec.describe Api::V1::MeetRequestsController, type: :controller do
       it { expect(response).to have_http_status(:unauthorized) }
 
       it 'didn\'t update the request' do
-        request_1.reload
-        expect(request_1).not_to be_refused
+        result = request_1.reload
+
+        expect(result).not_to be_refused
       end
     end
   end
