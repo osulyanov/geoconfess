@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CleanupDynamicSpotsJob, type: :job do
+describe CleanupDynamicSpotsJob, type: :job do
   include ActiveJob::TestHelper
 
   subject(:job) { described_class.perform_later() }
@@ -15,7 +15,7 @@ RSpec.describe CleanupDynamicSpotsJob, type: :job do
   end
 
   it 'executes perform' do
-    expect(Spot).to receive_message_chain(:outdated, :destroy_all)
+    expect(CleanupDynamicSpotsService).to receive_message_chain(:new, :perform)
 
     perform_enqueued_jobs { job }
   end
