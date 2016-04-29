@@ -48,24 +48,14 @@ class Api::V1::SpotsController < Api::V1::V1Controller
             "stop_at": "16:00",
             "date": "2016-04-11"
           }
-        ],
-        "priest": {
-          "id": 9,
-          "name": "Oleg",
-          "surname": "Test 1"
-        }
+        ]
       },
       {
         "id": 16,
         "name": "Dynamic Spot",
         "activity_type": "dynamic",
         "latitude": 54.2343423432,
-        "longitude": 12.234234334,
-        "priest": {
-          "id": 24,
-          "name": "Test Priest",
-          "surname": "Surnemaehere"
-        }
+        "longitude": 12.234234334
       }
     ]
   EOS
