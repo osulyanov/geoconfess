@@ -2,6 +2,6 @@ class CleanupOutdatedMeetRequestJob < ActiveJob::Base
   queue_as :default
 
   def perform
-    MeetRequest.outdated.destroy_all
+    CleanupOutdatedMeetRequestsService.new.perform
   end
 end
