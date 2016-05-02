@@ -19,7 +19,7 @@ describe Api::V1::MeetRequestsController, type: :controller do
 
       it { expect(response).to have_http_status(:success) }
 
-      it 'returns requests if current user as json' do
+      it 'returns requests of current user as json' do
         result = json.map { |r| r['id'] }
 
         expect(result).to contain_exactly(request_1.id)
