@@ -8,8 +8,8 @@ class Api::V1::MessagesController < Api::V1::V1Controller
   end
 
   def_param_group :message do
-    param :message, Hash, desc: 'User info' do
-      param :sender_id, Integer, desc: 'Sender ID. For admin only.', required: true
+    param :message, Hash, desc: 'Message info', required: true do
+      param :sender_id, Integer, desc: 'Sender ID. For admin only.'
       param :recipient_id, Integer, desc: 'Recipient ID', required: true
       param :text, String, desc: 'Message text', required: true
     end
@@ -81,10 +81,12 @@ class Api::V1::MessagesController < Api::V1::V1Controller
     Updates message data
     Returns code 200 and {result: "success"} if message successfully updated.
   EOS
-  param_group :message
+  param :message, Hash, desc: 'Message info' do
+    param :text, String, desc: 'Message text', required: true
+  end
 
   def update
-    if @message.update_attributes(message_params)
+    if @message.update_attributes(update_message_params)
       render status: :ok, json: { result: 'success' }
     else
       render status: :unprocessable_entity, json: { errors: @message.errors }
@@ -114,6 +116,10 @@ class Api::V1::MessagesController < Api::V1::V1Controller
       # Don't allow sender for non-admin users
       wl.delete(:sender_id) unless current_user.admin?
     end
+  end
+
+  def update_message_params
+    params.require(:message).permit(:text)
   end
 
   def set_message
