@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CleanupOutdatedMeetRequestJob, type: :job do
+describe CleanupOutdatedMeetRequestJob, type: :job do
   include ActiveJob::TestHelper
 
   subject(:job) { described_class.perform_later() }
@@ -15,7 +15,8 @@ RSpec.describe CleanupOutdatedMeetRequestJob, type: :job do
   end
 
   it 'executes perform' do
-    expect(MeetRequest).to receive_message_chain(:outdated, :destroy_all)
+    expect(CleanupOutdatedMeetRequestsService)
+      .to receive_message_chain(:new, :perform)
 
     perform_enqueued_jobs { job }
   end
