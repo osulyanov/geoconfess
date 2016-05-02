@@ -47,7 +47,7 @@ class Api::V1::FavoritesController < Api::V1::V1Controller
     Add priest to favorites
     Returns code 201 with favorite data if favorite successfully created.
   EOS
-  param :favorite, Hash, desc: 'User info' do
+  param :favorite, Hash, desc: 'Favorite info', required: true do
     param :priest_id, Integer, desc: 'Priest ID', required: true
   end
   example <<-EOS
