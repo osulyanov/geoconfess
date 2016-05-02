@@ -115,7 +115,7 @@ class Api::V1::MeetRequestsController < Api::V1::V1Controller
     Updates request data
     Returns code 200 and {result: "success"} if request successfully updated.
   EOS
-  param :request, Hash, desc: 'User info' do
+  param :request, Hash, desc: 'Request info', required: true do
     param :priest_id, Integer, desc: 'Priest ID', required: true
     param :status, ['pending', 'accepted', 'refused'], desc: 'Status. For admin and priest only.'
   end
