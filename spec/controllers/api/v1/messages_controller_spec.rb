@@ -11,19 +11,40 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
   describe 'GET #index' do
     let(:token) { create :access_token, resource_owner_id: sender.id }
 
-    before do
-      get :index, format: :json, access_token: token.token
+    context 'list of all messages' do
+      before do
+        get :index, format: :json, access_token: token.token
+      end
+
+      it { expect(response).to have_http_status(:success) }
+
+      it 'returns messages for current user as json' do
+        result = json.map { |r| r['id'] }
+
+        expect(result).to contain_exactly(message.id)
+      end
     end
 
-    it { expect(response).to have_http_status(:success) }
+    context 'messages with certain user' do
+      let!(:message_to_admin) { create :message, sender: sender, recipient: admin }
 
-    it 'returns messages for current user as json' do
-      ids = json.map { |r| r['id'] }
-      expect(ids).to contain_exactly(message.id)
+      before do
+        get :index, interlocutor_id: recipient.id, format: :json, access_token: token.token
+      end
+
+      it 'returns only messages with this user' do
+        result = json.map { |r| r['id'] }
+
+        expect(result).to contain_exactly(message.id)
+      end
     end
 
     context 'with expired access_token' do
       let (:token) { create :access_token, resource_owner_id: sender.id, expires_in: 0 }
+
+      before do
+        get :index, format: :json, access_token: token.token
+      end
 
       it { expect(response).to have_http_status(:unauthorized) }
 
