@@ -8,8 +8,8 @@ class Api::V1::CredentialsController < Api::V1::V1Controller
 
   api :GET, '/v1/me', 'Show current user'
   description <<-EOS
-        ## Description
-        Show data of current user
+    ## Description
+    Show data of current user
   EOS
   example <<-EOS
     {
@@ -32,11 +32,11 @@ class Api::V1::CredentialsController < Api::V1::V1Controller
 
   api :PUT, '/v1/me', 'Update current user'
   description <<-EOS
-        ## Description
-        Updates current user
-        Returns code 200 and {result: "success"} if user successfully updated.
+    ## Description
+    Updates current user
+    Returns code 200 and {result: "success"} if user successfully updated.
   EOS
-  param :user, Hash, desc: 'User info' do
+  param :user, Hash, desc: 'User info', required: true do
     param :email, String, desc: 'Email', required: true
     param :password, String, desc: 'Password', required: true
     param :name, String, desc: 'Name', required: true
