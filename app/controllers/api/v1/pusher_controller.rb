@@ -11,11 +11,13 @@ class Api::V1::PusherController < Api::V1::V1Controller
     Authenticate subscription requests to private channel
   EOS
   param :channel_name, String, desc: 'Channel name, as "private-#{current_user.id}"', required: true
+  param :socket_id, String, desc: 'socket_id, a unique identifier for the specific client connection to Pusher', required: true
 
   def auth
     unless params[:channel_name] == "private-#{current_user.id}"
       head :forbidden and return
     end
+    head :unprocessable_entity and return unless params[:socket_id].present?
     begin
       response = Pusher.authenticate("private-#{current_user.id}", params[:socket_id])
     rescue Pusher::Error => e
