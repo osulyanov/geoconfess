@@ -8,7 +8,7 @@ describe Api::V1::PusherController, type: :controller do
   describe 'POST #auth' do
     context 'without channel_name' do
       before do
-        post :auth, format: :json, socket_id: '4cacr23qd423',
+        post :auth, format: :json, socket_id: '122125.3471996',
              access_token: token.token
       end
 
@@ -41,12 +41,29 @@ describe Api::V1::PusherController, type: :controller do
       it { expect(response.body).to be_empty }
     end
 
+    context 'with correct channel_name and socket_id' do
+      before do
+        allow(Pusher).to receive(:authenticate).with("private-#{user.id}", '122125.3471996').and_return({ auth: '431f7475e961c95db8f3:12ab411ccef32b15b41cea458f125c91afd344ba5a19e700608669a6f27a598e' })
+
+        post :auth, format: :json, channel_name: "private-#{user.id}",
+             socket_id: '122125.3471996', access_token: token.token
+      end
+
+      it { expect(response).to have_http_status(:success) }
+
+      it 'returns auth as JSON' do
+        result = json['auth']
+
+        expect(result).to be_present
+      end
+    end
+
     context 'with expired access_token' do
       let (:token) { create :access_token, resource_owner_id: user.id, expires_in: 0 }
 
       before do
         post :auth, format: :json, channel_name: 'private-0',
-             socket_id: '4cacr23qd423', access_token: token.token
+             socket_id: '122125.3471996', access_token: token.token
       end
 
       it { expect(response).to have_http_status(:unauthorized) }
