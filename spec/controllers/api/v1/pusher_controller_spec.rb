@@ -5,6 +5,10 @@ describe Api::V1::PusherController, type: :controller do
   let(:user) { create :user }
   let(:token) { create :access_token, resource_owner_id: user.id }
 
+  before do
+    allow(Pusher).to receive(:authenticate).with("private-#{user.id}", '122125.3471996').and_return({ auth: '431f7475e961c95db8f3:12ab411ccef32b15b41cea458f125c91afd344ba5a19e700608669a6f27a598e' })
+  end
+
   describe 'POST #auth' do
     context 'without channel_name' do
       before do
@@ -43,8 +47,6 @@ describe Api::V1::PusherController, type: :controller do
 
     context 'with correct channel_name and socket_id' do
       before do
-        allow(Pusher).to receive(:authenticate).with("private-#{user.id}", '122125.3471996').and_return({ auth: '431f7475e961c95db8f3:12ab411ccef32b15b41cea458f125c91afd344ba5a19e700608669a6f27a598e' })
-
         post :auth, format: :json, channel_name: "private-#{user.id}",
              socket_id: '122125.3471996', access_token: token.token
       end
