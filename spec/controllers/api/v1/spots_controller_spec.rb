@@ -5,7 +5,8 @@ describe Api::V1::SpotsController, type: :controller do
   let(:priest) { create :user, role: :priest }
   let(:user) { create :user }
   let(:admin) { create :user, :admin }
-  let!(:spot) { create :spot, priest: priest, activity_type: :static }
+  let!(:spot) { create :spot, priest: priest, activity_type: :static,
+                       latitude: 35.487, longitude: 96.022 }
 
   describe 'GET #index' do
     let(:token) { create :access_token, resource_owner_id: user.id }
@@ -72,6 +73,47 @@ describe Api::V1::SpotsController, type: :controller do
         result = json.map { |r| r['id'] }
 
         expect(result).to contain_exactly(dynamic_spot.id)
+      end
+    end
+
+    context 'filter by distance' do
+      let!(:spot_in_5km) do
+        create(:spot, priest: priest, latitude: 55.35223644610148, longitude: 85.99620691142812)
+      end
+      let!(:spot_in_15km) do
+        create(:spot, priest: priest, latitude: 55.487328778339084, longitude: 86.02263019255177)
+      end
+
+      it 'returns all spots if latitude doesn\'t defined' do
+        get :index, lng: 86.0740275, distance: 10, format: :json, access_token: token.token
+
+        result = json.map { |r| r['id'] }
+
+        expect(result).to contain_exactly(spot.id, spot_in_5km.id, spot_in_15km.id)
+      end
+
+      it 'returns all spots if longitude doesn\'t defined' do
+        get :index, lat: 55.3585288, distance: 10, format: :json, access_token: token.token
+
+        result = json.map { |r| r['id'] }
+
+        expect(result).to contain_exactly(spot.id, spot_in_5km.id, spot_in_15km.id)
+      end
+
+      it 'returns all spots if distance doesn\'t defined' do
+        get :index, lat: 55.3585288, lng: 86.0740275, format: :json, access_token: token.token
+
+        result = json.map { |r| r['id'] }
+
+        expect(result).to contain_exactly(spot.id, spot_in_5km.id, spot_in_15km.id)
+      end
+
+      it 'returns only spots in defined radius if latitude, longitude and distance are defined' do
+        get :index, lat: 55.3585288, lng: 86.0740275, distance: 10, format: :json, access_token: token.token
+
+        result = json.map { |r| r['id'] }
+
+        expect(result).to contain_exactly(spot_in_5km.id)
       end
     end
   end
