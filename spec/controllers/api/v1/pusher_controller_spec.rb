@@ -17,6 +17,17 @@ describe Api::V1::PusherController, type: :controller do
       it { expect(response.body).to be_empty }
     end
 
+    context 'without socket_id' do
+      before do
+        post :auth, format: :json, channel_name: "private-#{user.id}",
+             access_token: token.token
+      end
+
+      it { expect(response).to have_http_status(:unprocessable_entity) }
+
+      it { expect(response.body).to be_empty }
+    end
+
     context 'with expired access_token' do
       let (:token) { create :access_token, resource_owner_id: user.id, expires_in: 0 }
 
