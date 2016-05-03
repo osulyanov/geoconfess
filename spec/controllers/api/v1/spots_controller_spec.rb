@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Api::V1::SpotsController, type: :controller do
+describe Api::V1::SpotsController, type: :controller do
 
   let(:priest) { create :user, role: :priest }
   let(:user) { create :user }
@@ -10,15 +10,34 @@ RSpec.describe Api::V1::SpotsController, type: :controller do
   describe 'GET #index' do
     let(:token) { create :access_token, resource_owner_id: user.id }
 
-    before do
-      get :index, format: :json, access_token: token.token
+    context 'all results' do
+      before do
+        get :index, format: :json, access_token: token.token
+      end
+
+      it { expect(response).to have_http_status(:success) }
+
+      it 'returns spots as json' do
+        result = json.map { |r| r['id'] }
+
+        expect(result).to contain_exactly(spot.id)
+      end
     end
 
-    it { expect(response).to have_http_status(:success) }
+    context 'filter by priest_id' do
+      it 'returns spots as json' do
+        other_priest = create(:user, role: :priest)
+        other_spot_1 = create(:spot, priest: other_priest)
+        other_spot_2 = create(:spot, priest: other_priest)
+        another_priest = create(:user, role: :priest)
+        another_spot = create(:spot, priest: another_priest)
 
-    it 'returns spots as json' do
-      ids = json.map { |r| r['id'] }
-      expect(ids).to contain_exactly(spot.id)
+        get :index, priest_id: other_priest.id, format: :json, access_token: token.token
+
+        result = json.map { |r| r['id'] }
+
+        expect(result).to contain_exactly(other_spot_1.id, other_spot_2.id)
+      end
     end
   end
 
@@ -34,14 +53,16 @@ RSpec.describe Api::V1::SpotsController, type: :controller do
     it { expect(response).to have_http_status(:success) }
 
     it 'returns spots of current priest as json' do
-      ids = json.map { |r| r['id'] }
-      expect(ids).to contain_exactly(spot.id)
+      result = json.map { |r| r['id'] }
+
+      expect(result).to contain_exactly(spot.id)
     end
   end
 
 
   describe 'GET #show' do
     let(:token) { create :access_token, resource_owner_id: user.id }
+
     before do
       get :show, format: :json, id: spot.id, access_token: token.token
     end
@@ -49,7 +70,9 @@ RSpec.describe Api::V1::SpotsController, type: :controller do
     it { expect(response).to have_http_status(:success) }
 
     it 'returns spot as json' do
-      expect(json['id']).to eq(spot.id)
+      result = json['id']
+
+      expect(result).to eq(spot.id)
     end
   end
 
@@ -66,7 +89,10 @@ RSpec.describe Api::V1::SpotsController, type: :controller do
 
     it 'creates spot' do
       last_spot = priest.spots.last
-      expect(last_spot.name).to eq('New spot')
+
+      result = last_spot.name
+
+      expect(result).to eq('New spot')
     end
 
     context 'user with role user' do
@@ -88,7 +114,10 @@ RSpec.describe Api::V1::SpotsController, type: :controller do
 
     it 'updates spot data' do
       spot.reload
-      expect(spot.name).to eq('Updated spot')
+
+      result = spot.name
+
+      expect(result).to eq('Updated spot')
     end
 
     context 'user with role user' do
@@ -108,7 +137,9 @@ RSpec.describe Api::V1::SpotsController, type: :controller do
     it { expect(response).to have_http_status(:success) }
 
     it 'destroys spot' do
-      expect(Spot.all).not_to include(spot)
+      result = Spot.all
+
+      expect(result).not_to include(spot)
     end
 
     context 'user cannot destroy spot' do
@@ -118,9 +149,11 @@ RSpec.describe Api::V1::SpotsController, type: :controller do
 
       it 'doesn\'t destroy the spot' do
         spot.reload
-        expect(spot).to be_persisted
+
+        result = spot
+
+        expect(result).to be_persisted
       end
     end
   end
-
 end
