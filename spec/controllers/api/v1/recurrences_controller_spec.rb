@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Api::V1::RecurrencesController, type: :controller do
+describe Api::V1::RecurrencesController, type: :controller do
 
   let(:priest) { create :user, role: :priest }
   let(:user) { create :user }
@@ -18,14 +18,16 @@ RSpec.describe Api::V1::RecurrencesController, type: :controller do
     it { expect(response).to have_http_status(:success) }
 
     it 'returns recurrence as json' do
-      ids = json.map { |r| r['id'] }
-      expect(ids).to contain_exactly(recurrence.id)
+      result = json.map { |r| r['id'] }
+
+      expect(result).to contain_exactly(recurrence.id)
     end
   end
 
 
   describe 'GET #show' do
     let(:token) { create :access_token, resource_owner_id: user.id }
+
     before do
       get :show, format: :json, id: recurrence.id, access_token: token.token
     end
@@ -33,7 +35,9 @@ RSpec.describe Api::V1::RecurrencesController, type: :controller do
     it { expect(response).to have_http_status(:success) }
 
     it 'returns recurrence as json' do
-      expect(json['id']).to eq(recurrence.id)
+      result = json['id']
+
+      expect(result).to eq(recurrence.id)
     end
   end
 
@@ -53,23 +57,34 @@ RSpec.describe Api::V1::RecurrencesController, type: :controller do
 
       it 'creates recurrence' do
         last_recurrence = spot.recurrences.last
-        expect(last_recurrence.date).to eq(Date.parse '2016-01-07')
+
+        result = last_recurrence.date
+
+        expect(result).to eq(Date.parse '2016-01-07')
       end
     end
 
     context 'with weekdays' do
-      let(:recurrence_params) { { week_days: ['Tuesday', 'Thursday'], start_at: '10:15', stop_at: '16:00' } }
+      let(:recurrence_params) do
+        { week_days: ['Tuesday', 'Thursday'],
+          start_at: '10:15', stop_at: '16:00' }
+      end
 
       it { expect(response).to have_http_status(:success) }
 
       it 'creates recurrence' do
         last_recurrence = spot.recurrences.last
-        expect(last_recurrence.week_days).to contain_exactly('Tuesday', 'Thursday')
+
+        result = last_recurrence.week_days
+
+        expect(result).to contain_exactly('Tuesday', 'Thursday')
       end
     end
 
     context 'user with role user' do
-      let(:recurrence_params) { { date: '2016-01-07', start_at: '10:15', stop_at: '16:00' } }
+      let(:recurrence_params) do
+        { date: '2016-01-07', start_at: '10:15', stop_at: '16:00' }
+      end
 
       let (:token) { create :access_token, resource_owner_id: user.id }
 
@@ -89,7 +104,10 @@ RSpec.describe Api::V1::RecurrencesController, type: :controller do
 
     it 'updates recurrence data' do
       recurrence.reload
-      expect(recurrence.date).to eq(Date.parse '2017-06-18')
+
+      result = recurrence.date
+
+      expect(result).to eq(Date.parse '2017-06-18')
     end
 
     context 'user with role user' do
@@ -109,7 +127,9 @@ RSpec.describe Api::V1::RecurrencesController, type: :controller do
     it { expect(response).to have_http_status(:success) }
 
     it 'destroys recurrence' do
-      expect(Recurrence.all).not_to include(recurrence)
+      result = Recurrence.all
+
+      expect(result).not_to include(recurrence)
     end
 
     context 'user cannot destroy recurrence' do
@@ -119,7 +139,10 @@ RSpec.describe Api::V1::RecurrencesController, type: :controller do
 
       it 'doesn\'t destroy the recurrence' do
         recurrence.reload
-        expect(recurrence).to be_persisted
+
+        result = recurrence
+
+        expect(result).to be_persisted
       end
     end
   end
@@ -137,8 +160,9 @@ RSpec.describe Api::V1::RecurrencesController, type: :controller do
     it { expect(response).to have_http_status(:success) }
 
     it 'returns only recurrences of passed priest' do
-      names = json.map { |r| r['name'] }
-      expect(names).to contain_exactly(recurrence.spot.name)
+      result = json.map { |r| r['name'] }
+
+      expect(result).to contain_exactly(recurrence.spot.name)
     end
   end
 
@@ -146,19 +170,23 @@ RSpec.describe Api::V1::RecurrencesController, type: :controller do
     let(:token) { create :access_token, resource_owner_id: priest.id }
 
     before do
-      put :confirm_availability, format: :json, access_token: token.token, id: recurrence.id
+      put :confirm_availability, format: :json, access_token: token.token,
+          id: recurrence.id
       recurrence.reload
     end
 
     it { expect(response).to have_http_status(:success) }
 
     it 'set active_date to current date' do
-      expect(recurrence.active_date).to eq(Time.zone.today)
+      result = recurrence.active_date
+
+      expect(result).to eq(Time.zone.today)
     end
 
     it 'reset busy_count' do
-      expect(recurrence.busy_count).to eq(0)
+      result = recurrence.busy_count
+
+      expect(result).to eq(0)
     end
   end
-
 end
