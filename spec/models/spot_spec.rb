@@ -151,7 +151,7 @@ RSpec.describe Spot, type: :model do
       expect(result).to include(spot_in_5km)
     end
 
-    it 'does\'n return spots of other types' do
+    it 'does\'n return spots outside the circle' do
       result = Spot.nearest(55.3585288, 86.0740275, 10)
 
       expect(result).not_to include(spot_in_20km)
