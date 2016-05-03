@@ -33,6 +33,18 @@ class User < ActiveRecord::Base
     Message.with_user(id)
   end
 
+  def chats
+    chats = messages.select('DISTINCT ON (sender_id, recipient_id) *')
+    chats.to_a.sort! { |f, s| s.created_at <=> f.created_at }
+    @user_ids = []
+    chats.each do |chat|
+      next if @user_ids.include?(chat.sender_id)
+      @user_ids.push(chat.sender_id) unless id == chat.sender_id
+      @user_ids.push(chat.recipient_id) unless id == chat.recipient_id
+    end
+    @user_ids
+  end
+
   def send_welcome_message
     UserMailer.registered(id).deliver_now
   end
