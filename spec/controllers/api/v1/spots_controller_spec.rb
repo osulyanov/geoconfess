@@ -5,7 +5,7 @@ describe Api::V1::SpotsController, type: :controller do
   let(:priest) { create :user, role: :priest }
   let(:user) { create :user }
   let(:admin) { create :user, :admin }
-  let!(:spot) { create :spot, priest: priest }
+  let!(:spot) { create :spot, priest: priest, activity_type: :static }
 
   describe 'GET #index' do
     let(:token) { create :access_token, resource_owner_id: user.id }
@@ -52,6 +52,26 @@ describe Api::V1::SpotsController, type: :controller do
         result = json.map { |r| r['id'] }
 
         expect(result).to contain_exactly(active_spot.id)
+      end
+    end
+
+    context 'filter by type' do
+      let!(:dynamic_spot) { create(:spot, priest: priest, activity_type: :dynamic) }
+
+      it 'returns only static spots if type=static' do
+        get :index, type: :static, format: :json, access_token: token.token
+
+        result = json.map { |r| r['id'] }
+
+        expect(result).to contain_exactly(spot.id)
+      end
+
+      it 'returns only dynamic spots if type=dynamic' do
+        get :index, type: :dynamic, format: :json, access_token: token.token
+
+        result = json.map { |r| r['id'] }
+
+        expect(result).to contain_exactly(dynamic_spot.id)
       end
     end
   end
