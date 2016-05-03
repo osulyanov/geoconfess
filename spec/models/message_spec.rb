@@ -29,19 +29,19 @@ RSpec.describe Message, type: :model do
     let! (:message) { create(:message, sender: sender, recipient: recipient) }
 
     it 'returns user\'s message to certain user' do
-      result = Message.with_user(recipient.id)
+      result = described_class.with_user(recipient.id)
 
       expect(result).to include(message)
     end
 
     it 'returns user\'s message from certain user' do
-      result = Message.with_user(sender.id)
+      result = described_class.with_user(sender.id)
 
       expect(result).to include(message)
     end
 
     it 'doesn\'t return message of other users' do
-      result = Message.with_user(other_user.id)
+      result = described_class.with_user(other_user.id)
 
       expect(result).not_to include(message)
     end

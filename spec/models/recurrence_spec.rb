@@ -46,19 +46,19 @@ RSpec.describe Recurrence, type: :model do
     let! (:recurrence_in_the_past) { create(:recurrence, spot: spot, date: 1.day.ago) }
 
     it 'returns recurrences in the future' do
-      result = Recurrence.in_the_future
+      result = described_class.in_the_future
 
       expect(result).to include(recurrence_in_the_future)
     end
 
     it 'returns recurrences for today' do
-      result = Recurrence.in_the_future
+      result = described_class.in_the_future
 
       expect(result).to include(recurrence_in_the_future)
     end
 
     it 'doesn\'t return recurrences in the past' do
-      result = Recurrence.in_the_future
+      result = described_class.in_the_future
 
       expect(result).not_to include(recurrence_in_the_past)
     end
@@ -69,13 +69,13 @@ RSpec.describe Recurrence, type: :model do
     let! (:recurrence_not_confirmed) { create(:recurrence, spot: spot, active_date: 1.day.ago) }
 
     it 'returns recurrences with active_date eq to current date' do
-      result = Recurrence.confirmed_availability
+      result = described_class.confirmed_availability
 
       expect(result).to include(recurrence_confirmed)
     end
 
     it 'doesn\'t return recurrences with active_date in the past' do
-      result = Recurrence.confirmed_availability
+      result = described_class.confirmed_availability
 
       expect(result).not_to include(recurrence_not_confirmed)
     end
@@ -88,7 +88,7 @@ RSpec.describe Recurrence, type: :model do
                                          date: Time.zone.today, start_at: '00:00',
                                          stop_at: '23:59')
 
-        result = Recurrence.now
+        result = described_class.now
 
         expect(result).to include(recurrence)
       end
@@ -98,7 +98,7 @@ RSpec.describe Recurrence, type: :model do
                                          date: 1.day.from_now, start_at: '00:00',
                                          stop_at: '23:59')
 
-        result = Recurrence.now
+        result = described_class.now
 
         expect(result).not_to include(recurrence)
       end
@@ -108,7 +108,7 @@ RSpec.describe Recurrence, type: :model do
                                          date: Time.zone.today, start_at: '23:59',
                                          stop_at: '23:59')
 
-        result = Recurrence.now
+        result = described_class.now
 
         expect(result).not_to include(recurrence)
       end
@@ -118,7 +118,7 @@ RSpec.describe Recurrence, type: :model do
                                          date: Time.zone.today, start_at: '00:00',
                                          stop_at: '00:00')
 
-        result = Recurrence.now
+        result = described_class.now
 
         expect(result).not_to include(recurrence)
       end
@@ -130,7 +130,7 @@ RSpec.describe Recurrence, type: :model do
                                          start_at: '00:00', stop_at: '23:59',
                                          week_days: [Time.zone.today.strftime('%A')])
 
-        result = Recurrence.now
+        result = described_class.now
 
         expect(result).to include(recurrence)
       end
@@ -142,7 +142,7 @@ RSpec.describe Recurrence, type: :model do
                                          start_at: '00:00', stop_at: '23:59',
                                          week_days: wdays)
 
-        result = Recurrence.now
+        result = described_class.now
 
         expect(result).not_to include(recurrence)
       end
@@ -152,7 +152,7 @@ RSpec.describe Recurrence, type: :model do
                                          start_at: '23:59', stop_at: '23:59',
                                          week_days: [Time.zone.today.strftime('%A')])
 
-        result = Recurrence.now
+        result = described_class.now
 
         expect(result).not_to include(recurrence)
       end
@@ -162,7 +162,7 @@ RSpec.describe Recurrence, type: :model do
                                          start_at: '00:00', stop_at: '00:00',
                                          week_days: [Time.zone.today.strftime('%A')])
 
-        result = Recurrence.now
+        result = described_class.now
 
         expect(result).not_to include(recurrence)
       end

@@ -27,7 +27,7 @@ RSpec.describe Notification, type: :model do
   describe '.unread' do
     let! (:unread) { create(:notification, user: recipient, notificationable: message) }
     let! (:read) { create(:notification, user: recipient, notificationable: message, unread: false) }
-    subject { Notification.unread }
+    subject { described_class.unread }
 
     it 'returns unread notification' do
       expect(subject).to include(unread)
@@ -44,7 +44,7 @@ RSpec.describe Notification, type: :model do
         create(:notification, user: recipient, notificationable: message, created_at: rand(60).days.ago)
       end
     end
-    subject { Notification.actual }
+    subject { described_class.actual }
 
     it 'returns no more than 99 notification' do
       expect(subject.size).not_to be > 99

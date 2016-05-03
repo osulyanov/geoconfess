@@ -39,13 +39,13 @@ RSpec.describe Spot, type: :model do
     let!(:inactive_spot) { create(:spot, priest: inactive_priest) }
 
     it 'returns spots with active priests' do
-      result = Spot.active
+      result = described_class.active
 
       expect(result).to include(active_spot)
     end
 
     it 'doesn\'t return spots with inactive priests' do
-      result = Spot.active
+      result = described_class.active
 
       expect(result).not_to include(inactive_spot)
     end
@@ -57,7 +57,7 @@ RSpec.describe Spot, type: :model do
         spot = create(:spot, activity_type: :dynamic, priest: priest,
                              updated_at: 10.minutes.ago)
 
-        result = Spot.now
+        result = described_class.now
 
         expect(result).to include(spot)
       end
@@ -66,7 +66,7 @@ RSpec.describe Spot, type: :model do
         spot = create(:spot, activity_type: :dynamic, priest: priest,
                              updated_at: 20.minutes.ago)
 
-        result = Spot.now
+        result = described_class.now
 
         expect(result).not_to include(spot)
       end
@@ -78,7 +78,7 @@ RSpec.describe Spot, type: :model do
         create(:recurrence, spot: spot, date: Time.zone.today,
                             start_at: '00:00', stop_at: '23:59')
 
-        result = Spot.now
+        result = described_class.now
 
         expect(result).to include(spot)
       end
@@ -88,7 +88,7 @@ RSpec.describe Spot, type: :model do
         create(:recurrence, spot: spot, date: 1.day.from_now,
                             start_at: '00:00', stop_at: '23:59')
 
-        result = Spot.now
+        result = described_class.now
 
         expect(result).not_to include(spot)
       end
@@ -103,7 +103,7 @@ RSpec.describe Spot, type: :model do
     it 'returns spots with certain priest_id' do
       spot = create(:spot, activity_type: :dynamic, priest: priest)
 
-      result = Spot.of_priest(priest.id)
+      result = described_class.of_priest(priest.id)
 
       expect(result).to include(spot)
     end
@@ -111,7 +111,7 @@ RSpec.describe Spot, type: :model do
     it 'does\'n return spots with other priest_id' do
       spot = create(:spot, activity_type: :dynamic, priest: priest)
 
-      result = Spot.of_priest(priest.id)
+      result = described_class.of_priest(priest.id)
 
       expect(result).not_to include(other_spot)
     end
@@ -122,13 +122,13 @@ RSpec.describe Spot, type: :model do
     let!(:static_spot) { create(:spot, priest: priest, activity_type: :static) }
 
     it 'returns spots of certain type' do
-      result = Spot.of_type(:static)
+      result = described_class.of_type(:static)
 
       expect(result).to include(static_spot)
     end
 
     it 'does\'n return spots of other types' do
-      result = Spot.of_type(:static)
+      result = described_class.of_type(:static)
 
       expect(result).not_to include(dynamic_spot)
     end
@@ -146,19 +146,19 @@ RSpec.describe Spot, type: :model do
     end
 
     it 'returns spots in certain radius' do
-      result = Spot.nearest(55.3585288, 86.0740275, 10)
+      result = described_class.nearest(55.3585288, 86.0740275, 10)
 
       expect(result).to include(spot_in_5km)
     end
 
     it 'does\'n return spots outside the circle' do
-      result = Spot.nearest(55.3585288, 86.0740275, 10)
+      result = described_class.nearest(55.3585288, 86.0740275, 10)
 
       expect(result).not_to include(spot_in_20km)
     end
 
     it 'sorts spots by distance' do
-      result = Spot.nearest(55.3585288, 86.0740275, 30)
+      result = described_class.nearest(55.3585288, 86.0740275, 30)
 
       expect(result).to eq([spot_in_5km, spot_in_15km, spot_in_20km])
     end
@@ -176,19 +176,19 @@ RSpec.describe Spot, type: :model do
     end
 
     it 'returns dynamic spots created more than 15 minutes ago' do
-      result = Spot.outdated
+      result = described_class.outdated
 
       expect(result).to include(dynamic_spot_20min)
     end
 
     it 'does\'n return dynamic spots created less than 15 minutes ago' do
-      result = Spot.outdated
+      result = described_class.outdated
 
       expect(result).not_to include(dynamic_spot_10min)
     end
 
     it 'does\'n return static spots' do
-      result = Spot.outdated
+      result = described_class.outdated
 
       expect(result).not_to include(static_spot_10min)
     end

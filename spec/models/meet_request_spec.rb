@@ -33,7 +33,7 @@ RSpec.describe MeetRequest, type: :model do
     it 'returns requests created less than 1 day ago' do
       request_23_h_ago = create(:meet_request, priest: priest, penitent: penitent, created_at: 23.hours.ago)
 
-      result = MeetRequest.active
+      result = described_class.active
 
       expect(result).to include(request_23_h_ago)
     end
@@ -41,7 +41,7 @@ RSpec.describe MeetRequest, type: :model do
     it 'doesn\'t return requests created more than 1 day ago' do
       request_25_h_ago = create(:meet_request, priest: priest, penitent: penitent, created_at: 25.hours.ago)
 
-      result = MeetRequest.active
+      result = described_class.active
 
       expect(result).not_to include(request_25_h_ago)
     end
@@ -51,7 +51,7 @@ RSpec.describe MeetRequest, type: :model do
     it 'returns requests older than 1 day' do
       request_25_h_ago = create(:meet_request, priest: priest, penitent: penitent, created_at: 25.hours.ago)
 
-      result = MeetRequest.outdated
+      result = described_class.outdated
 
       expect(result).to include(request_25_h_ago)
     end
@@ -59,7 +59,7 @@ RSpec.describe MeetRequest, type: :model do
     it 'doesn\'t return requests created less than 1 day ago' do
       request_23_h_ago = create(:meet_request, priest: priest, penitent: penitent, created_at: 23.hours.ago)
 
-      result = MeetRequest.outdated
+      result = described_class.outdated
 
       expect(result).not_to include(request_23_h_ago)
     end
@@ -72,19 +72,19 @@ RSpec.describe MeetRequest, type: :model do
     let! (:meet_request) { create(:meet_request, priest: priest, penitent: penitent) }
 
     it 'returns requests to user' do
-      result = MeetRequest.for_user(priest.id)
+      result = described_class.for_user(priest.id)
 
       expect(result).to include(meet_request)
     end
 
     it 'returns requests from user' do
-      result = MeetRequest.for_user(penitent.id)
+      result = described_class.for_user(penitent.id)
 
       expect(result).to include(meet_request)
     end
 
     it 'doesn\'t return requests of other user' do
-      result = MeetRequest.for_user(other_user.id)
+      result = described_class.for_user(other_user.id)
 
       expect(result).not_to include(meet_request)
     end
@@ -107,7 +107,7 @@ RSpec.describe MeetRequest, type: :model do
       subject { penitent.outbound_requests.assign_or_new(meet_request_attrs) }
 
       it 'initialize a new one' do
-        expect(subject).to be_a_new(MeetRequest)
+        expect(subject).to be_a_new(described_class)
       end
 
       it 'with priest' do
@@ -195,7 +195,7 @@ RSpec.describe MeetRequest, type: :model do
     describe 'creates notification to penitent' do
       before do
         subject.save
-        subject.update_attribute :status, MeetRequest.statuses[:accepted]
+        subject.update_attribute :status, described_class.statuses[:accepted]
       end
 
       let (:notification) { subject.notifications.find_by(user_id: penitent.id, action: 'accepted') }
@@ -222,7 +222,7 @@ RSpec.describe MeetRequest, type: :model do
     describe 'creates notification to penitent' do
       before do
         subject.save
-        subject.update_attribute :status, MeetRequest.statuses[:refused]
+        subject.update_attribute :status, described_class.statuses[:refused]
       end
 
       let (:notification) { subject.notifications.find_by(user_id: penitent.id, action: 'refused') }
