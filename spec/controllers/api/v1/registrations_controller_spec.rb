@@ -9,21 +9,23 @@ describe Api::V1::RegistrationsController, type: :controller do
         post :create, user: user_data
       end
 
-      it { expect(response).to have_http_status(:created) }
+      context 'a user' do
+        it { expect(response).to have_http_status(:created) }
 
-      it 'creates a new entry' do
-        result = User.last.name
+        it 'creates a new entry' do
+          result = User.last.name
 
-        expect(result).to eq('Newbie')
+          expect(result).to eq('Newbie')
+        end
+
+        it 'new user is active' do
+          result = User.last
+
+          expect(result).to be_active
+        end
       end
 
-      it 'new user is active' do
-        result = User.last
-
-        expect(result).to be_active
-      end
-
-      context 'priest' do
+      context 'a priest' do
         let(:user_data) do
           attributes_for(:user, role: :priest)
         end
