@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Api::V1::UsersController, type: :controller do
+describe Api::V1::UsersController, type: :controller do
 
   describe 'GET #show' do
     let(:admin) { create :user, :admin }
@@ -14,7 +14,9 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     it { expect(response).to have_http_status(:success) }
 
     it 'returns current user as json' do
-      expect(json['id']).to eq(user.id)
+      result = json['id']
+
+      expect(result).to eq(user.id)
     end
 
     context 'with expired access_token' do
@@ -29,18 +31,18 @@ RSpec.describe Api::V1::UsersController, type: :controller do
   describe 'PUT #update' do
     let(:admin) { create :user, :admin }
     let(:token) { create :access_token, resource_owner_id: admin.id }
-    let(:user) { create :user }
+    subject { create :user }
 
     before do
-      put :update, format: :json, access_token: token.token, id: user.id,
+      put :update, format: :json, access_token: token.token, id: subject.id,
           user: { name: 'UpdatedName' }
     end
 
     it { expect(response).to have_http_status(:success) }
 
     it 'updates user\'s data' do
-      user.reload
-      expect(user.name).to eq('UpdatedName')
+      subject.reload
+      expect(subject.name).to eq('UpdatedName')
     end
 
     context 'with expired access_token' do
@@ -64,7 +66,9 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     it { expect(response).to have_http_status(:success) }
 
     it 'destroys user' do
-      expect(assigns(:user)).to be_destroyed
+      result = assigns(:user)
+
+      expect(result).to be_destroyed
     end
 
     context 'user cannot destroy themselves' do
@@ -74,7 +78,10 @@ RSpec.describe Api::V1::UsersController, type: :controller do
 
       it 'didn\'t destroy the user' do
         user.reload
-        expect(user).to be_persisted
+
+        result = user
+
+        expect(result).to be_persisted
       end
     end
   end
@@ -82,27 +89,29 @@ RSpec.describe Api::V1::UsersController, type: :controller do
   describe 'PUT #activate' do
     let(:admin) { create :user, :admin }
     let(:token) { create :access_token, resource_owner_id: admin.id }
-    let(:user) { create :user, active: false }
+    subject { create :user, active: false }
 
     before do
-      put :activate, format: :json, access_token: token.token, id: user.id
+      put :activate, format: :json, access_token: token.token, id: subject.id
     end
 
     it { expect(response).to have_http_status(:success) }
 
     it 'updates user\'s data' do
-      user.reload
-      expect(user).to be_active
+      subject.reload
+
+      expect(subject).to be_active
     end
 
     context 'user cannot activate themselves' do
-      let (:token) { create :access_token, resource_owner_id: user.id }
+      let (:token) { create :access_token, resource_owner_id: subject.id }
 
       it { expect(response).to have_http_status(:unauthorized) }
 
       it 'didn\'t update the user' do
-        user.reload
-        expect(user).not_to be_active
+        subject.reload
+
+        expect(subject).not_to be_active
       end
     end
   end
@@ -110,29 +119,30 @@ RSpec.describe Api::V1::UsersController, type: :controller do
   describe 'PUT #deactivate' do
     let(:admin) { create :user, :admin }
     let(:token) { create :access_token, resource_owner_id: admin.id }
-    let(:user) { create :user, active: true }
+    subject { create :user, active: true }
 
     before do
-      put :deactivate, format: :json, access_token: token.token, id: user.id
+      put :deactivate, format: :json, access_token: token.token, id: subject.id
     end
 
     it { expect(response).to have_http_status(:success) }
 
     it 'updates user\'s data' do
-      user.reload
-      expect(user).not_to be_active
+      subject.reload
+
+      expect(subject).not_to be_active
     end
 
     context 'user cannot deactivate themselves' do
-      let (:token) { create :access_token, resource_owner_id: user.id }
+      let (:token) { create :access_token, resource_owner_id: subject.id }
 
       it { expect(response).to have_http_status(:unauthorized) }
 
       it 'didn\'t update the user' do
-        user.reload
-        expect(user).to be_active
+        subject.reload
+
+        expect(subject).to be_active
       end
     end
   end
-
 end
