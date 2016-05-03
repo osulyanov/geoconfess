@@ -37,7 +37,7 @@ class Api::V1::UsersController < Api::V1::V1Controller
     Updates user data
     Returns code 200 and {result: "success"} if user successfully updated.
   EOS
-  param :user, Hash, desc: 'User info' do
+  param :user, Hash, desc: 'User info', required: true do
     param :email, String, desc: 'Email', required: true
     param :password, String, desc: 'Password', required: true
     param :name, String, desc: 'Name', required: true
