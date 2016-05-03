@@ -14,7 +14,8 @@ class PushService
 
   def push!
     Rails.logger.info "push - creating"
-    if notification = push
+    notification = push
+    if notification
       Rails.logger.info "push - send"
       notification.app.push_notifications
     end
