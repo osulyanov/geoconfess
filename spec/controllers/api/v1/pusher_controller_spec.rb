@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Api::V1::PusherController, type: :controller do
 
   let(:user) { create :user }
-  let (:token) { create :access_token, resource_owner_id: user.id }
+  let(:token) { create :access_token, resource_owner_id: user.id }
 
   describe 'POST #auth' do
     context 'without channel_name' do
@@ -24,6 +24,19 @@ describe Api::V1::PusherController, type: :controller do
       end
 
       it { expect(response).to have_http_status(:unprocessable_entity) }
+
+      it { expect(response.body).to be_empty }
+    end
+
+    context 'with wrong channel_name' do
+      let(:other_user) { create :user }
+
+      before do
+        post :auth, format: :json, channel_name: "private-#{other_user.id}",
+             access_token: token.token
+      end
+
+      it { expect(response).to have_http_status(:forbidden) }
 
       it { expect(response.body).to be_empty }
     end
