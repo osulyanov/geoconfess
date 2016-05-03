@@ -8,8 +8,8 @@ Doorkeeper.configure do
     if params[:grant_type] == 'password'
       u = User.find_for_database_authentication(email: params[:username])
       if params[:username].present? && u && u.valid_password?(params[:password])
-        u.tap do |u|
-          u.update_attributes os: params[:os],
+        u.tap do |e|
+          e.update_attributes os: params[:os],
                               push_token: params[:push_token]
         end
       end
