@@ -9,7 +9,7 @@ class Api::V1::SpotsController < Api::V1::V1Controller
   end
 
   def_param_group :spot do
-    param :spot, Hash, desc: 'Spot info' do
+    param :spot, Hash, desc: 'Spot info', required: true do
       param :name, String, desc: 'Name', required: true
       param :activity_type, %w(static dynamic), desc: 'Type of spot'
       param :latitude, Float, desc: 'Latitude', required: true
