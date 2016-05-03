@@ -109,7 +109,7 @@ RSpec.describe Spot, type: :model do
     end
 
     it 'does\'n return spots with other priest_id' do
-      spot = create(:spot, activity_type: :dynamic, priest: priest)
+      create(:spot, activity_type: :dynamic, priest: priest)
 
       result = described_class.of_priest(priest.id)
 

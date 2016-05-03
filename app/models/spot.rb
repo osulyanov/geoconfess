@@ -38,7 +38,7 @@ class Spot < ActiveRecord::Base
       spot = find_by(activity_type: dynamic_id)
       spot.assign_attributes params if spot
     end
-    spot ||= new(params)
+    spot || new(params)
   end
 end
 
