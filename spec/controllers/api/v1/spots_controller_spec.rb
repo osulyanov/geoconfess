@@ -30,13 +30,28 @@ describe Api::V1::SpotsController, type: :controller do
         other_spot_1 = create(:spot, priest: other_priest)
         other_spot_2 = create(:spot, priest: other_priest)
         another_priest = create(:user, role: :priest)
-        another_spot = create(:spot, priest: another_priest)
+        create(:spot, priest: another_priest)
 
         get :index, priest_id: other_priest.id, format: :json, access_token: token.token
 
         result = json.map { |r| r['id'] }
 
         expect(result).to contain_exactly(other_spot_1.id, other_spot_2.id)
+      end
+    end
+
+    context 'filter by now' do
+      it 'returns only active right now spots' do
+        active_spot = create(:spot, activity_type: :dynamic, priest: priest,
+                             updated_at: 10.minutes.ago)
+        create(:spot, activity_type: :dynamic, priest: priest,
+               updated_at: 20.minutes.ago)
+
+        get :index, now: true, format: :json, access_token: token.token
+
+        result = json.map { |r| r['id'] }
+
+        expect(result).to contain_exactly(active_spot.id)
       end
     end
   end
