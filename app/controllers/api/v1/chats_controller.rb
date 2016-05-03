@@ -31,7 +31,7 @@ class Api::V1::ChatsController < Api::V1::V1Controller
 
   def index
     chats = current_user.messages
-    chats = chats.select("DISTINCT ON (sender_id, recipient_id) *")
+    chats = chats.select('DISTINCT ON (sender_id, recipient_id) *')
     chats.to_a.sort! { |f, s| s.created_at <=> f.created_at }
     @user_ids = []
     chats.each do |chat|
@@ -40,7 +40,6 @@ class Api::V1::ChatsController < Api::V1::V1Controller
     end
     @users = User.where(id: @user_ids)
   end
-
 
   api :GET, '/v1/messages/:id', 'Messages of certain Chat'
   description <<-EOS

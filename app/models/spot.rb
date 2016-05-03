@@ -4,7 +4,7 @@ class Spot < ActiveRecord::Base
   enum activity_type: [:static, :dynamic]
 
   belongs_to :priest, class_name: 'User', foreign_key: 'priest_id',
-             inverse_of: 'spots', required: true
+                      inverse_of: 'spots', required: true
   has_many :recurrences, dependent: :destroy
 
   validates :name, presence: true
@@ -28,8 +28,8 @@ class Spot < ActiveRecord::Base
     near([lat, lng], distance, order: 'distance', units: :km)
   }
   scope :outdated, lambda {
-    where('spots.activity_type = ?', activity_types[:dynamic]).
-      where('spots.updated_at < NOW() - \'15 minutes\'::INTERVAL')
+    where('spots.activity_type = ?', activity_types[:dynamic])
+      .where('spots.updated_at < NOW() - \'15 minutes\'::INTERVAL')
   }
 
   def self.assign_or_new(params)

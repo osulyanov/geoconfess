@@ -94,11 +94,13 @@ RSpec.describe MeetRequest, type: :model do
     let (:priest) { create(:user, role: :priest) }
     let (:penitent) { create(:user, role: :user) }
     let (:other_user) { create(:user, role: :user) }
-    let! (:other_meet_request) { create(:meet_request, priest_id: priest.id,
-                                        penitent_id: other_user.id) }
+    let! (:other_meet_request) do
+      create(:meet_request, priest_id: priest.id,
+                            penitent_id: other_user.id)
+    end
     let (:meet_request_attrs) do
       attributes_for(:meet_request, priest_id: priest.id, latitude: 11.2,
-                     longitude: 22.2)
+                                    longitude: 22.2)
     end
 
     context 'request doesn\'t exist' do
@@ -120,7 +122,7 @@ RSpec.describe MeetRequest, type: :model do
     context 'request already exists' do
       let! (:meet_request) do
         create(:meet_request, priest: priest, penitent: penitent,
-               latitude: 11.1, longitude: 22.1)
+                              latitude: 11.1, longitude: 22.1)
       end
       subject { penitent.outbound_requests.assign_or_new(meet_request_attrs) }
 

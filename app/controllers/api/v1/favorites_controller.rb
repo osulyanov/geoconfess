@@ -40,7 +40,6 @@ class Api::V1::FavoritesController < Api::V1::V1Controller
     @favorites = current_user.favorites
   end
 
-
   api! 'Create favorite'
   description <<-EOS
     ## Description
@@ -71,7 +70,6 @@ class Api::V1::FavoritesController < Api::V1::V1Controller
       render status: :unprocessable_entity, json: { errors: @favorite.errors }
     end
   end
-
 
   api! 'Destroy favorite'
   description <<-EOS

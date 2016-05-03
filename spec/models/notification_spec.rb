@@ -83,9 +83,9 @@ RSpec.describe Notification, type: :model do
     context 'creates a push entry' do
       it 'if unread with text and user has push_token and turned on notifications' do
         notification = create(:notification, user: recipient,
-                              notificationable: message,
-                              text: 'Some text',
-                              action: 'created')
+                                             notificationable: message,
+                                             text: 'Some text',
+                                             action: 'created')
 
         expect { notification.send_push }.to change { RailsPushNotifications::Notification.all.size }.by(1)
       end
@@ -94,18 +94,18 @@ RSpec.describe Notification, type: :model do
     context 'doesn\'t send push if' do
       it 'notification is read' do
         notification = create(:notification, user: recipient, unread: false,
-                              notificationable: message,
-                              text: 'Some text',
-                              action: 'created')
+                                             notificationable: message,
+                                             text: 'Some text',
+                                             action: 'created')
 
         expect { notification.send_push }.not_to change { RailsPushNotifications::Notification.all.size }
       end
 
       it 'text is empty' do
         notification = create(:notification, user: recipient,
-                              notificationable: message,
-                              text: '',
-                              action: 'created')
+                                             notificationable: message,
+                                             text: '',
+                                             action: 'created')
 
         expect { notification.send_push }.not_to change { RailsPushNotifications::Notification.all.size }
       end
@@ -114,9 +114,9 @@ RSpec.describe Notification, type: :model do
         recipient = create(:user, notification: false)
 
         notification = create(:notification, user: recipient,
-                              notificationable: message,
-                              text: '',
-                              action: 'created')
+                                             notificationable: message,
+                                             text: '',
+                                             action: 'created')
 
         expect { notification.send_push }.not_to change { RailsPushNotifications::Notification.all.size }
       end
@@ -125,9 +125,9 @@ RSpec.describe Notification, type: :model do
         recipient = create(:user, push_token: nil)
 
         notification = create(:notification, user: recipient,
-                              notificationable: message,
-                              text: '',
-                              action: 'created')
+                                             notificationable: message,
+                                             text: '',
+                                             action: 'created')
 
         expect { notification.send_push }.not_to change { RailsPushNotifications::Notification.all.size }
       end

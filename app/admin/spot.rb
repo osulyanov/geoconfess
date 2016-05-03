@@ -29,7 +29,7 @@ ActiveAdmin.register Spot do
       f.input :postcode
       f.input :city
       f.input :state
-      f.input :country, priority_countries: ['FR', 'GB', 'DE']
+      f.input :country, priority_countries: %w(FR GB DE)
     end
     f.actions
   end

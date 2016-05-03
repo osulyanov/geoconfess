@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe Api::V1::MeetRequestsController, type: :controller do
-
   let(:priest) { create :user, role: :priest }
   let(:user) { create :user }
   let(:other_user) { create :user }
@@ -12,7 +11,6 @@ describe Api::V1::MeetRequestsController, type: :controller do
     let(:token) { create :access_token, resource_owner_id: user.id }
 
     context 'basic functions' do
-
       before do
         get :index, format: :json, access_token: token.token
       end
@@ -42,7 +40,7 @@ describe Api::V1::MeetRequestsController, type: :controller do
 
       before do
         get :index, format: :json, access_token: token.token,
-            party_id: other_priest.id
+                    party_id: other_priest.id
       end
 
       it 'returns request to certain priest' do
@@ -57,7 +55,7 @@ describe Api::V1::MeetRequestsController, type: :controller do
 
       before do
         get :index, format: :json, access_token: token.token,
-            party_id: other_user.id
+                    party_id: other_user.id
       end
 
       it 'returns request from certain user' do
@@ -68,12 +66,10 @@ describe Api::V1::MeetRequestsController, type: :controller do
     end
   end
 
-
   describe 'GET #show' do
     let(:token) { create :access_token, resource_owner_id: user.id }
 
     context 'with ID of user\'s request' do
-
       before do
         get :show, format: :json, id: request_1.id, access_token: token.token
       end
@@ -88,7 +84,6 @@ describe Api::V1::MeetRequestsController, type: :controller do
     end
 
     context 'with ID of other_user\'s request' do
-
       before do
         get :show, format: :json, id: request_2.id, access_token: token.token
       end
@@ -97,15 +92,13 @@ describe Api::V1::MeetRequestsController, type: :controller do
     end
   end
 
-
   describe 'POST #create' do
     let(:token) { create :access_token, resource_owner_id: user.id }
 
     context 'request has already been sent to the priest' do
-
       before do
         post :create, format: :json, access_token: token.token,
-             request: attributes_for(:request, priest_id: priest.id, status: 'accepted')
+                      request: attributes_for(:request, priest_id: priest.id, status: 'accepted')
       end
 
       it { expect(response).to have_http_status(:success) }
@@ -124,11 +117,10 @@ describe Api::V1::MeetRequestsController, type: :controller do
     end
 
     context 'request has not been sent to the priest' do
-
       before do
         MeetRequest.destroy_all
         post :create, format: :json, access_token: token.token,
-             request: attributes_for(:request, priest_id: priest.id, status: 'accepted')
+                      request: attributes_for(:request, priest_id: priest.id, status: 'accepted')
       end
 
       it { expect(response).to have_http_status(:success) }
@@ -151,7 +143,7 @@ describe Api::V1::MeetRequestsController, type: :controller do
 
       before do
         post :create, format: :json, access_token: token.token,
-             request: attributes_for(:request, priest_id: priest.id, status: 'accepted')
+                      request: attributes_for(:request, priest_id: priest.id, status: 'accepted')
       end
 
       it { expect(response).to have_http_status(:unauthorized) }
@@ -165,7 +157,7 @@ describe Api::V1::MeetRequestsController, type: :controller do
 
     before do
       put :update, format: :json, access_token: token.token, id: request_1.id,
-          request: { status: 'accepted' }
+                   request: { status: 'accepted' }
     end
 
     it { expect(response).to have_http_status(:success) }
@@ -241,7 +233,6 @@ describe Api::V1::MeetRequestsController, type: :controller do
     end
   end
 
-
   describe 'PUT #refuse' do
     let(:token) { create :access_token, resource_owner_id: priest.id }
 
@@ -269,5 +260,4 @@ describe Api::V1::MeetRequestsController, type: :controller do
       end
     end
   end
-
 end

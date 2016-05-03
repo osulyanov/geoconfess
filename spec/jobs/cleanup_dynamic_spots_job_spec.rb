@@ -3,7 +3,7 @@ require 'rails_helper'
 describe CleanupDynamicSpotsJob, type: :job do
   include ActiveJob::TestHelper
 
-  subject(:job) { described_class.perform_later() }
+  subject(:job) { described_class.perform_later }
 
   it 'queues the job' do
     expect { job }

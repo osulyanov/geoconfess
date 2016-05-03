@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::CredentialsController, type: :controller do
-
   describe 'GET #show (integrated)' do
     let(:user) { create :user }
     let(:token) { create :access_token, resource_owner_id: user.id }
@@ -31,7 +30,7 @@ RSpec.describe Api::V1::CredentialsController, type: :controller do
 
     before do
       put :update, format: :json, access_token: token.token, id: user.id,
-          user: { name: 'UpdatedName' }
+                   user: { name: 'UpdatedName' }
     end
 
     it { expect(response).to have_http_status(:success) }
@@ -49,5 +48,4 @@ RSpec.describe Api::V1::CredentialsController, type: :controller do
       it { expect(response.body).to be_empty }
     end
   end
-
 end

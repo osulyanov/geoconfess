@@ -45,7 +45,6 @@ class Api::V1::RecurrencesController < Api::V1::V1Controller
     @recurrences = @spot.recurrences
   end
 
-
   api! 'Show Recurrence'
   description <<-EOS
     ## Description
@@ -63,7 +62,6 @@ class Api::V1::RecurrencesController < Api::V1::V1Controller
 
   def show
   end
-
 
   api :POST, '/v1/spots/:spot_id/recurrences', 'Create recurrence'
   description <<-EOS
@@ -92,7 +90,6 @@ class Api::V1::RecurrencesController < Api::V1::V1Controller
     end
   end
 
-
   api! 'Update recurrence'
   description <<-EOS
     ## Description
@@ -108,7 +105,6 @@ class Api::V1::RecurrencesController < Api::V1::V1Controller
       render status: :unprocessable_entity, json: { errors: @recurrence.errors }
     end
   end
-
 
   api! 'Destroy recurrence'
   description <<-EOS
@@ -146,7 +142,6 @@ class Api::V1::RecurrencesController < Api::V1::V1Controller
     spot_ids = @priest.spot_ids
     @recurrences = Recurrence.in_the_future.where(spot_id: spot_ids)
   end
-
 
   api! 'Confirm priest availability'
   description <<-EOS

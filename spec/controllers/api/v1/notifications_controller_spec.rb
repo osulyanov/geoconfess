@@ -1,13 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::NotificationsController, type: :controller do
-
   let(:sender) { create :user }
   let(:recipient) { create :user }
   let (:message) { create(:message, sender: sender, recipient: recipient) }
   let! (:notification) { create(:notification, user: recipient, notificationable: message) }
   let! (:other_notification) { create(:notification, user: sender, notificationable: message) }
-
 
   describe 'GET #index' do
     let(:token) { create :access_token, resource_owner_id: recipient.id }
@@ -37,12 +35,10 @@ RSpec.describe Api::V1::NotificationsController, type: :controller do
     end
   end
 
-
   describe 'GET #show' do
     let(:token) { create :access_token, resource_owner_id: recipient.id }
 
     context 'with ID of user\'s notification' do
-
       before do
         get :show, format: :json, id: notification.id, access_token: token.token
       end
@@ -55,7 +51,6 @@ RSpec.describe Api::V1::NotificationsController, type: :controller do
     end
 
     context 'with ID of other_user\'s notification' do
-
       before do
         get :show, format: :json, id: other_notification.id, access_token: token.token
       end
@@ -89,5 +84,4 @@ RSpec.describe Api::V1::NotificationsController, type: :controller do
       end
     end
   end
-
 end

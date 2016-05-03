@@ -1,7 +1,7 @@
 class Favorite < ActiveRecord::Base
   belongs_to :user, required: true
   belongs_to :priest, class_name: 'User', foreign_key: 'priest_id',
-             inverse_of: 'favorites', required: true
+                      inverse_of: 'favorites', required: true
 end
 
 # == Schema Information

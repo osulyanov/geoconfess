@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe Api::V1::RecurrencesController, type: :controller do
-
   let(:priest) { create :user, role: :priest }
   let(:user) { create :user }
   let(:admin) { create :user, :admin }
@@ -24,7 +23,6 @@ describe Api::V1::RecurrencesController, type: :controller do
     end
   end
 
-
   describe 'GET #show' do
     let(:token) { create :access_token, resource_owner_id: user.id }
 
@@ -41,13 +39,12 @@ describe Api::V1::RecurrencesController, type: :controller do
     end
   end
 
-
   describe 'POST #create' do
     let(:token) { create :access_token, resource_owner_id: priest.id }
 
     before do
       post :create, id: spot.id, spot_id: spot.id, format: :json, access_token: token.token,
-           recurrence: recurrence_params
+                    recurrence: recurrence_params
     end
 
     context 'with date' do
@@ -66,7 +63,7 @@ describe Api::V1::RecurrencesController, type: :controller do
 
     context 'with weekdays' do
       let(:recurrence_params) do
-        { week_days: ['Tuesday', 'Thursday'],
+        { week_days: %w(Tuesday Thursday),
           start_at: '10:15', stop_at: '16:00' }
       end
 
@@ -97,7 +94,7 @@ describe Api::V1::RecurrencesController, type: :controller do
 
     before do
       put :update, format: :json, access_token: token.token, id: recurrence.id,
-          recurrence: { date: '2017-06-18' }
+                   recurrence: { date: '2017-06-18' }
     end
 
     it { expect(response).to have_http_status(:success) }
@@ -171,7 +168,7 @@ describe Api::V1::RecurrencesController, type: :controller do
 
     before do
       put :confirm_availability, format: :json, access_token: token.token,
-          id: recurrence.id
+                                 id: recurrence.id
       recurrence.reload
     end
 

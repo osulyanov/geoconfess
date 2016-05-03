@@ -19,8 +19,8 @@ class Notification < ActiveRecord::Base
   end
 
   def set_read!
-    self.set_read
-    self.save
+    set_read
+    save
   end
 
   def send_notifications
@@ -30,14 +30,14 @@ class Notification < ActiveRecord::Base
 
   def send_pusher
     pusher_data = notificationable.pusher_data
-    pusher_data.merge!({ notification_id: id })
+    pusher_data[:notification_id] = id
     Pusher.trigger(notificationable.recipient.channel,
                    "#{notificationable_type}:#{action}", pusher_data)
   end
 
   def send_push
     return unless unread? && text.present? &&
-      user.push_token.present? && user.notification?
+                  user.push_token.present? && user.notification?
     PushService.new(push_data).push!
   end
 

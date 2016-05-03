@@ -5,8 +5,10 @@ RSpec.describe AskPriestJob, type: :job do
 
   let(:priest) { create(:user, role: :priest) }
   let(:spot) { create(:spot, priest: priest) }
-  let!(:recurrence) { create(:recurrence, spot: spot, date: Time.zone.today,
-                             start_at: '14:00', stop_at: '15:00') }
+  let!(:recurrence) do
+    create(:recurrence, spot: spot, date: Time.zone.today,
+                        start_at: '14:00', stop_at: '15:00')
+  end
   subject(:job) { described_class.perform_later(recurrence.id) }
 
   it 'queues the job' do

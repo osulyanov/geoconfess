@@ -29,7 +29,6 @@ class Api::V1::CredentialsController < Api::V1::V1Controller
     render 'api/v1/users/show'
   end
 
-
   api :PUT, '/v1/me', 'Update current user'
   description <<-EOS
     ## Description

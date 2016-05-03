@@ -63,7 +63,6 @@ class Api::V1::SpotsController < Api::V1::V1Controller
   def me_spots_stub
   end
 
-
   api :GET, '/v1/spots', 'Spots list'
   description <<-EOS
     ## Description
@@ -121,7 +120,6 @@ class Api::V1::SpotsController < Api::V1::V1Controller
   def index
   end
 
-
   api! 'Show spot'
   description <<-EOS
     ## Description
@@ -158,7 +156,6 @@ class Api::V1::SpotsController < Api::V1::V1Controller
 
   def show
   end
-
 
   api! 'Create spot'
   description <<-EOS
@@ -197,7 +194,6 @@ class Api::V1::SpotsController < Api::V1::V1Controller
     end
   end
 
-
   api! 'Update spot'
   description <<-EOS
     ## Description
@@ -213,7 +209,6 @@ class Api::V1::SpotsController < Api::V1::V1Controller
       render status: :unprocessable_entity, json: { errors: @spot.errors }
     end
   end
-
 
   api! 'Destroy spot'
   description <<-EOS

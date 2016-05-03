@@ -1,5 +1,5 @@
 json.array! @user_ids do |user_id|
-  user = @users.select { |u| u.id == user_id }.first
+  user = @users.find { |u| u.id == user_id }
   next unless user
 
   json.id user_id

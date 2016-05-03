@@ -1,17 +1,22 @@
 require 'rails_helper'
 
 describe CreateAskPriestJobsForTodayService do
-
   let(:priest) { create(:user, role: :priest) }
   let(:spot) { create(:spot, priest: priest) }
   let(:wdays) { Date::DAYNAMES - [Time.zone.today.strftime('%A')] }
-  let!(:today_recurrence) { create(:recurrence, spot: spot, date: Time.zone.today,
-                                   start_at: '14:00', stop_at: '15:00') }
-  let!(:recurred_recurrence) { create(:recurrence, spot: spot, date: nil,
-                                      start_at: '14:00', stop_at: '15:00',
-                                      week_days: wdays) }
-  let!(:tomorrow_recurrence) { create(:recurrence, spot: spot, date: 1.day.from_now,
-                                      start_at: '14:00', stop_at: '15:00') }
+  let!(:today_recurrence) do
+    create(:recurrence, spot: spot, date: Time.zone.today,
+                        start_at: '14:00', stop_at: '15:00')
+  end
+  let!(:recurred_recurrence) do
+    create(:recurrence, spot: spot, date: nil,
+                        start_at: '14:00', stop_at: '15:00',
+                        week_days: wdays)
+  end
+  let!(:tomorrow_recurrence) do
+    create(:recurrence, spot: spot, date: 1.day.from_now,
+                        start_at: '14:00', stop_at: '15:00')
+  end
 
   subject { CreateAskPriestJobsForTodayService.new }
 

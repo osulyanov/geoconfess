@@ -1,7 +1,7 @@
 class AskPriestService
   def initialize(recurrence_id)
     @recurrence = Recurrence.includes(:spot, spot: [:priest])
-                    .find_by(id: recurrence_id)
+                            .find_by(id: recurrence_id)
     @spot = @recurrence.spot
   end
 
@@ -31,14 +31,12 @@ class AskPriestService
   end
 
   def create_push
-    PushService.new({
-                      user: @spot.priest,
-                      text: 'Confirmez votre disponibilité pour confesser!',
-                      aps: {
-                        model: 'Recurrence',
-                        id: @recurrence_id,
-                        action: 'availability'
-                      }
+    PushService.new(user: @spot.priest,
+                    text: 'Confirmez votre disponibilité pour confesser!',
+                    aps: {
+                      model: 'Recurrence',
+                      id: @recurrence_id,
+                      action: 'availability'
                     }).push!
   end
 end

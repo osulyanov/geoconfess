@@ -33,9 +33,9 @@ describe Api::V1::FavoritesController, type: :controller do
       end
 
       it 'doesn\'t return priest location' do
-        priest_row = json.select { |r| r['priest']['id'] == unavailable_priest.id }.first
-        latitude, longitude = priest_row['priest']['latitude'],
-          priest_row['priest']['longitude']
+        priest_row = json.find { |r| r['priest']['id'] == unavailable_priest.id }
+        latitude = priest_row['priest']['latitude']
+        longitude = priest_row['priest']['longitude']
 
         expect([latitude, longitude]).to eq([nil, nil])
       end
@@ -45,7 +45,7 @@ describe Api::V1::FavoritesController, type: :controller do
       let(:available_priest) { create(:user, role: :priest) }
       let!(:spot) do
         create(:spot, activity_type: :dynamic, priest: available_priest,
-               latitude: 12.555, longitude: 34.666)
+                      latitude: 12.555, longitude: 34.666)
       end
 
       before do
@@ -54,9 +54,9 @@ describe Api::V1::FavoritesController, type: :controller do
       end
 
       it 'doesn\'t return priest location' do
-        priest_row = json.select { |r| r['priest']['id'] == available_priest.id }.first
-        latitude, longitude = priest_row['priest']['latitude'],
-          priest_row['priest']['longitude']
+        priest_row = json.find { |r| r['priest']['id'] == available_priest.id }
+        latitude = priest_row['priest']['latitude']
+        longitude = priest_row['priest']['longitude']
 
         expect([latitude, longitude]).to eq([12.555, 34.666])
       end
@@ -83,7 +83,7 @@ describe Api::V1::FavoritesController, type: :controller do
 
       before do
         post :create, format: :json, access_token: token.token,
-             favorite: { priest_id: priest.id }
+                      favorite: { priest_id: priest.id }
       end
 
       it { expect(response).to have_http_status(:success) }
@@ -104,7 +104,7 @@ describe Api::V1::FavoritesController, type: :controller do
     context 'priest not in the favorites yet' do
       before do
         post :create, format: :json, access_token: token.token,
-             favorite: { priest_id: priest.id }
+                      favorite: { priest_id: priest.id }
       end
 
       it { expect(response).to have_http_status(:success) }
@@ -127,7 +127,7 @@ describe Api::V1::FavoritesController, type: :controller do
 
       before do
         post :create, format: :json, access_token: token.token,
-             favorite: { priest_id: priest.id }
+                      favorite: { priest_id: priest.id }
       end
 
       it { expect(response).to have_http_status(:unauthorized) }

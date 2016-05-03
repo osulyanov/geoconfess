@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe Api::V1::ChatsController, type: :controller do
-
   let(:user) { create :user }
   let(:sender) { create :user }
   let(:recipient) { create :user }
@@ -9,8 +8,8 @@ describe Api::V1::ChatsController, type: :controller do
   let(:other_recipient) { create :user }
   let!(:message_in_1) { create :message, sender: sender, recipient: user, created_at: 1.second.ago }
   let!(:message_in_2) { create :message, sender: sender, recipient: user, created_at: 5.seconds.ago }
-  let!(:message_out_1) { create :message, sender: user, recipient: recipient, created_at: 4.second.ago }
-  let!(:message_out_2) { create :message, sender: user, recipient: recipient, created_at: 3.second.ago }
+  let!(:message_out_1) { create :message, sender: user, recipient: recipient, created_at: 4.seconds.ago }
+  let!(:message_out_2) { create :message, sender: user, recipient: recipient, created_at: 3.seconds.ago }
   let!(:other_message) { create :message, sender: other_sender, recipient: other_recipient }
 
   describe 'GET #index' do
@@ -37,11 +36,9 @@ describe Api::V1::ChatsController, type: :controller do
     end
   end
 
-
   describe 'GET #show' do
     let(:token) { create :access_token, resource_owner_id: user.id }
     context 'for current user' do
-
       before do
         get :show, format: :json, id: recipient.id, access_token: token.token
       end

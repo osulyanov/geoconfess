@@ -1,11 +1,12 @@
 require 'rails_helper'
 
 describe AskPriestService do
-
   let(:priest) { create(:user, role: :priest) }
   let(:spot) { create(:spot, priest: priest) }
-  let!(:recurrence) { create(:recurrence, spot: spot, date: Time.zone.today,
-                             start_at: '14:00', stop_at: '15:00') }
+  let!(:recurrence) do
+    create(:recurrence, spot: spot, date: Time.zone.today,
+                        start_at: '14:00', stop_at: '15:00')
+  end
   subject { AskPriestService.new(recurrence.id) }
 
   context 'if recurrence id not present' do
@@ -19,9 +20,11 @@ describe AskPriestService do
 
   describe '#inactive?' do
     context 'recurrence busy_count=2' do
-      let!(:recurrence) { create(:recurrence, spot: spot, date: Time.zone.today,
-                                 start_at: '14:00', stop_at: '15:00',
-                                 busy_count: 2) }
+      let!(:recurrence) do
+        create(:recurrence, spot: spot, date: Time.zone.today,
+                            start_at: '14:00', stop_at: '15:00',
+                            busy_count: 2)
+      end
 
       it 'return false' do
         result = subject.inactive?
@@ -31,9 +34,11 @@ describe AskPriestService do
     end
 
     context 'recurrence busy_count=3' do
-      let!(:recurrence) { create(:recurrence, spot: spot, date: Time.zone.today,
-                                 start_at: '14:00', stop_at: '15:00',
-                                 busy_count: 3) }
+      let!(:recurrence) do
+        create(:recurrence, spot: spot, date: Time.zone.today,
+                            start_at: '14:00', stop_at: '15:00',
+                            busy_count: 3)
+      end
 
       it 'return true' do
         result = subject.inactive?
@@ -43,9 +48,11 @@ describe AskPriestService do
     end
 
     context 'recurrence busy_count>3' do
-      let!(:recurrence) { create(:recurrence, spot: spot, date: Time.zone.today,
-                                 start_at: '14:00', stop_at: '15:00',
-                                 busy_count: 4) }
+      let!(:recurrence) do
+        create(:recurrence, spot: spot, date: Time.zone.today,
+                            start_at: '14:00', stop_at: '15:00',
+                            busy_count: 4)
+      end
 
       it 'return true' do
         result = subject.inactive?
@@ -57,9 +64,11 @@ describe AskPriestService do
 
   describe '#destroy_if_old' do
     context 'recurrence is inactive' do
-      let!(:recurrence) { create(:recurrence, spot: spot, date: Time.zone.today,
-                                 start_at: '14:00', stop_at: '15:00',
-                                 busy_count: 4) }
+      let!(:recurrence) do
+        create(:recurrence, spot: spot, date: Time.zone.today,
+                            start_at: '14:00', stop_at: '15:00',
+                            busy_count: 4)
+      end
 
       it 'return true' do
         result = subject.destroy_if_old
@@ -76,9 +85,11 @@ describe AskPriestService do
     end
 
     context 'recurrence is active' do
-      let!(:recurrence) { create(:recurrence, spot: spot, date: Time.zone.today,
-                                 start_at: '14:00', stop_at: '15:00',
-                                 busy_count: 2) }
+      let!(:recurrence) do
+        create(:recurrence, spot: spot, date: Time.zone.today,
+                            start_at: '14:00', stop_at: '15:00',
+                            busy_count: 2)
+      end
 
       it 'return false' do
         result = subject.destroy_if_old

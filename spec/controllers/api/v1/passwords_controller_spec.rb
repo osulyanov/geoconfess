@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::PasswordsController, type: :controller do
-
   describe 'POST #create' do
     let!(:user) { create :user }
 
@@ -12,9 +11,9 @@ RSpec.describe Api::V1::PasswordsController, type: :controller do
       end
 
       it 'sends an email' do
-        expect {
+        expect do
           post :create, user: { email: user.email }
-        }.to change { ActionMailer::Base.deliveries.count }.by(1)
+        end.to change { ActionMailer::Base.deliveries.count }.by(1)
       end
     end
 
@@ -25,11 +24,10 @@ RSpec.describe Api::V1::PasswordsController, type: :controller do
       end
 
       it 'does\'n send an email' do
-        expect {
+        expect do
           post :create, user: { email: 'wrong@mail.ru' }
-        }.to_not change { ActionMailer::Base.deliveries.count }
+        end.to_not change { ActionMailer::Base.deliveries.count }
       end
     end
   end
-
 end

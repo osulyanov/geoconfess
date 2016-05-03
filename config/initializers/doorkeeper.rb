@@ -4,19 +4,21 @@ Doorkeeper.configure do
   # :mongoid4, :mongo_mapper
   orm :active_record
 
-  resource_owner_from_credentials do |routes|
+  resource_owner_from_credentials do |_routes|
     if params[:grant_type] == 'password'
       u = User.find_for_database_authentication(email: params[:username])
       if params[:username].present? && u && u.valid_password?(params[:password])
-        u.tap { |u| u.update_attributes os: params[:os],
-                                        push_token: params[:push_token] }
+        u.tap do |u|
+          u.update_attributes os: params[:os],
+                              push_token: params[:push_token]
+        end
       end
     end
   end
 
   # This block will be called to check whether the resource owner is authenticated or not.
   resource_owner_authenticator do
-    current_user || warden.authenticate!(:scope => :user)
+    current_user || warden.authenticate!(scope: :user)
     # Example implementation:
     #   User.find_by_id(session[:user_id]) || redirect_to(new_user_session_url)
   end
@@ -33,7 +35,7 @@ Doorkeeper.configure do
 
   # Access token expiration time (default 2 hours).
   # If you want to disable expiration, set this to nil.
-  access_token_expires_in nil #Rails.env == 'development' ? nil : 4.hours
+  access_token_expires_in nil # Rails.env == 'development' ? nil : 4.hours
 
   # Assign a custom TTL for implicit grants.
   # custom_access_token_expires_in do |oauth_client|
@@ -114,6 +116,6 @@ Doorkeeper.configure do
   # end
 
   # WWW-Authenticate Realm (default "Doorkeeper").
-  realm "Doorkeeper"
+  realm 'Doorkeeper'
 end
-Doorkeeper.configuration.token_grant_types << "password"
+Doorkeeper.configuration.token_grant_types << 'password'

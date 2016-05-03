@@ -2,9 +2,7 @@ ActiveAdmin.register MeetRequest do
   permit_params :priest_id, :penitent_id, :status, :latitude, :longitude
 
   scope :all, default: true
-  scope 'Active' do |items|
-    items.active
-  end
+  scope 'Active', &:active
 
   index do
     selectable_column

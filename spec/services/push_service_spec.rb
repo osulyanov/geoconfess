@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe PushService do
-
   subject { PushService.new(params) }
 
   let(:params) { { user: user, text: 'New message' } }

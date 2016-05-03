@@ -1,15 +1,14 @@
 require 'rails_helper'
 
 describe CleanupDynamicSpotsService do
-
   let(:priest) { create(:user, role: :priest) }
   let!(:actual_spot) do
     create(:spot, priest: priest, activity_type: :dynamic,
-           updated_at: 9.minutes.ago)
+                  updated_at: 9.minutes.ago)
   end
   let!(:outdated_spot) do
     create(:spot, priest: priest, activity_type: :dynamic,
-           updated_at: 19.minutes.ago)
+                  updated_at: 19.minutes.ago)
   end
 
   subject { described_class.new }

@@ -24,10 +24,9 @@ class MeetRequest < ActiveRecord::Base
 
   after_create :send_create_notification
   after_update :send_accept_notification,
-               if: Proc.new { |r| r.status_changed? && r.accepted? }
+               if: proc { |r| r.status_changed? && r.accepted? }
   after_update :send_refuse_notification,
-               if: Proc.new { |r| r.status_changed? && r.refused? }
-
+               if: proc { |r| r.status_changed? && r.refused? }
 
   def self.assign_or_new(params)
     meet_request = find_by(priest_id: params[:priest_id]) || new(params)
@@ -59,7 +58,7 @@ class MeetRequest < ActiveRecord::Base
       priest: {
         id: priest.id,
         name: priest.name,
-        surname: priest.surname,
+        surname: priest.surname
       },
       penitent: {
         id: penitent.id,

@@ -100,7 +100,6 @@ class Api::V1::NotificationsController < Api::V1::V1Controller
   def show
   end
 
-
   api :PUT, '/v1/notifications/:id/mark_read', 'Mark notification as read'
   description <<-EOS
     Mark notification by ID as read.

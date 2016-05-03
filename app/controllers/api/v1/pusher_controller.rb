@@ -15,9 +15,9 @@ class Api::V1::PusherController < Api::V1::V1Controller
 
   def auth
     unless params[:channel_name] == "private-#{current_user.id}"
-      head :forbidden and return
+      head(:forbidden) && return
     end
-    head :unprocessable_entity and return unless params[:socket_id].present?
+    head(:unprocessable_entity) && return unless params[:socket_id].present?
     begin
       response = Pusher.authenticate("private-#{current_user.id}", params[:socket_id])
     rescue Pusher::Error => e

@@ -30,7 +30,6 @@ class Api::V1::UsersController < Api::V1::V1Controller
     render 'api/v1/users/show'
   end
 
-
   api! 'Update user'
   description <<-EOS
     ## Description
@@ -55,7 +54,6 @@ class Api::V1::UsersController < Api::V1::V1Controller
     end
   end
 
-
   api! 'Destroy user'
   description <<-EOS
     ## Description
@@ -71,7 +69,6 @@ class Api::V1::UsersController < Api::V1::V1Controller
     end
   end
 
-
   api! 'Activate user'
   description <<-EOS
     ## Description
@@ -86,7 +83,6 @@ class Api::V1::UsersController < Api::V1::V1Controller
       render status: :unprocessable_entity, json: { errors: @user.errors }
     end
   end
-
 
   api! 'Deactivate user'
   description <<-EOS

@@ -1,12 +1,13 @@
 require 'rails_helper'
 
 describe Api::V1::SpotsController, type: :controller do
-
   let(:priest) { create :user, role: :priest }
   let(:user) { create :user }
   let(:admin) { create :user, :admin }
-  let!(:spot) { create :spot, priest: priest, activity_type: :static,
-                       latitude: 35.487, longitude: 96.022 }
+  let!(:spot) do
+    create :spot, priest: priest, activity_type: :static,
+                  latitude: 35.487, longitude: 96.022
+  end
 
   describe 'GET #index' do
     let(:token) { create :access_token, resource_owner_id: user.id }
@@ -44,9 +45,9 @@ describe Api::V1::SpotsController, type: :controller do
     context 'filter by now' do
       it 'returns only active right now spots' do
         active_spot = create(:spot, activity_type: :dynamic, priest: priest,
-                             updated_at: 10.minutes.ago)
+                                    updated_at: 10.minutes.ago)
         create(:spot, activity_type: :dynamic, priest: priest,
-               updated_at: 20.minutes.ago)
+                      updated_at: 20.minutes.ago)
 
         get :index, now: true, format: :json, access_token: token.token
 
@@ -136,7 +137,6 @@ describe Api::V1::SpotsController, type: :controller do
     end
   end
 
-
   describe 'GET #show' do
     let(:token) { create :access_token, resource_owner_id: user.id }
 
@@ -153,13 +153,12 @@ describe Api::V1::SpotsController, type: :controller do
     end
   end
 
-
   describe 'POST #create' do
     let(:token) { create :access_token, resource_owner_id: priest.id }
 
     before do
       post :create, format: :json, access_token: token.token,
-           spot: attributes_for(:spot, name: 'New spot')
+                    spot: attributes_for(:spot, name: 'New spot')
     end
 
     it { expect(response).to have_http_status(:success) }
@@ -184,7 +183,7 @@ describe Api::V1::SpotsController, type: :controller do
 
     before do
       put :update, format: :json, access_token: token.token, id: spot.id,
-          spot: { name: 'Updated spot' }
+                   spot: { name: 'Updated spot' }
     end
 
     it { expect(response).to have_http_status(:success) }

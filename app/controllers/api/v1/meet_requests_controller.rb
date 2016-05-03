@@ -49,7 +49,6 @@ class Api::V1::MeetRequestsController < Api::V1::V1Controller
     @meet_requests = @meet_requests.for_user(params[:party_id]) if params[:party_id]
   end
 
-
   api! 'Show request'
   description <<-EOS
     ## Description
@@ -75,7 +74,6 @@ class Api::V1::MeetRequestsController < Api::V1::V1Controller
   def show
   end
 
-
   api! 'Create request'
   description <<-EOS
     ## Description
@@ -86,7 +84,7 @@ class Api::V1::MeetRequestsController < Api::V1::V1Controller
     param :priest_id, Integer, desc: 'Priest ID', required: true
     param :latitude, Integer, desc: 'Current user\'s latitude', required: true
     param :longitude, Integer, desc: 'Current user\'s longitude', required: true
-    param :status, ['pending', 'accepted', 'refused'], desc: 'Status. For admin only.'
+    param :status, %w(pending accepted refused), desc: 'Status. For admin only.'
   end
   example <<-EOS
     {
@@ -108,7 +106,6 @@ class Api::V1::MeetRequestsController < Api::V1::V1Controller
     end
   end
 
-
   api! 'Update request'
   description <<-EOS
     ## Description
@@ -117,7 +114,7 @@ class Api::V1::MeetRequestsController < Api::V1::V1Controller
   EOS
   param :request, Hash, desc: 'Request info', required: true do
     param :priest_id, Integer, desc: 'Priest ID', required: true
-    param :status, ['pending', 'accepted', 'refused'], desc: 'Status. For admin and priest only.'
+    param :status, %w(pending accepted refused), desc: 'Status. For admin and priest only.'
   end
 
   def update
@@ -127,7 +124,6 @@ class Api::V1::MeetRequestsController < Api::V1::V1Controller
       render status: :unprocessable_entity, json: { errors: @meet_request.errors }
     end
   end
-
 
   api! 'Destroy request'
   description <<-EOS
@@ -144,7 +140,6 @@ class Api::V1::MeetRequestsController < Api::V1::V1Controller
     end
   end
 
-
   api! 'Accept request'
   description <<-EOS
     ## Description
@@ -159,7 +154,6 @@ class Api::V1::MeetRequestsController < Api::V1::V1Controller
       render status: :unprocessable_entity, json: { errors: @meet_request.errors }
     end
   end
-
 
   api! 'Refuse request'
   description <<-EOS

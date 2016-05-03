@@ -8,10 +8,10 @@ class Recurrence < ActiveRecord::Base
   scope :confirmed_availability, -> { where active_date: Time.zone.today }
   scope :now, lambda {
     current_time = Time.zone.now.strftime('%H:%M')
-    where('recurrences.active_date = ?', Time.zone.today).
-      where('recurrences.date = ? OR recurrences.date ISNULL', Time.zone.today).
-      where('recurrences.start_at <= time ? AND recurrences.stop_at >= time ?', current_time, current_time).
-      select { |s| s.active_this_wday? }
+    where('recurrences.active_date = ?', Time.zone.today)
+      .where('recurrences.date = ? OR recurrences.date ISNULL', Time.zone.today)
+      .where('recurrences.start_at <= time ? AND recurrences.stop_at >= time ?', current_time, current_time)
+      .select(&:active_this_wday?)
   }
 
   validates :start_at, presence: true
@@ -26,7 +26,7 @@ class Recurrence < ActiveRecord::Base
   end
 
   def week_days_arr
-    w = read_attribute(:days)
+    w = self[:days]
     return [] if w.blank? || w == 0
     days_as_binary = Math.log2(w).floor.downto(0).map { |nth_bit| w[nth_bit] }
     [0] * (7 - days_as_binary.size) + days_as_binary
@@ -50,7 +50,7 @@ class Recurrence < ActiveRecord::Base
 
   def week_days=(values)
     days = Date::DAYNAMES.map { |d| values.include?(d) ? 1 : 0 }
-    write_attribute(:days, days.join.to_i(2))
+    self[:days] = days.join.to_i(2)
   end
 
   # true if recurrence is active by this week days

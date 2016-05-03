@@ -1,5 +1,4 @@
 class Api::V1::PasswordsController < Api::V1::V1Controller
-
   resource_description do
     short 'User Password'
   end

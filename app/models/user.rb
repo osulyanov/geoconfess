@@ -7,12 +7,12 @@ class User < ActiveRecord::Base
   enum role: [:admin, :priest, :user]
 
   has_many :tokens, class_name: 'Doorkeeper::AccessToken',
-           foreign_key: 'resource_owner_id', dependent: :destroy
+                    foreign_key: 'resource_owner_id', dependent: :destroy
   has_many :spots, foreign_key: 'priest_id', dependent: :destroy
   has_many :notifications, dependent: :destroy
   has_many :favorites, dependent: :destroy
   has_many :outbound_requests, class_name: 'MeetRequest',
-           foreign_key: 'penitent_id', dependent: :destroy
+                               foreign_key: 'penitent_id', dependent: :destroy
 
   scope :priests, -> { where role: roles[:priest] }
   scope :active, -> { where active: true }

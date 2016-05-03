@@ -119,9 +119,11 @@ RSpec.describe User, type: :model do
 
     context 'with active dynamic spot' do
       let(:spot) { create(:spot, activity_type: :static, priest: user) }
-      let!(:recurrence) { create(:recurrence, spot: spot, start_at: '00:00',
-                                 date: Time.zone.today, stop_at: '23:59',
-                                 active_date: Time.zone.today) }
+      let!(:recurrence) do
+        create(:recurrence, spot: spot, start_at: '00:00',
+                            date: Time.zone.today, stop_at: '23:59',
+                            active_date: Time.zone.today)
+      end
 
       it 'returns active recurrence' do
         expect(subject).to eq(spot)
@@ -136,7 +138,6 @@ RSpec.describe User, type: :model do
       end
     end
   end
-
 end
 
 # == Schema Information

@@ -32,9 +32,9 @@ RSpec.describe 'OAuth authorization', type: :request do
 
   context 'if credentials incorrect' do
     it 'auth nok' do
-      expect {
+      expect do
         client.password.get_token(user.email, 'wrong password')
-      }.to raise_error(OAuth2::Error)
+      end.to raise_error(OAuth2::Error)
     end
   end
 end

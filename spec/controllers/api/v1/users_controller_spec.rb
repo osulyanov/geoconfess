@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe Api::V1::UsersController, type: :controller do
-
   describe 'GET #show' do
     let(:admin) { create :user, :admin }
     let(:token) { create :access_token, resource_owner_id: admin.id }
@@ -35,7 +34,7 @@ describe Api::V1::UsersController, type: :controller do
 
     before do
       put :update, format: :json, access_token: token.token, id: subject.id,
-          user: { name: 'UpdatedName' }
+                   user: { name: 'UpdatedName' }
     end
 
     it { expect(response).to have_http_status(:success) }

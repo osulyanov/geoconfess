@@ -37,7 +37,6 @@ class Api::V1::MessagesController < Api::V1::V1Controller
     @messages = @messages.with_user(params[:interlocutor_id]) if params[:interlocutor_id].present?
   end
 
-
   api! 'Show message'
   description <<-EOS
     ## Description
@@ -54,7 +53,6 @@ class Api::V1::MessagesController < Api::V1::V1Controller
 
   def show
   end
-
 
   api! 'Create message'
   description <<-EOS
@@ -74,7 +72,6 @@ class Api::V1::MessagesController < Api::V1::V1Controller
     end
   end
 
-
   api! 'Update message'
   description <<-EOS
     ## Description
@@ -92,7 +89,6 @@ class Api::V1::MessagesController < Api::V1::V1Controller
       render status: :unprocessable_entity, json: { errors: @message.errors }
     end
   end
-
 
   api! 'Destroy message'
   description <<-EOS

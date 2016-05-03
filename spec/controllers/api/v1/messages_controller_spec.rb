@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::MessagesController, type: :controller do
-
   let(:sender) { create :user }
   let(:recipient) { create :user }
   let(:admin) { create :user, :admin }
@@ -52,12 +51,10 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
     end
   end
 
-
   describe 'GET #show' do
     let(:token) { create :access_token, resource_owner_id: recipient.id }
 
     context 'for current user' do
-
       before do
         get :show, format: :json, id: message.id, access_token: token.token
       end
@@ -80,13 +77,12 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
     end
   end
 
-
   describe 'POST #create' do
     let(:token) { create :access_token, resource_owner_id: sender.id }
 
     before do
       post :create, format: :json, access_token: token.token,
-           message: { recipient_id: recipient.id, text: 'Test it' }
+                    message: { recipient_id: recipient.id, text: 'Test it' }
     end
 
     it { expect(response).to have_http_status(:success) }
@@ -110,7 +106,7 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
 
     before do
       put :update, format: :json, access_token: token.token, id: message.id,
-          message: { text: 'New text' }
+                   message: { text: 'New text' }
     end
 
     it { expect(response).to have_http_status(:success) }
@@ -153,5 +149,4 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
       end
     end
   end
-
 end

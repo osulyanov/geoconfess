@@ -3,9 +3,7 @@ ActiveAdmin.register Notification do
                 :text
 
   scope :all, default: true
-  scope 'Unread' do |items|
-    items.unread
-  end
+  scope 'Unread', &:unread
 
   index do
     selectable_column
@@ -28,7 +26,7 @@ ActiveAdmin.register Notification do
     f.inputs 'Notification Details' do
       f.input :user
       f.input :action
-      f.input :notificationable_type, as: :select, collection: ['MeetRequest', 'Message']
+      f.input :notificationable_type, as: :select, collection: %w(MeetRequest Message)
       f.input :notificationable_id
       f.input :unread
       f.input :text
