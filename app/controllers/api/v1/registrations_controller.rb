@@ -6,11 +6,11 @@ class Api::V1::RegistrationsController < Api::V1::V1Controller
 
   api! 'Register user'
   description <<-EOS
-        ## Description
-        Users registration
-        Returns code 201 and {result: "success"} if user successfully created and errors otherwise.
+    ## Description
+    Users registration
+    Returns code 201 and {result: "success"} if user successfully created and errors otherwise.
   EOS
-  param :user, Hash, desc: 'User info' do
+  param :user, Hash, desc: 'User info', required: true do
     param :role, ['priest', 'user'], desc: 'Role', required: true
     param :email, String, desc: 'Email', required: true
     param :password, String, desc: 'Password', required: true
