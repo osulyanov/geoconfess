@@ -7,10 +7,10 @@ describe AskPriestService do
     create(:recurrence, spot: spot, date: Time.zone.today,
                         start_at: '14:00', stop_at: '15:00')
   end
-  subject { AskPriestService.new(recurrence.id) }
+  subject { described_class.new(recurrence.id) }
 
   context 'if recurrence id not present' do
-    subject { AskPriestService.new }
+    subject { described_class.new }
 
     it 'handles argument error' do
       expect { subject }

@@ -49,12 +49,12 @@ RSpec/AnyInstance:
     - 'spec/rails_helper.rb'
 
 # Offense count: 5
-RSpec/DescribedClass:
-  Exclude:
-    - 'spec/models/spot_spec.rb'
-    - 'spec/services/ask_priest_service_spec.rb'
-    - 'spec/services/create_ask_priest_jobs_for_today_service_spec.rb'
-    - 'spec/services/push_service_spec.rb'
+#RSpec/DescribedClass:
+#  Exclude:
+#    - 'spec/models/spot_spec.rb'
+#    - 'spec/services/ask_priest_service_spec.rb'
+#    - 'spec/services/create_ask_priest_jobs_for_today_service_spec.rb'
+#    - 'spec/services/push_service_spec.rb'
 
 # Offense count: 1
 # Configuration parameters: EnforcedStyle, SupportedStyles.

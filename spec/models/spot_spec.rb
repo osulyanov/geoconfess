@@ -225,7 +225,7 @@ describe Spot, type: :model do
       it 'creates a new one' do
         result = priest.spots.assign_or_new(spot_attrs)
 
-        expect(result).to be_a_new(Spot)
+        expect(result).to be_a_new(described_class)
       end
 
       it 'sets priest' do

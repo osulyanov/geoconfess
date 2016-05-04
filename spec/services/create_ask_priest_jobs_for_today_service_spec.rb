@@ -18,7 +18,7 @@ describe CreateAskPriestJobsForTodayService do
                         start_at: '14:00', stop_at: '15:00')
   end
 
-  subject { CreateAskPriestJobsForTodayService.new }
+  subject { described_class.new }
 
   describe '#todays_recurrences' do
     it 'returns recurrences which happens today' do
