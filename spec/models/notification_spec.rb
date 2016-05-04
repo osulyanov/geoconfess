@@ -24,6 +24,10 @@ describe Notification, type: :model do
     expect(subject).to be_unread
   end
 
+  it 'unsent by default' do
+    expect(subject).not_to be_sent
+  end
+
   describe '.unread' do
     let!(:unread) { create(:notification, user: recipient, notificationable: message) }
     let!(:read) { create(:notification, user: recipient, notificationable: message, unread: false) }
@@ -35,6 +39,20 @@ describe Notification, type: :model do
 
     it 'doesn\'t return read notification' do
       expect(subject).not_to include(read)
+    end
+  end
+
+  describe '.unsent' do
+    let!(:unsent) { create(:notification, user: recipient, notificationable: message) }
+    let!(:sent) { create(:notification, user: recipient, notificationable: message, sent: true) }
+    subject { described_class.unsent }
+
+    it 'returns unsent notification' do
+      expect(subject).to include(unsent)
+    end
+
+    it 'doesn\'t return sent notification' do
+      expect(subject).not_to include(sent)
     end
   end
 
