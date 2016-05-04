@@ -1,4 +1,4 @@
-class CleanupOutdatedMeetRequestJob < ActiveJob::Base
+class CleanupOutdatedMeetRequestsJob < ActiveJob::Base
   queue_as :default
 
   def perform

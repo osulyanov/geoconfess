@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe CleanupOutdatedMeetRequestJob, type: :job do
+describe CleanupOutdatedMeetRequestsJob, type: :job do
   include ActiveJob::TestHelper
 
   subject(:job) { described_class.perform_later }

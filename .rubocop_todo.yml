@@ -57,18 +57,6 @@ RSpec/DescribedClass:
     - 'spec/services/push_service_spec.rb'
 
 # Offense count: 1
-# Configuration parameters: CustomTransform.
-RSpec/FilePath:
-  Exclude:
-    - 'spec/jobs/cleanup_outdated_meet_requests_job_spec.rb'
-
-# Offense count: 1
-# Configuration parameters: AcceptedMethod.
-#RSpec/NotToNot:
-#  Exclude:
-#    - 'spec/controllers/api/v1/passwords_controller_spec.rb'
-
-# Offense count: 1
 # Configuration parameters: EnforcedStyle, SupportedStyles.
 # SupportedStyles: strict, flexible
 Rails/TimeZone:
