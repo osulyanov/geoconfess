@@ -1,9 +1,10 @@
 ActiveAdmin.register Notification do
   permit_params :user_id, :notificationable_type, :notificationable_id, :unread,
-                :text
+                :text, :sent
 
   scope :all, default: true
   scope 'Unread', &:unread
+  scope 'Unsent', &:unsent
 
   index do
     selectable_column
@@ -12,6 +13,7 @@ ActiveAdmin.register Notification do
     column :action
     column :notificationable
     column :unread
+    column :sent
     column(:text) { |n| truncate n.text, length: 50 }
     column :created_at
     actions
@@ -29,6 +31,7 @@ ActiveAdmin.register Notification do
       f.input :notificationable_type, as: :select, collection: %w(MeetRequest Message)
       f.input :notificationable_id
       f.input :unread
+      f.input :sent
       f.input :text
     end
     f.actions
