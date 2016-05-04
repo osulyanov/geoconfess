@@ -46,7 +46,7 @@ class Notification < ActiveRecord::Base
   end
 
   def send_push
-    return unless unread? && text.present? &&
+    return unless !sent? && text.present? &&
                   user.push_token.present? && user.notification?
     PushService.new(push_data).push!
   end
