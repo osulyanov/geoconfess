@@ -46,6 +46,26 @@ RSpec.describe Message, type: :model do
       expect(result).not_to include(message)
     end
   end
+  describe '.outdated' do
+    let(:message_35d_ago) do
+      create(:message, sender: sender, recipient: recipient,
+                       created_at: 35.days.ago)
+    end
+    let(:message_15d_ago) do
+      create(:message, sender: sender, recipient: recipient,
+                       created_at: 15.days.ago)
+    end
+
+    subject { described_class.outdated }
+
+    it 'returns messages created more than a month ago' do
+      expect(subject).to include(message_35d_ago)
+    end
+
+    it 'doesn\'t return messages created less than a month ago' do
+      expect(subject).not_to include(message_15d_ago)
+    end
+  end
 end
 
 # == Schema Information
