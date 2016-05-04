@@ -81,30 +81,6 @@ Style/BlockComments:
   Exclude:
     - 'spec/spec_helper.rb'
 
-# Offense count: 12
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: nested, compact
-Style/ClassAndModuleChildren:
-  Exclude:
-    - 'app/controllers/api/v1/chats_controller.rb'
-    - 'app/controllers/api/v1/credentials_controller.rb'
-    - 'app/controllers/api/v1/favorites_controller.rb'
-    - 'app/controllers/api/v1/meet_requests_controller.rb'
-    - 'app/controllers/api/v1/messages_controller.rb'
-    - 'app/controllers/api/v1/notifications_controller.rb'
-    - 'app/controllers/api/v1/passwords_controller.rb'
-    - 'app/controllers/api/v1/pusher_controller.rb'
-    - 'app/controllers/api/v1/recurrences_controller.rb'
-    - 'app/controllers/api/v1/registrations_controller.rb'
-    - 'app/controllers/api/v1/spots_controller.rb'
-    - 'app/controllers/api/v1/users_controller.rb'
-
 # Offense count: 65
 Style/Documentation:
   Enabled: false
-
-# Offense count: 3
-#Style/NestedParenthesizedCalls:
-#  Exclude:
-#    - 'spec/controllers/api/v1/recurrences_controller_spec.rb'
-#    - 'spec/models/recurrence_spec.rb'
