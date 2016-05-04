@@ -97,6 +97,30 @@ describe Notification, type: :model do
     end
   end
 
+  describe '#set_sent' do
+    subject { create(:notification, user: recipient, notificationable: message) }
+    before { subject.set_sent }
+
+    it 'set sent to true' do
+      expect(subject).to be_sent
+    end
+
+    it 'doesn\'t save changes' do
+      subject.reload
+      expect(subject).not_to be_sent
+    end
+  end
+
+  describe '#set_sent!' do
+    subject { create(:notification, user: recipient, notificationable: message) }
+    before { subject.set_sent! }
+
+    it 'set sent to true and save changes' do
+      subject.reload
+      expect(subject).to be_sent
+    end
+  end
+
   describe '#send_push' do
     context 'creates a push entry' do
       it 'if unread with text and user has push_token and turned on notifications' do
