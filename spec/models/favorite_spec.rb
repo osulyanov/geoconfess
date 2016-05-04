@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Favorite, type: :model do
+describe Favorite, type: :model do
   let (:priest) { create(:user, role: :priest) }
   let (:user) { create(:user, role: :user) }
   subject { build(:favorite, priest: priest, user: user) }

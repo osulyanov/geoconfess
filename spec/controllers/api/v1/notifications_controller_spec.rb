@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Api::V1::NotificationsController, type: :controller do
+describe Api::V1::NotificationsController, type: :controller do
   let(:sender) { create :user }
   let(:recipient) { create :user }
   let (:message) { create(:message, sender: sender, recipient: recipient) }

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Message, type: :model do
+describe Message, type: :model do
   let(:sender) { create :user }
   let(:recipient) { create :user }
   subject { build(:message, sender: sender, recipient: recipient) }

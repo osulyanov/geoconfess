@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CreateAskPriestJobsForTodayJob, type: :job do
+describe CreateAskPriestJobsForTodayJob, type: :job do
   include ActiveJob::TestHelper
 
   subject(:job) { described_class.perform_later }

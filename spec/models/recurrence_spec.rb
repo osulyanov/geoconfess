@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Recurrence, type: :model do
+describe Recurrence, type: :model do
   let(:priest) { create :user, role: :priest }
   let(:spot) { create(:spot, priest: priest) }
   subject { build(:recurrence, spot: spot) }

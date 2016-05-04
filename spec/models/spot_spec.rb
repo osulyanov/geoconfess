@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Spot, type: :model do
+describe Spot, type: :model do
   let(:priest) { create :user, role: :priest }
   subject { build(:spot, priest: priest) }
 

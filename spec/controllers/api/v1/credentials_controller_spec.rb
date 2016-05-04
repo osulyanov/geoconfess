@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Api::V1::CredentialsController, type: :controller do
+describe Api::V1::CredentialsController, type: :controller do
   describe 'GET #show (integrated)' do
     let(:user) { create :user }
     let(:token) { create :access_token, resource_owner_id: user.id }
