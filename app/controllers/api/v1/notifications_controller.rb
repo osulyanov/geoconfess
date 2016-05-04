@@ -18,7 +18,7 @@ class Api::V1::NotificationsController < Api::V1::V1Controller
         "id": 3,
         "unread": false,
         "model": "MeetRequest",
-        "action": "create",
+        "action": "received",
         "meet_request": {
           "id": 10,
           "priest_id": 24,
@@ -81,7 +81,7 @@ class Api::V1::NotificationsController < Api::V1::V1Controller
       "id": 3,
       "unread": false,
       "model": "MeetRequest",
-      "action": "create",
+      "action": "received",
       "meet_request": {
         "id": 10,
         "priest_id": 24,
