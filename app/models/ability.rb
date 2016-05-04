@@ -52,6 +52,7 @@ class Ability
 
       can :read, Notification, user_id: user.id
       can :mark_read, Notification, user_id: user.id
+      can :mark_sent, Notification, user_id: user.id
 
       can :crud, Favorite, user_id: user.id
     end
