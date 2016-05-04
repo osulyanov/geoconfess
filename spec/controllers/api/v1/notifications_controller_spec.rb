@@ -84,4 +84,30 @@ describe Api::V1::NotificationsController, type: :controller do
       end
     end
   end
+
+  describe 'PUT #mark_sent' do
+    let(:token) { create :access_token, resource_owner_id: recipient.id }
+
+    before do
+      put :mark_sent, format: :json, access_token: token.token, id: notification.id
+    end
+
+    it { expect(response).to have_http_status(:success) }
+
+    it 'updates notification data' do
+      notification.reload
+      expect(notification).to be_sent
+    end
+
+    context 'other users cannot mark notification as sent' do
+      let(:token) { create :access_token, resource_owner_id: sender.id }
+
+      it { expect(response).to have_http_status(:unauthorized) }
+
+      it 'didn\'t update the request' do
+        notification.reload
+        expect(notification).not_to be_sent
+      end
+    end
+  end
 end
