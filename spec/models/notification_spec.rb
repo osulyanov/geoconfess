@@ -134,8 +134,8 @@ describe Notification, type: :model do
     end
 
     context 'doesn\'t send push if' do
-      it 'notification is read' do
-        notification = create(:notification, user: recipient, unread: false,
+      it 'notification is sent' do
+        notification = create(:notification, user: recipient, sent: true,
                                              notificationable: message,
                                              text: 'Some text',
                                              action: 'created')
