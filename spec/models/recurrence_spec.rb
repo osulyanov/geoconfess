@@ -311,7 +311,7 @@ RSpec.describe Recurrence, type: :model do
 
       result = recurrence.start_today_at
 
-      expect(result).to eq(Time.zone.now.strftime '%Y-%m-%d 12:25:00 CEST +02:00')
+      expect(result).to eq(Time.zone.now.strftime('%Y-%m-%d 12:25:00 CEST +02:00'))
     end
   end
 end

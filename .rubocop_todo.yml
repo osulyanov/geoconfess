@@ -104,7 +104,7 @@ Style/Documentation:
   Enabled: false
 
 # Offense count: 3
-Style/NestedParenthesizedCalls:
-  Exclude:
-    - 'spec/controllers/api/v1/recurrences_controller_spec.rb'
-    - 'spec/models/recurrence_spec.rb'
+#Style/NestedParenthesizedCalls:
+#  Exclude:
+#    - 'spec/controllers/api/v1/recurrences_controller_spec.rb'
+#    - 'spec/models/recurrence_spec.rb'

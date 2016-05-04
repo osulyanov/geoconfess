@@ -57,7 +57,7 @@ describe Api::V1::RecurrencesController, type: :controller do
 
         result = last_recurrence.date
 
-        expect(result).to eq(Date.parse '2016-01-07')
+        expect(result).to eq(Date.parse('2016-01-07'))
       end
     end
 
@@ -104,7 +104,7 @@ describe Api::V1::RecurrencesController, type: :controller do
 
       result = recurrence.date
 
-      expect(result).to eq(Date.parse '2017-06-18')
+      expect(result).to eq(Date.parse('2017-06-18'))
     end
 
     context 'user with role user' do
