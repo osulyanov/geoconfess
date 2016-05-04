@@ -9,3 +9,6 @@ AllCops:
   Exclude:
       - 'db/schema.rb'
       - 'bin/**/*'
+
+AlignHash:
+  Enabled: false
