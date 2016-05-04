@@ -26,7 +26,7 @@ describe Api::V1::PasswordsController, type: :controller do
       it 'does\'n send an email' do
         expect do
           post :create, user: { email: 'wrong@mail.ru' }
-        end.to_not change { ActionMailer::Base.deliveries.count }
+        end.not_to change { ActionMailer::Base.deliveries.count }
       end
     end
   end
