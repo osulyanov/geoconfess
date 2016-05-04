@@ -7,17 +7,17 @@ class MeetRequest < ActiveRecord::Base
   belongs_to :penitent, class_name: 'User', required: true
   has_many :notifications, as: :notificationable, dependent: :destroy
 
-  scope :active, -> do
+  scope :active, lambda {
     where('meet_requests.created_at >= NOW() - \'1 day\'::INTERVAL')
-  end
+  }
 
-  scope :outdated, -> do
+  scope :outdated, lambda {
     where('meet_requests.created_at < NOW() - \'1 day\'::INTERVAL')
-  end
+  }
 
-  scope :for_user, -> (user_id) do
+  scope :for_user, lambda { |user_id|
     where('priest_id = ? OR penitent_id = ?', user_id, user_id)
-  end
+  }
 
   validates :latitude, presence: true
   validates :longitude, presence: true

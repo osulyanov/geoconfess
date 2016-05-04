@@ -6,9 +6,9 @@ class Message < ActiveRecord::Base
   scope :with_user, lambda { |user_id|
     where 'messages.sender_id = ? OR messages.recipient_id = ?', user_id, user_id
   }
-  scope :outdated, -> do
+  scope :outdated, lambda {
     where('messages.created_at < NOW() - \'1 month\'::INTERVAL')
-  end
+  }
 
   validates :sender_id, presence: true
   validates :recipient_id, presence: true
