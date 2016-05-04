@@ -29,3 +29,8 @@ Metrics/CyclomaticComplexity:
 Metrics/MethodLength:
   Exclude:
     - 'app/models/ability.rb'
+
+Metrics/MethodLength:
+  Exclude:
+    - 'app/models/ability.rb'
+    - 'db/migrate/**/*'

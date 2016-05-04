@@ -244,6 +244,7 @@ module Api
           @spots = current_user.spots.includes(:recurrences)
         else
           @spots = Spot.active
+          # OPTIMIZE: MOVE TO SERVICE
           @spots = @spots.of_type(params[:type]) if params[:type].present?
           @spots = @spots.of_priest(params[:priest_id]) if params[:priest_id].to_i > 0
           if params[:lat].present? && params[:lng].present? && params[:distance].present?
