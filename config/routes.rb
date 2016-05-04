@@ -32,6 +32,7 @@ Rails.application.routes.draw do
       resources :notifications, only: [:index, :show] do
         member do
           put :mark_read
+          put :mark_sent
         end
       end
       resources :spots, only: [:index, :show, :create, :update, :destroy] do
