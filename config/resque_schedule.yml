@@ -17,3 +17,10 @@ cleanup_outdated_meet_requests:
   class: "CleanupOutdatedMeetRequestJob"
   queue: default
   description: "This job removes outdated meet requests"
+cleanup_outdated_messages:
+  every:
+    - "15m"
+    - :first_in: '120s'
+  class: "CleanupOutdatedMessagesJob"
+  queue: default
+  description: "This job removes outdated messages"
