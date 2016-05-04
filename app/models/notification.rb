@@ -5,6 +5,7 @@ class Notification < ActiveRecord::Base
   default_scope -> { order unread: :desc, created_at: :desc }
 
   scope :unread, -> { actual.where unread: true }
+  scope :unsent, -> { actual.where sent: false }
   scope :actual, lambda {
     where('notifications.created_at >= NOW() - \'1 month\'::INTERVAL').limit 99
   }
@@ -68,6 +69,7 @@ end
 #  updated_at            :datetime         not null
 #  action                :string
 #  text                  :string
+#  sent                  :boolean          default(FALSE), not null
 #
 # Indexes
 #
