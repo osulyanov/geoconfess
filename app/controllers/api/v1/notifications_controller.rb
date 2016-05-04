@@ -51,6 +51,42 @@ class Api::V1::NotificationsController < Api::V1::V1Controller
         }
       },
       {
+        "id": 44,
+        "unread": true,
+        "model": "MeetRequest",
+        "action": "refused",
+        "meet_request": {
+          "id": 18,
+          "status": "refused",
+          "penitent": {
+            "id": 25
+          },
+          "priest": {
+            "id": 24,
+            "name": "Test Priest",
+            "surname": "Surnemaehere"
+          }
+        }
+      },
+      {
+        "id": 43,
+        "unread": true,
+        "model": "MeetRequest",
+        "action": "accepted",
+        "meet_request": {
+          "id": 18,
+          "status": "refused",
+          "penitent": {
+            "id": 25
+          },
+          "priest": {
+            "id": 24,
+            "name": "Test Priest",
+            "surname": "Surnemaehere"
+          }
+        }
+      },
+      {
         "id": 24,
         "unread": true,
         "model": "Message",
