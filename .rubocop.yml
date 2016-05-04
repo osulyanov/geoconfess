@@ -16,3 +16,12 @@ AlignHash:
 Style/BlockComments:
   Exclude:
     - 'spec/spec_helper.rb'
+
+Metrics/ClassLength:
+  CountComments: false
+  Exclude:
+    - 'app/controllers/api/v1/**/*'
+
+Metrics/CyclomaticComplexity:
+  Exclude:
+    - 'app/models/ability.rb'
