@@ -1,5 +1,5 @@
 module Api
-  class V1
+  module V1
     class MeetRequestsController < Api::V1::V1Controller
       before_action :doorkeeper_authorize!
       before_action :set_meet_request, only: [:show, :update, :destroy, :accept, :refuse]

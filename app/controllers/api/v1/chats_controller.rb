@@ -1,5 +1,5 @@
 module Api
-  class V1
+  module V1
     class ChatsController < Api::V1::V1Controller
       before_action :doorkeeper_authorize!
 

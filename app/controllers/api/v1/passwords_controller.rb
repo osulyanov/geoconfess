@@ -1,5 +1,5 @@
 module Api
-  class V1
+  module V1
     class PasswordsController < Api::V1::V1Controller
       resource_description do
         short 'User Password'

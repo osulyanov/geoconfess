@@ -1,5 +1,5 @@
 module Api
-  class V1
+  module V1
     class UsersController < Api::V1::V1Controller
       before_action :doorkeeper_authorize!
       load_and_authorize_resource
