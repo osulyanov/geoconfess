@@ -152,6 +152,20 @@ module Api
         end
       end
 
+      api :PUT, '/v1/notifications/:id/mark_sent', 'Mark notification as sent'
+      description <<-EOS
+        Mark notification by ID as sent.
+        Returns code 200 with no content if notification successfully updated.
+      EOS
+
+      def mark_sent
+        if @notification.set_sent!
+          head status: :ok
+        else
+          render status: :unprocessable_entity, json: { errors: @notification.errors }
+        end
+      end
+
       private
 
       def set_notification
