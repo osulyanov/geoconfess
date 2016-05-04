@@ -39,11 +39,6 @@ Metrics/PerceivedComplexity:
   Max: 10
 
 # Offense count: 1
-RSpec/AnyInstance:
-  Exclude:
-    - 'spec/rails_helper.rb'
-
-# Offense count: 1
 # Configuration parameters: EnforcedStyle, SupportedStyles.
 # SupportedStyles: strict, flexible
 Rails/TimeZone:

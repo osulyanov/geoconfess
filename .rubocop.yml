@@ -34,3 +34,11 @@ Metrics/MethodLength:
   Exclude:
     - 'app/models/ability.rb'
     - 'db/migrate/**/*'
+
+Metrics/PerceivedComplexity:
+  Exclude:
+    - 'app/models/ability.rb'
+
+RSpec/AnyInstance:
+  Exclude:
+    - 'spec/rails_helper.rb'

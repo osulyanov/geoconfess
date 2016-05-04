@@ -33,7 +33,8 @@ RSpec.configure do |config|
   end
 
   config.before(:each) do
-    allow_any_instance_of(RailsPushNotifications::BaseApp).to receive(:push_notifications).and_return(true)
+    allow_any_instance_of(RailsPushNotifications::BaseApp)
+      .to receive(:push_notifications).and_return(true)
   end
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
