@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Notification, type: :model do
+describe Notification, type: :model do
   let(:sender) { create :user }
   let(:recipient) { create :user }
   let (:message) { create(:message, sender: sender, recipient: recipient) }

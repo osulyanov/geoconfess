@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'OAuth authorization', type: :request do
+describe 'OAuth authorization', type: :request do
   let(:user) { create(:user, os: nil, push_token: nil) }
   let(:client) do
     OAuth2::Client.new('', '') do |b|

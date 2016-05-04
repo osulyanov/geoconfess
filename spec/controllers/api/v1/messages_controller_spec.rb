@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Api::V1::MessagesController, type: :controller do
+describe Api::V1::MessagesController, type: :controller do
   let(:sender) { create :user }
   let(:recipient) { create :user }
   let(:admin) { create :user, :admin }

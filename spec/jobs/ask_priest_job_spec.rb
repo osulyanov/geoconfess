@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe AskPriestJob, type: :job do
+describe AskPriestJob, type: :job do
   include ActiveJob::TestHelper
 
   let(:priest) { create(:user, role: :priest) }

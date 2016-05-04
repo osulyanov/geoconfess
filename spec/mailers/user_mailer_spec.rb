@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe UserMailer, type: :mailer do
+describe UserMailer, type: :mailer do
   subject { create :user }
 
   it 'sends an email' do

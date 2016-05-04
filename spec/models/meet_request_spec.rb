@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe MeetRequest, type: :model do
+describe MeetRequest, type: :model do
   let (:priest) { create(:user, role: :priest) }
   let (:penitent) { create(:user, role: :user) }
   subject { build(:meet_request, priest: priest, penitent: penitent) }
