@@ -25,3 +25,7 @@ Metrics/ClassLength:
 Metrics/CyclomaticComplexity:
   Exclude:
     - 'app/models/ability.rb'
+
+Metrics/MethodLength:
+  Exclude:
+    - 'app/models/ability.rb'
