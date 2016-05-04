@@ -47,11 +47,11 @@ RSpec.describe Message, type: :model do
     end
   end
   describe '.outdated' do
-    let(:message_35d_ago) do
+    let!(:message_35d_ago) do
       create(:message, sender: sender, recipient: recipient,
                        created_at: 35.days.ago)
     end
-    let(:message_15d_ago) do
+    let!(:message_15d_ago) do
       create(:message, sender: sender, recipient: recipient,
                        created_at: 15.days.ago)
     end
