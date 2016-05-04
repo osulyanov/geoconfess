@@ -18,7 +18,7 @@ module Askable
     return unless today?
     one_hour_ago = start_today_at - 1.hour
     Rails.logger.info "start job at #{one_hour_ago}"
-    AskPriestJob.set(wait_until: sone_hour_ago).perform_later(id)
+    AskPriestJob.set(wait_until: one_hour_ago).perform_later(id)
   end
 
   def update_job
