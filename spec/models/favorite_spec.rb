@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 describe Favorite, type: :model do
-  let (:priest) { create(:user, role: :priest) }
-  let (:user) { create(:user, role: :user) }
+  let(:priest) { create(:user, role: :priest) }
+  let(:user) { create(:user, role: :user) }
   subject { build(:favorite, priest: priest, user: user) }
 
   it 'is valid' do

@@ -63,7 +63,7 @@ describe Api::V1::FavoritesController, type: :controller do
     end
 
     context 'with expired access_token' do
-      let (:token) { create :access_token, resource_owner_id: user.id, expires_in: 0 }
+      let(:token) { create :access_token, resource_owner_id: user.id, expires_in: 0 }
 
       before do
         get :index, format: :json, access_token: token.token
@@ -123,7 +123,7 @@ describe Api::V1::FavoritesController, type: :controller do
     end
 
     context 'with expired access_token' do
-      let (:token) { create :access_token, resource_owner_id: user.id, expires_in: 0 }
+      let(:token) { create :access_token, resource_owner_id: user.id, expires_in: 0 }
 
       before do
         post :create, format: :json, access_token: token.token,
@@ -153,7 +153,7 @@ describe Api::V1::FavoritesController, type: :controller do
     end
 
     context 'priest cannot destroy favorite' do
-      let (:token) { create :access_token, resource_owner_id: priest.id }
+      let(:token) { create :access_token, resource_owner_id: priest.id }
 
       it { expect(response).to have_http_status(:unauthorized) }
 

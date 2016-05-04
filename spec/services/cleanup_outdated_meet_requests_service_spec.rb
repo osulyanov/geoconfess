@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe CleanupOutdatedMeetRequestsService do
   let(:priest) { create(:user, role: :priest) }
-  let (:penitent) { create(:user, role: :user) }
+  let(:penitent) { create(:user, role: :user) }
   let!(:request_25_h_ago) do
     create(:meet_request, priest: priest, penitent: penitent,
                           created_at: 25.hours.ago)

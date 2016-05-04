@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Notification, type: :model do
   let(:sender) { create :user }
   let(:recipient) { create :user }
-  let (:message) { create(:message, sender: sender, recipient: recipient) }
+  let(:message) { create(:message, sender: sender, recipient: recipient) }
   subject { build(:notification, user: recipient, notificationable: message) }
 
   it 'is valid' do
@@ -25,8 +25,8 @@ describe Notification, type: :model do
   end
 
   describe '.unread' do
-    let! (:unread) { create(:notification, user: recipient, notificationable: message) }
-    let! (:read) { create(:notification, user: recipient, notificationable: message, unread: false) }
+    let!(:unread) { create(:notification, user: recipient, notificationable: message) }
+    let!(:read) { create(:notification, user: recipient, notificationable: message, unread: false) }
     subject { described_class.unread }
 
     it 'returns unread notification' do

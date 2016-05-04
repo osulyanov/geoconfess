@@ -6,10 +6,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 62
-Lint/ParenthesesAsGroupedExpression:
-  Enabled: false
-
 Metrics/AbcSize:
   Exclude:
     - 'app/controllers/api/v1/pusher_controller.rb'
@@ -47,14 +43,6 @@ Metrics/PerceivedComplexity:
 RSpec/AnyInstance:
   Exclude:
     - 'spec/rails_helper.rb'
-
-# Offense count: 5
-#RSpec/DescribedClass:
-#  Exclude:
-#    - 'spec/models/spot_spec.rb'
-#    - 'spec/services/ask_priest_service_spec.rb'
-#    - 'spec/services/create_ask_priest_jobs_for_today_service_spec.rb'
-#    - 'spec/services/push_service_spec.rb'
 
 # Offense count: 1
 # Configuration parameters: EnforcedStyle, SupportedStyles.

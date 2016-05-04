@@ -28,7 +28,7 @@ describe Api::V1::ChatsController, type: :controller do
     end
 
     context 'with expired access_token' do
-      let (:token) { create :access_token, resource_owner_id: sender.id, expires_in: 0 }
+      let(:token) { create :access_token, resource_owner_id: sender.id, expires_in: 0 }
 
       it { expect(response).to have_http_status(:unauthorized) }
 

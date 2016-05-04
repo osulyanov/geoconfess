@@ -39,7 +39,7 @@ describe Api::V1::MessagesController, type: :controller do
     end
 
     context 'with expired access_token' do
-      let (:token) { create :access_token, resource_owner_id: sender.id, expires_in: 0 }
+      let(:token) { create :access_token, resource_owner_id: sender.id, expires_in: 0 }
 
       before do
         get :index, format: :json, access_token: token.token
@@ -93,7 +93,7 @@ describe Api::V1::MessagesController, type: :controller do
     end
 
     context 'with expired access_token' do
-      let (:token) { create :access_token, resource_owner_id: sender.id, expires_in: 0 }
+      let(:token) { create :access_token, resource_owner_id: sender.id, expires_in: 0 }
 
       it { expect(response).to have_http_status(:unauthorized) }
 
@@ -117,7 +117,7 @@ describe Api::V1::MessagesController, type: :controller do
     end
 
     context 'with expired access_token' do
-      let (:token) { create :access_token, resource_owner_id: sender.id, expires_in: 0 }
+      let(:token) { create :access_token, resource_owner_id: sender.id, expires_in: 0 }
 
       it { expect(response).to have_http_status(:unauthorized) }
 
@@ -139,7 +139,7 @@ describe Api::V1::MessagesController, type: :controller do
     end
 
     context 'other user cannot destroy message' do
-      let (:token) { create :access_token, resource_owner_id: sender.id }
+      let(:token) { create :access_token, resource_owner_id: sender.id }
 
       it { expect(response).to have_http_status(:unauthorized) }
 

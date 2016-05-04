@@ -41,9 +41,9 @@ describe Recurrence, type: :model do
   end
 
   describe '.in_the_future' do
-    let! (:recurrence_in_the_future) { create(:recurrence, spot: spot, date: 1.day.from_now) }
-    let! (:recurrence_in_the_today) { create(:recurrence, spot: spot, date: Time.zone.today) }
-    let! (:recurrence_in_the_past) { create(:recurrence, spot: spot, date: 1.day.ago) }
+    let!(:recurrence_in_the_future) { create(:recurrence, spot: spot, date: 1.day.from_now) }
+    let!(:recurrence_in_the_today) { create(:recurrence, spot: spot, date: Time.zone.today) }
+    let!(:recurrence_in_the_past) { create(:recurrence, spot: spot, date: 1.day.ago) }
 
     it 'returns recurrences in the future' do
       result = described_class.in_the_future
@@ -65,8 +65,8 @@ describe Recurrence, type: :model do
   end
 
   describe '.confirmed_availability' do
-    let! (:recurrence_confirmed) { create(:recurrence, spot: spot, active_date: Time.zone.today) }
-    let! (:recurrence_not_confirmed) { create(:recurrence, spot: spot, active_date: 1.day.ago) }
+    let!(:recurrence_confirmed) { create(:recurrence, spot: spot, active_date: Time.zone.today) }
+    let!(:recurrence_not_confirmed) { create(:recurrence, spot: spot, active_date: 1.day.ago) }
 
     it 'returns recurrences with active_date eq to current date' do
       result = described_class.confirmed_availability

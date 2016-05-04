@@ -3,9 +3,9 @@ require 'rails_helper'
 describe Api::V1::NotificationsController, type: :controller do
   let(:sender) { create :user }
   let(:recipient) { create :user }
-  let (:message) { create(:message, sender: sender, recipient: recipient) }
-  let! (:notification) { create(:notification, user: recipient, notificationable: message) }
-  let! (:other_notification) { create(:notification, user: sender, notificationable: message) }
+  let(:message) { create(:message, sender: sender, recipient: recipient) }
+  let!(:notification) { create(:notification, user: recipient, notificationable: message) }
+  let!(:other_notification) { create(:notification, user: sender, notificationable: message) }
 
   describe 'GET #index' do
     let(:token) { create :access_token, resource_owner_id: recipient.id }
@@ -27,7 +27,7 @@ describe Api::V1::NotificationsController, type: :controller do
     end
 
     context 'with expired access_token' do
-      let (:token) { create :access_token, resource_owner_id: recipient.id, expires_in: 0 }
+      let(:token) { create :access_token, resource_owner_id: recipient.id, expires_in: 0 }
 
       it { expect(response).to have_http_status(:unauthorized) }
 
@@ -74,7 +74,7 @@ describe Api::V1::NotificationsController, type: :controller do
     end
 
     context 'other users cannot mark notification as read' do
-      let (:token) { create :access_token, resource_owner_id: sender.id }
+      let(:token) { create :access_token, resource_owner_id: sender.id }
 
       it { expect(response).to have_http_status(:unauthorized) }
 

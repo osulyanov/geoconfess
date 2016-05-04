@@ -25,8 +25,8 @@ describe Message, type: :model do
   end
 
   describe '.with_user' do
-    let (:other_user) { create(:user, role: :user) }
-    let! (:message) { create(:message, sender: sender, recipient: recipient) }
+    let(:other_user) { create(:user, role: :user) }
+    let!(:message) { create(:message, sender: sender, recipient: recipient) }
 
     it 'returns user\'s message to certain user' do
       result = described_class.with_user(recipient.id)

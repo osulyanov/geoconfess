@@ -83,7 +83,7 @@ describe Api::V1::RecurrencesController, type: :controller do
         { date: '2016-01-07', start_at: '10:15', stop_at: '16:00' }
       end
 
-      let (:token) { create :access_token, resource_owner_id: user.id }
+      let(:token) { create :access_token, resource_owner_id: user.id }
 
       it { expect(response).to have_http_status(:unauthorized) }
     end
@@ -108,7 +108,7 @@ describe Api::V1::RecurrencesController, type: :controller do
     end
 
     context 'user with role user' do
-      let (:token) { create :access_token, resource_owner_id: user.id }
+      let(:token) { create :access_token, resource_owner_id: user.id }
 
       it { expect(response).to have_http_status(:unauthorized) }
     end
@@ -130,7 +130,7 @@ describe Api::V1::RecurrencesController, type: :controller do
     end
 
     context 'user cannot destroy recurrence' do
-      let (:token) { create :access_token, resource_owner_id: user.id }
+      let(:token) { create :access_token, resource_owner_id: user.id }
 
       it { expect(response).to have_http_status(:unauthorized) }
 

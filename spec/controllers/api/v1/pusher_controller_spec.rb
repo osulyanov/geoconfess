@@ -60,7 +60,7 @@ describe Api::V1::PusherController, type: :controller do
     end
 
     context 'with expired access_token' do
-      let (:token) { create :access_token, resource_owner_id: user.id, expires_in: 0 }
+      let(:token) { create :access_token, resource_owner_id: user.id, expires_in: 0 }
 
       before do
         post :auth, format: :json, channel_name: 'private-0',

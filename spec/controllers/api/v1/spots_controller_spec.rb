@@ -172,7 +172,7 @@ describe Api::V1::SpotsController, type: :controller do
     end
 
     context 'user with role user' do
-      let (:token) { create :access_token, resource_owner_id: user.id }
+      let(:token) { create :access_token, resource_owner_id: user.id }
 
       it { expect(response).to have_http_status(:unauthorized) }
     end
@@ -197,7 +197,7 @@ describe Api::V1::SpotsController, type: :controller do
     end
 
     context 'user with role user' do
-      let (:token) { create :access_token, resource_owner_id: user.id }
+      let(:token) { create :access_token, resource_owner_id: user.id }
 
       it { expect(response).to have_http_status(:unauthorized) }
     end
@@ -219,7 +219,7 @@ describe Api::V1::SpotsController, type: :controller do
     end
 
     context 'user cannot destroy spot' do
-      let (:token) { create :access_token, resource_owner_id: user.id }
+      let(:token) { create :access_token, resource_owner_id: user.id }
 
       it { expect(response).to have_http_status(:unauthorized) }
 

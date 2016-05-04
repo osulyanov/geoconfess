@@ -19,7 +19,7 @@ describe Api::V1::UsersController, type: :controller do
     end
 
     context 'with expired access_token' do
-      let (:token) { create :access_token, resource_owner_id: admin.id, expires_in: 0 }
+      let(:token) { create :access_token, resource_owner_id: admin.id, expires_in: 0 }
 
       it { expect(response).to have_http_status(:unauthorized) }
 
@@ -45,7 +45,7 @@ describe Api::V1::UsersController, type: :controller do
     end
 
     context 'with expired access_token' do
-      let (:token) { create :access_token, resource_owner_id: admin.id, expires_in: 0 }
+      let(:token) { create :access_token, resource_owner_id: admin.id, expires_in: 0 }
 
       it { expect(response).to have_http_status(:unauthorized) }
 
@@ -71,7 +71,7 @@ describe Api::V1::UsersController, type: :controller do
     end
 
     context 'user cannot destroy themselves' do
-      let (:token) { create :access_token, resource_owner_id: user.id }
+      let(:token) { create :access_token, resource_owner_id: user.id }
 
       it { expect(response).to have_http_status(:unauthorized) }
 
@@ -103,7 +103,7 @@ describe Api::V1::UsersController, type: :controller do
     end
 
     context 'user cannot activate themselves' do
-      let (:token) { create :access_token, resource_owner_id: subject.id }
+      let(:token) { create :access_token, resource_owner_id: subject.id }
 
       it { expect(response).to have_http_status(:unauthorized) }
 
@@ -133,7 +133,7 @@ describe Api::V1::UsersController, type: :controller do
     end
 
     context 'user cannot deactivate themselves' do
-      let (:token) { create :access_token, resource_owner_id: subject.id }
+      let(:token) { create :access_token, resource_owner_id: subject.id }
 
       it { expect(response).to have_http_status(:unauthorized) }
 
