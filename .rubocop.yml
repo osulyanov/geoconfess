@@ -10,8 +10,8 @@ AllCops:
       - 'db/schema.rb'
       - 'bin/**/*'
 
-AlignHash:
-  Enabled: false
+Style/AlignHash:
+  EnforcedHashRocketStyle: table
 
 Style/BlockComments:
   Exclude:

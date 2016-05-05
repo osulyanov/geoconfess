@@ -5,11 +5,11 @@ describe CleanupOutdatedMessagesService do
   let(:recipient) { create :user }
   let!(:message_35d_ago) do
     create(:message, sender: sender, recipient: recipient,
-           created_at: 35.days.ago)
+                     created_at: 35.days.ago)
   end
   let!(:message_15d_ago) do
     create(:message, sender: sender, recipient: recipient,
-           created_at: 15.days.ago)
+                     created_at: 15.days.ago)
   end
 
   subject { described_class.new }
