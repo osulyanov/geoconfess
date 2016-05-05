@@ -240,18 +240,7 @@ module Api
       end
 
       def set_spots
-        if params[:me] == true
-          @spots = current_user.spots.includes(:recurrences)
-        else
-          @spots = Spot.active
-          # OPTIMIZE: MOVE TO SERVICE
-          @spots = @spots.of_type(params[:type]) if params[:type].present?
-          @spots = @spots.of_priest(params[:priest_id]) if params[:priest_id].to_i > 0
-          if params[:lat].present? && params[:lng].present? && params[:distance].present?
-            @spots = @spots.nearest(params[:lat], params[:lng], params[:distance])
-          end
-          @spots = @spots.now if params[:now]
-        end
+        @spots = SpotsFilterService.new(params, current_user).results
       end
     end
   end
