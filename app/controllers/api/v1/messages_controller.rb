@@ -36,7 +36,9 @@ module Api
 
       def index
         @messages = current_user.messages.order(created_at: :desc)
-        @messages = @messages.with_user(params[:interlocutor_id]) if params[:interlocutor_id].present?
+        if params[:interlocutor_id].present?
+          @messages = @messages.with_user(params[:interlocutor_id])
+        end
       end
 
       api! 'Show message'
@@ -70,7 +72,8 @@ module Api
         if @message.save
           head status: :created
         else
-          render status: :unprocessable_entity, json: { errors: @message.errors }
+          render status: :unprocessable_entity,
+                 json: { errors: @message.errors }
         end
       end
 
@@ -88,7 +91,8 @@ module Api
         if @message.update_attributes(update_message_params)
           render status: :ok, json: { result: 'success' }
         else
-          render status: :unprocessable_entity, json: { errors: @message.errors }
+          render status: :unprocessable_entity,
+                 json: { errors: @message.errors }
         end
       end
 
@@ -103,14 +107,16 @@ module Api
         if @message.destroy
           head status: :ok
         else
-          render status: :unprocessable_entity, json: { errors: @message.errors }
+          render status: :unprocessable_entity,
+                 json: { errors: @message.errors }
         end
       end
 
       private
 
       def message_params
-        params.require(:message).permit(:recipient_id, :sender_id, :text).tap do |wl|
+        params.require(:message).permit(:recipient_id, :sender_id,
+                                        :text).tap do |wl|
           # Don't allow sender for non-admin users
           wl.delete(:sender_id) unless current_user.admin?
         end

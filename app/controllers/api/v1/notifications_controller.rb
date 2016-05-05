@@ -148,7 +148,8 @@ module Api
         if @notification.set_read!
           head status: :ok
         else
-          render status: :unprocessable_entity, json: { errors: @notification.errors }
+          render status: :unprocessable_entity,
+                 json: { errors: @notification.errors }
         end
       end
 
@@ -162,7 +163,8 @@ module Api
         if @notification.set_sent!
           head status: :ok
         else
-          render status: :unprocessable_entity, json: { errors: @notification.errors }
+          render status: :unprocessable_entity,
+                 json: { errors: @notification.errors }
         end
       end
 
