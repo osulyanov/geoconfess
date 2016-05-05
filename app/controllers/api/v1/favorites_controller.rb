@@ -65,11 +65,13 @@ module Api
       EOS
 
       def create
-        @favorite = current_user.favorites.where(favorite_params).first_or_initialize
+        @favorite = current_user.favorites.where(favorite_params)
+                                .first_or_initialize
         if @favorite.save
           render :show, status: :created
         else
-          render status: :unprocessable_entity, json: { errors: @favorite.errors }
+          render status: :unprocessable_entity,
+                 json: { errors: @favorite.errors }
         end
       end
 
@@ -84,7 +86,8 @@ module Api
         if @favorite.destroy
           head status: :ok
         else
-          render status: :unprocessable_entity, json: { errors: @favorite.errors }
+          render status: :unprocessable_entity,
+                 json: { errors: @favorite.errors }
         end
       end
 

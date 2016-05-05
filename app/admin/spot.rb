@@ -9,7 +9,9 @@ ActiveAdmin.register Spot do
     column :name
     column :activity_type
     column :priest
-    column(:address) { |c| [c.street, c.postcode, c.city, c.country].select(&:present?).join ', ' }
+    column(:address) do |c|
+      [c.street, c.postcode, c.city, c.country].select(&:present?).join ', '
+    end
     column :created_at
     actions
   end

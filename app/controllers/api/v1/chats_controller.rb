@@ -53,7 +53,8 @@ module Api
       EOS
 
       def show
-        @messages = current_user.messages.with_user(params[:id]).order(created_at: :desc)
+        @messages = current_user.messages.with_user(params[:id])
+                                .order(created_at: :desc)
       end
     end
   end

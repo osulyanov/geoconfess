@@ -8,7 +8,9 @@ ActiveAdmin.register Recurrence do
     column :spot
     column :date
     column(:days) { |r| r.week_days.join ', ' }
-    column(:time) { |r| "#{r.start_at.strftime('%H:%M')}–#{r.stop_at.strftime('%H:%M')}" }
+    column(:time) do |r|
+      "#{r.start_at.strftime('%H:%M')}–#{r.stop_at.strftime('%H:%M')}"
+    end
     column :active_date
     column :busy_count
     column :created_at

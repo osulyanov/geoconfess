@@ -28,7 +28,8 @@ ActiveAdmin.register Notification do
     f.inputs 'Notification Details' do
       f.input :user
       f.input :action
-      f.input :notificationable_type, as: :select, collection: %w(MeetRequest Message)
+      f.input :notificationable_type, as: :select,
+                                      collection: %w(MeetRequest Message)
       f.input :notificationable_id
       f.input :unread
       f.input :sent
