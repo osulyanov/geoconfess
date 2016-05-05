@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe SpotsFilterService do
-
   describe '#results' do
     context 'without filters' do
       it 'returns all active spots' do
@@ -31,6 +30,21 @@ describe SpotsFilterService do
       result = described_class.new(params, nil).results
 
       expect(result).to contain_exactly(other_spot_1, other_spot_2)
+    end
+  end
+
+  context 'filter by now' do
+    it 'returns only active right now spots' do
+      priest = create(:user, role: :priest)
+      active_spot = create(:spot, activity_type: :dynamic, priest: priest,
+                                  updated_at: 10.minutes.ago)
+      create(:spot, activity_type: :dynamic, priest: priest,
+                    updated_at: 20.minutes.ago)
+      params = { now: true }
+
+      result = described_class.new(params, nil).results
+
+      expect(result).to contain_exactly(active_spot)
     end
   end
 end
