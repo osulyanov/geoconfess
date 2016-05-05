@@ -47,4 +47,30 @@ describe SpotsFilterService do
       expect(result).to contain_exactly(active_spot)
     end
   end
+
+  context 'filter by type' do
+    it 'returns only static spots if type=static' do
+      priest = create(:user, role: :priest)
+      spot = create(:spot, priest: priest, activity_type: :static,
+                           latitude: 35.487, longitude: 96.022)
+      create(:spot, priest: priest, activity_type: :dynamic)
+      params = { type: :static }
+
+      result = described_class.new(params, nil).results
+
+      expect(result).to contain_exactly(spot)
+    end
+
+    it 'returns only dynamic spots if type=dynamic' do
+      priest = create(:user, role: :priest)
+      create(:spot, priest: priest, activity_type: :static,
+                    latitude: 35.487, longitude: 96.022)
+      dynamic_spot = create(:spot, priest: priest, activity_type: :dynamic)
+      params = { type: :dynamic }
+
+      result = described_class.new(params, nil).results
+
+      expect(result).to contain_exactly(dynamic_spot)
+    end
+  end
 end
