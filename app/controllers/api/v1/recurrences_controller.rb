@@ -14,10 +14,16 @@ module Api
 
       def_param_group :recurrence do
         param :recurrence, Hash, desc: 'Recurrence info', required: true do
-          param :date, Date, desc: 'Date, format YYYY-MM-DD, only for sing-date recurrence', required: true
-          param :start_at, Time, desc: 'Start time, format HH:MM', required: true
+          param :date, Date,
+                desc: 'Date, format YYYY-MM-DD, only for sing-date recurrence',
+                required: true
+          param :start_at, Time, desc: 'Start time, format HH:MM',
+                                 required: true
           param :stop_at, Time, desc: 'Stop time, format HH:MM', required: true
-          param :week_days, Array, desc: 'Weekdays, Array like \["Tuesday", "Wednesday", "Thursday", "Friday"\], only for recurrent recurrence', required: true
+          param :week_days, Array, desc: 'Weekdays, Array like \["Tuesday",
+                                          "Wednesday", "Thursday", "Friday"\],
+                                          only for recurrent recurrence',
+                                   required: true
         end
       end
 
@@ -88,7 +94,8 @@ module Api
         if @recurrence.save
           render :show, status: :created
         else
-          render status: :unprocessable_entity, json: { errors: @recurrence.errors }
+          render status: :unprocessable_entity,
+                 json: { errors: @recurrence.errors }
         end
       end
 
@@ -104,7 +111,8 @@ module Api
         if @recurrence.update_attributes(recurrence_params)
           render status: :ok, json: { result: 'success' }
         else
-          render status: :unprocessable_entity, json: { errors: @recurrence.errors }
+          render status: :unprocessable_entity,
+                 json: { errors: @recurrence.errors }
         end
       end
 
@@ -119,7 +127,8 @@ module Api
         if @recurrence.destroy
           head status: :ok
         else
-          render status: :unprocessable_entity, json: { errors: @recurrence.errors }
+          render status: :unprocessable_entity,
+                 json: { errors: @recurrence.errors }
         end
       end
 
@@ -156,7 +165,8 @@ module Api
         if @recurrence.confirm_availability!
           head status: :ok
         else
-          render status: :unprocessable_entity, json: { errors: @recurrence.errors }
+          render status: :unprocessable_entity,
+                 json: { errors: @recurrence.errors }
         end
       end
 

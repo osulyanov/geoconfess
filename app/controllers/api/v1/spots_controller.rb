@@ -73,9 +73,12 @@ module Api
       param :priest_id, Integer, desc: 'Filter by Priest'
       param :now, :bool, desc: 'Show only active right now spots'
       param :type, %w(static dynamic), desc: 'Show only spots of given type'
-      param :lat, Float, desc: 'Current latitude. Required to filter by distance'
-      param :lng, Float, desc: 'Current longitude. Required to filter by distance'
-      param :distance, Integer, desc: 'Distance in km. Required to filter by distance'
+      param :lat, Float, desc: 'Current latitude.
+                                Required to filter by distance'
+      param :lng, Float, desc: 'Current longitude.
+                                Required to filter by distance'
+      param :distance, Integer, desc: 'Distance in km.
+                                       Required to filter by distance'
       example <<-EOS
         [
           {
@@ -231,8 +234,8 @@ module Api
 
       def spot_params
         params.require(:spot).permit(:name, :activity_type, :latitude,
-                                     :longitude, :street, :postcode, :city, :state,
-                                     :country)
+                                     :longitude, :street, :postcode, :city,
+                                     :state, :country)
       end
 
       def set_spot

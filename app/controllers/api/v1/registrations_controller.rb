@@ -25,14 +25,16 @@ module Api
 
       def create
         @user = User.new(user_params)
-        @user.role = :user if @user.admin? # user can't register as admin via API
+        # user can't register as admin via API
+        @user.role = :user if @user.admin?
         @user.active = true unless @user.priest?
         if @user.save
           sign_in @user
           @user.send_welcome_message
           render status: :created, json: { result: 'success' }
         else
-          render status: :unprocessable_entity, json: { result: 'failed', errors: @user.errors }
+          render status: :unprocessable_entity,
+                 json: { result: 'failed', errors: @user.errors }
         end
       end
 
