@@ -18,4 +18,19 @@ describe SpotsFilterService do
       end
     end
   end
+
+  context 'filter by priest_id' do
+    it 'return only spots of certain priest' do
+      other_priest = create(:user, role: :priest)
+      other_spot_1 = create(:spot, priest: other_priest)
+      other_spot_2 = create(:spot, priest: other_priest)
+      another_priest = create(:user, role: :priest)
+      create(:spot, priest: another_priest)
+      params = { priest_id: other_priest.id }
+
+      result = described_class.new(params, nil).results
+
+      expect(result).to contain_exactly(other_spot_1, other_spot_2)
+    end
+  end
 end
