@@ -73,4 +73,21 @@ describe SpotsFilterService do
       expect(result).to contain_exactly(dynamic_spot)
     end
   end
+
+  context 'filter by distance' do
+    it 'returns all spots if latitude doesn\'t defined' do
+      priest = create(:user, role: :priest)
+      spot = create(:spot, priest: priest, activity_type: :static,
+                    latitude: 35.487, longitude: 96.022)
+      spot_in_5km = create(:spot, priest: priest, latitude: 55.35223644610148,
+                                  longitude: 85.99620691142812)
+      spot_in_15km = create(:spot, priest: priest, latitude: 55.487328778339084,
+                                   longitude: 86.02263019255177)
+      params = { lng: 86.0740275, distance: 10 }
+
+      result = described_class.new(params, nil).results
+
+      expect(result).to contain_exactly(spot, spot_in_5km, spot_in_15km)
+    end
+  end
 end
