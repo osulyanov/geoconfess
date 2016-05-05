@@ -83,5 +83,6 @@ end
 # Indexes
 #
 #  index_notifications_on_user_id                   (user_id)
-#  index_notifs_on_notifable_type_and_notifable_id  (notificationable_type,notificationable_id)
+#  index_notifs_on_notifable_type_and_notifable_id
+#                                   (notificationable_type,notificationable_id)
 #

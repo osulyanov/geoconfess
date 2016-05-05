@@ -4,7 +4,8 @@ class Message < ActiveRecord::Base
   has_one :notification, as: :notificationable, dependent: :destroy
 
   scope :with_user, lambda { |user_id|
-    where 'messages.sender_id = ? OR messages.recipient_id = ?', user_id, user_id
+    where 'messages.sender_id = ? OR messages.recipient_id = ?',
+          user_id, user_id
   }
   scope :outdated, lambda {
     where('messages.created_at < NOW() - \'1 month\'::INTERVAL')

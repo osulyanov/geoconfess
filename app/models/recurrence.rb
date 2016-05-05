@@ -4,13 +4,16 @@ class Recurrence < ActiveRecord::Base
 
   belongs_to :spot, required: true
 
-  scope :in_the_future, -> { where('recurrences.date >= ? OR recurrences.date ISNULL', Time.zone.today) }
+  scope :in_the_future, lambda {
+    where('recurrences.date >= ? OR recurrences.date ISNULL', Time.zone.today)
+  }
   scope :confirmed_availability, -> { where active_date: Time.zone.today }
   scope :now, lambda {
     current_time = Time.zone.now.strftime('%H:%M')
     where('recurrences.active_date = ?', Time.zone.today)
       .where('recurrences.date = ? OR recurrences.date ISNULL', Time.zone.today)
-      .where('recurrences.start_at <= time ? AND recurrences.stop_at >= time ?', current_time, current_time)
+      .where('recurrences.start_at <= time ? AND recurrences.stop_at >= time ?',
+             current_time, current_time)
       .select(&:active_this_wday?)
   }
 
@@ -63,7 +66,8 @@ class Recurrence < ActiveRecord::Base
   # true if recurrence will start today
   def today?
     ctime = Time.now
-    time_now = Time.new(2000, 01, 01, ctime.strftime('%H'), ctime.strftime('%M')).utc
+    time_now = Time.new(2000, 01, 01, ctime.strftime('%H'),
+                        ctime.strftime('%M')).utc
     today = Time.zone.today
     ((date.present? && date == today) ||
       (week_days.include? today.strftime('%A'))
@@ -73,8 +77,9 @@ class Recurrence < ActiveRecord::Base
   # DateTime when recurrence starts today
   def start_today_at
     today = Time.zone.today
-    Time.zone.local(today.strftime('%Y'), today.strftime('%m'), today.strftime('%d'),
-                    start_at.strftime('%H'), start_at.strftime('%M'))
+    Time.zone.local(today.strftime('%Y'), today.strftime('%m'),
+                    today.strftime('%d'), start_at.strftime('%H'),
+                    start_at.strftime('%M'))
   end
 end
 

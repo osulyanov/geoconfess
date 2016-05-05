@@ -12,10 +12,13 @@ class Spot < ActiveRecord::Base
   validates :longitude, presence: true
 
   scope :active, lambda {
-    where('spots.priest_id IN (SELECT id FROM users WHERE users.active IS TRUE)')
+    where('spots.priest_id IN
+           (SELECT id FROM users WHERE users.active IS TRUE)')
   }
   scope :now, lambda {
-    where('(spots.activity_type = ? AND spots.updated_at > NOW() - \'15 minutes\'::INTERVAL) OR spots.id IN (?)', activity_types[:dynamic],
+    where('(spots.activity_type = ?
+           AND spots.updated_at > NOW() - \'15 minutes\'::INTERVAL)
+           OR spots.id IN (?)', activity_types[:dynamic],
           Recurrence.now.map { |r| r[:spot_id] })
   }
   scope :of_priest, lambda { |priest_id|
