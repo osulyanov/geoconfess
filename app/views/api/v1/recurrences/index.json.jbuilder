@@ -1,1 +1,2 @@
-json.partial! 'api/v1/recurrences/recurrence', collection: @recurrences, as: :recurrence
+json.partial! 'api/v1/recurrences/recurrence', collection: @recurrences,
+                                               as: :recurrence

@@ -25,7 +25,9 @@ class User < ActiveRecord::Base
   validates :os, presence: true, if: 'push_token.present?'
 
   def display_name
-    return [name, surname].select(&:present?).join(' ') if name.present? || surname.present?
+    if name.present? || surname.present?
+      return [name, surname].select(&:present?).join(' ')
+    end
     email
   end
 
