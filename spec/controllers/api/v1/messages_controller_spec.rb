@@ -25,10 +25,14 @@ describe Api::V1::MessagesController, type: :controller do
     end
 
     context 'messages with certain user' do
-      let!(:message_to_admin) { create :message, sender: sender, recipient: admin }
+      let!(:message_to_admin) do
+        create :message, sender: sender,
+                         recipient: admin
+      end
 
       before do
-        get :index, interlocutor_id: recipient.id, format: :json, access_token: token.token
+        get :index, interlocutor_id: recipient.id, format: :json,
+            access_token: token.token
       end
 
       it 'returns only messages with this user' do
@@ -39,7 +43,10 @@ describe Api::V1::MessagesController, type: :controller do
     end
 
     context 'with expired access_token' do
-      let(:token) { create :access_token, resource_owner_id: sender.id, expires_in: 0 }
+      let(:token) do
+        create :access_token, resource_owner_id: sender.id,
+                              expires_in: 0
+      end
 
       before do
         get :index, format: :json, access_token: token.token
@@ -70,7 +77,8 @@ describe Api::V1::MessagesController, type: :controller do
       let(:token) { create :access_token, resource_owner_id: sender.id }
 
       before do
-        get :show, format: :json, id: other_message.id, access_token: token.token
+        get :show, format: :json, id: other_message.id,
+            access_token: token.token
       end
 
       it { expect(response).to have_http_status(:unauthorized) }
@@ -93,7 +101,10 @@ describe Api::V1::MessagesController, type: :controller do
     end
 
     context 'with expired access_token' do
-      let(:token) { create :access_token, resource_owner_id: sender.id, expires_in: 0 }
+      let(:token) do
+        create :access_token, resource_owner_id: sender.id,
+                              expires_in: 0
+      end
 
       it { expect(response).to have_http_status(:unauthorized) }
 
@@ -117,7 +128,10 @@ describe Api::V1::MessagesController, type: :controller do
     end
 
     context 'with expired access_token' do
-      let(:token) { create :access_token, resource_owner_id: sender.id, expires_in: 0 }
+      let(:token) do
+        create :access_token, resource_owner_id: sender.id,
+                              expires_in: 0
+      end
 
       it { expect(response).to have_http_status(:unauthorized) }
 
@@ -129,7 +143,8 @@ describe Api::V1::MessagesController, type: :controller do
     let(:token) { create :access_token, resource_owner_id: recipient.id }
 
     before do
-      delete :destroy, format: :json, access_token: token.token, id: other_message.id
+      delete :destroy, format: :json, access_token: token.token,
+             id: other_message.id
     end
 
     it { expect(response).to have_http_status(:success) }
