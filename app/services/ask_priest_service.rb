@@ -5,6 +5,13 @@ class AskPriestService
     @spot = @recurrence.spot
   end
 
+  # Sends push notification to priest to ask him to confirm his availability
+  # for the recurrence.
+  #
+  # Returns false and removes recurrence if priest haven't confirmed his
+  # availability for 3 times before that.
+  #
+  # Otherwise creates sends push notifications.
   def notify
     return if destroy_if_old
 
@@ -13,11 +20,16 @@ class AskPriestService
     create_push
   end
 
-  # Check if priest doesn't available for 3 times before that
+  # Checks if priest doesn't available for 3 times before that.
+  #
+  # Returns +true+ if +busy_count+ of recurrence equal or more than 3,
+  # +false+ otherwise.
   def inactive?
     @recurrence.busy_count >= 3
   end
 
+  # Destroy recurrence if inactive (+inactive?+ returns +true+) and
+  # returns +true+. Returns +false+ otherwise.
   def destroy_if_old
     return false unless inactive?
     # Completely remove the recurrence
@@ -25,11 +37,17 @@ class AskPriestService
     true
   end
 
-  # Increase busy counter
+  # Increment busy counter of recurrence.
+  #
+  # Increases by +busy_count+ of recurrence by 1.
   def increase_busy_counter
     @recurrence.increment! :busy_count
   end
 
+  # Sends push notification to priest to ask him to confirm his availability
+  # for the recurrence.
+  #
+  # Creates new +PushService+ object and call +push!+ method to it.
   def create_push
     PushService.new(user: @spot.priest,
                     text: 'Confirmez votre disponibilité pour confesser!',
