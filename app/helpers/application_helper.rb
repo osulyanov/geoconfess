@@ -7,7 +7,8 @@ module ApplicationHelper
 
   # Returns current time in YTC with date 01.01.2000
   #
-  #   If current time 07:30 (UTC) # => 2000-01-01 07:30:00 UTC
+  #   # If current time is 07:30 (UTC)
+  #   time_now # => 2000-01-01 07:30:00 UTC
   def time_now
     ctime = Time.now.getlocal
     Time.new(2000, 01, 01, ctime.strftime('%H'),
