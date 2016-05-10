@@ -34,7 +34,8 @@ describe Api::V1::SpotsController, type: :controller do
         another_priest = create(:user, role: :priest)
         create(:spot, priest: another_priest)
 
-        get :index, priest_id: other_priest.id, format: :json, access_token: token.token
+        get :index, priest_id: other_priest.id, format: :json,
+            access_token: token.token
 
         result = json.map { |r| r['id'] }
 
@@ -58,7 +59,10 @@ describe Api::V1::SpotsController, type: :controller do
     end
 
     context 'filter by type' do
-      let!(:dynamic_spot) { create(:spot, priest: priest, activity_type: :dynamic) }
+      let!(:dynamic_spot) do
+        create(:spot, priest: priest,
+                      activity_type: :dynamic)
+      end
 
       it 'returns only static spots if type=static' do
         get :index, type: :static, format: :json, access_token: token.token
@@ -79,38 +83,48 @@ describe Api::V1::SpotsController, type: :controller do
 
     context 'filter by distance' do
       let!(:spot_in_5km) do
-        create(:spot, priest: priest, latitude: 55.35223644610148, longitude: 85.99620691142812)
+        create(:spot, priest: priest, latitude: 55.35223644610148,
+               longitude: 85.99620691142812)
       end
       let!(:spot_in_15km) do
-        create(:spot, priest: priest, latitude: 55.487328778339084, longitude: 86.02263019255177)
+        create(:spot, priest: priest, latitude: 55.487328778339084,
+               longitude: 86.02263019255177)
       end
 
       it 'returns all spots if latitude doesn\'t defined' do
-        get :index, lng: 86.0740275, distance: 10, format: :json, access_token: token.token
+        get :index, lng: 86.0740275, distance: 10, format: :json,
+            access_token: token.token
 
         result = json.map { |r| r['id'] }
 
-        expect(result).to contain_exactly(spot.id, spot_in_5km.id, spot_in_15km.id)
+        expect(result)
+          .to contain_exactly(spot.id, spot_in_5km.id, spot_in_15km.id)
       end
 
       it 'returns all spots if longitude doesn\'t defined' do
-        get :index, lat: 55.3585288, distance: 10, format: :json, access_token: token.token
+        get :index, lat: 55.3585288, distance: 10, format: :json,
+            access_token: token.token
 
         result = json.map { |r| r['id'] }
 
-        expect(result).to contain_exactly(spot.id, spot_in_5km.id, spot_in_15km.id)
+        expect(result)
+          .to contain_exactly(spot.id, spot_in_5km.id, spot_in_15km.id)
       end
 
       it 'returns all spots if distance doesn\'t defined' do
-        get :index, lat: 55.3585288, lng: 86.0740275, format: :json, access_token: token.token
+        get :index, lat: 55.3585288, lng: 86.0740275, format: :json,
+            access_token: token.token
 
         result = json.map { |r| r['id'] }
 
-        expect(result).to contain_exactly(spot.id, spot_in_5km.id, spot_in_15km.id)
+        expect(result)
+          .to contain_exactly(spot.id, spot_in_5km.id, spot_in_15km.id)
       end
 
-      it 'returns only spots in defined radius if latitude, longitude and distance are defined' do
-        get :index, lat: 55.3585288, lng: 86.0740275, distance: 10, format: :json, access_token: token.token
+      it 'returns only spots in defined radius if latitude, longitude and
+                                                        distance are defined' do
+        get :index, lat: 55.3585288, lng: 86.0740275, distance: 10,
+            format: :json, access_token: token.token
 
         result = json.map { |r| r['id'] }
 
