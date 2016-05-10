@@ -65,9 +65,6 @@ class Recurrence < ActiveRecord::Base
 
   # true if recurrence will start today
   def today?
-    ctime = Time.now
-    time_now = Time.new(2000, 01, 01, ctime.strftime('%H'),
-                        ctime.strftime('%M')).utc
     today = Time.zone.today
     ((date.present? && date == today) ||
       (week_days.include? today.strftime('%A'))
