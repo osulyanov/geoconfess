@@ -9,7 +9,8 @@ namespace :resque do
 
   task setup_schedule: :environment do
     require 'resque-scheduler'
-    yaml_schedule = YAML.load_file("#{Rails.root}/config/resque_schedule.yml") || {}
+    file_name = "#{Rails.root}/config/resque_schedule.yml"
+    yaml_schedule = YAML.load_file(file_name) || {}
     wrapped_schedule = ActiveScheduler::ResqueWrapper.wrap yaml_schedule
     Resque.schedule = wrapped_schedule
   end
