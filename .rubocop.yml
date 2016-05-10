@@ -13,10 +13,6 @@ AllCops:
 Style/AlignHash:
   EnforcedHashRocketStyle: table
 
-Style/BlockComments:
-  Exclude:
-    - 'spec/spec_helper.rb'
-
 Metrics/ClassLength:
   CountComments: false
   Exclude:
