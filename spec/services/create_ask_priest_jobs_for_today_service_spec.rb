@@ -74,8 +74,10 @@ describe CreateAskPriestJobsForTodayService do
 
       subject.process
 
-      expect(subject).to have_received(:process_recurrence).with(today_recurrence)
-      expect(subject).to have_received(:process_recurrence).with(recurred_recurrence)
+      expect(subject)
+        .to have_received(:process_recurrence).with(today_recurrence)
+      expect(subject)
+        .to have_received(:process_recurrence).with(recurred_recurrence)
     end
   end
 end
