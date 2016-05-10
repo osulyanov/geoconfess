@@ -8,7 +8,7 @@ class CleanupOutdatedMeetRequestsService
     @meet_requests.destroy_all
   end
 
-  # Returns collection of outdated meet requests (<tt>MeetRequest.outdated</tt>)
+  # Returns a collection of outdated meet requests (<tt>MeetRequest.outdated</tt>)
   # to remove them.
   def meet_requests_to_remove
     MeetRequest.outdated
