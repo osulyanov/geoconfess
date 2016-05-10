@@ -11,7 +11,7 @@ class AskPriestService
   # Returns false and removes recurrence if priest haven't confirmed his
   # availability for 3 times before that.
   #
-  # Otherwise creates sends push notifications.
+  # Otherwise sends push notifications.
   def notify
     return if destroy_if_old
 
@@ -24,12 +24,18 @@ class AskPriestService
   #
   # Returns +true+ if +busy_count+ of recurrence equal or more than 3,
   # +false+ otherwise.
+  #
+  #   # If +busy_count+ is 2
+  #   inactive? # => false
+  #
+  #   # If +busy_count+ is 3
+  #   inactive? # => true
   def inactive?
     @recurrence.busy_count >= 3
   end
 
-  # Destroy recurrence if inactive (+inactive?+ returns +true+) and
-  # returns +true+. Returns +false+ otherwise.
+  # Destroys recurrence if inactive (+inactive?+ returns +true+) and
+  # returns +true+, otherwise returns +false+.
   def destroy_if_old
     return false unless inactive?
     # Completely remove the recurrence
