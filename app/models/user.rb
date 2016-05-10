@@ -35,6 +35,7 @@ class User < ActiveRecord::Base
     Message.with_user(id)
   end
 
+  # rubocop:disable Metrics/AbcSize
   def chats
     chats = messages.select('DISTINCT ON (sender_id, recipient_id) *')
     chats.to_a.sort! { |f, s| s.created_at <=> f.created_at }
@@ -46,6 +47,7 @@ class User < ActiveRecord::Base
     end
     @user_ids
   end
+  # rubocop:enable Metrics/AbcSize
 
   def send_welcome_message
     UserMailer.registered(id).deliver_now

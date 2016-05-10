@@ -34,3 +34,8 @@ Metrics/MethodLength:
 Metrics/PerceivedComplexity:
   Exclude:
     - 'app/models/ability.rb'
+
+Metrics/AbcSize:
+  Exclude:
+    - 'app/models/ability.rb'
+    - 'db/migrate/20160219112419_create_doorkeeper_tables.rb'
