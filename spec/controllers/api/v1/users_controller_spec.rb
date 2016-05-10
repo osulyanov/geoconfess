@@ -19,7 +19,10 @@ describe Api::V1::UsersController, type: :controller do
     end
 
     context 'with expired access_token' do
-      let(:token) { create :access_token, resource_owner_id: admin.id, expires_in: 0 }
+      let(:token) do
+        create :access_token, resource_owner_id: admin.id,
+                              expires_in: 0
+      end
 
       it { expect(response).to have_http_status(:unauthorized) }
 
@@ -45,7 +48,10 @@ describe Api::V1::UsersController, type: :controller do
     end
 
     context 'with expired access_token' do
-      let(:token) { create :access_token, resource_owner_id: admin.id, expires_in: 0 }
+      let(:token) do
+        create :access_token, resource_owner_id: admin.id,
+                              expires_in: 0
+      end
 
       it { expect(response).to have_http_status(:unauthorized) }
 
