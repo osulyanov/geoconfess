@@ -6,7 +6,10 @@ describe SendPushNotificationJob, type: :job do
   let(:sender) { create(:user) }
   let(:recipient) { create(:user) }
   let(:message) { create(:message, sender: sender, recipient: recipient) }
-  let!(:notification) { create(:notification, user: recipient, notificationable: message) }
+  let!(:notification) do
+    create(:notification, user: recipient,
+                          notificationable: message)
+  end
   subject(:job) { described_class.perform_later(notification.id) }
 
   it 'queues the job' do
