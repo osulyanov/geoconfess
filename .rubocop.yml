@@ -34,7 +34,3 @@ Metrics/MethodLength:
 Metrics/PerceivedComplexity:
   Exclude:
     - 'app/models/ability.rb'
-
-RSpec/AnyInstance:
-  Exclude:
-    - 'spec/rails_helper.rb'

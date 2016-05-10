@@ -35,8 +35,10 @@ RSpec.configure do |config|
   end
 
   config.before(:each) do
+    # rubocop:disable RSpec/AnyInstance
     allow_any_instance_of(RailsPushNotifications::BaseApp)
       .to receive(:push_notifications).and_return(true)
+    # rubocop:anable RSpec/AnyInstance
   end
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
