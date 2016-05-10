@@ -120,7 +120,8 @@ describe SpotsFilterService do
       expect(result).to contain_exactly(spot, spot_in_5km, spot_in_15km)
     end
 
-    it 'returns only spots in defined radius if latitude, longitude and distance are defined' do
+    it 'returns only spots in defined radius if latitude, longitude and
+        distance are defined' do
       priest = create(:user, role: :priest)
       create(:spot, priest: priest, activity_type: :static,
                     latitude: 35.487, longitude: 96.022)
