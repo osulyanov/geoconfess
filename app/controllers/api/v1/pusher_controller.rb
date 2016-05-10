@@ -20,7 +20,7 @@ module Api
                    connection to Pusher',
             required: true
 
-      # rubocop:disable Metrics/AbcSize
+      # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
       def auth
         unless params[:channel_name] == "private-#{current_user.id}"
           head(:forbidden) && return
@@ -36,7 +36,7 @@ module Api
           render json: response
         end
       end
-      # rubocop:enable Metrics/AbcSize
+      # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
     end
   end
 end

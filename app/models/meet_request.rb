@@ -55,6 +55,7 @@ class MeetRequest < ActiveRecord::Base
                                         'a été refusée.'
   end
 
+  # rubocop:disable Metrics/MethodLength
   def pusher_data
     {
       priest: {
@@ -72,6 +73,7 @@ class MeetRequest < ActiveRecord::Base
       status: status
     }
   end
+  # rubocop:enable Metrics/MethodLength
 end
 
 # == Schema Information
