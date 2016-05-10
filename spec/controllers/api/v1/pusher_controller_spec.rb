@@ -5,9 +5,11 @@ describe Api::V1::PusherController, type: :controller do
   let(:token) { create :access_token, resource_owner_id: user.id }
 
   before do
+    # rubocop:disable Metrics/LineLength
     allow(Pusher).to receive(:authenticate)
       .with("private-#{user.id}", '122125.3471996')
       .and_return(auth: '431f7475e961c95db8f3:12ab411ccef32b15b41cea458f125c91afd344ba5a19e700608669a6f27a598e')
+    # rubocop:enable Metrics/LineLength
   end
 
   describe 'POST #auth' do
