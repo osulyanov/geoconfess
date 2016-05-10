@@ -16,6 +16,7 @@ end
 #  updated_at            :datetime         not null
 #  action                :string
 #  text                  :string
+#  sent                  :boolean          default(FALSE), not null
 #
 # Indexes
 #
