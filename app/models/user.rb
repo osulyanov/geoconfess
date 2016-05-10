@@ -86,7 +86,6 @@ end
 #  notification           :boolean          default(FALSE), not null
 #  newsletter             :boolean          default(FALSE), not null
 #  active                 :boolean          default(FALSE), not null
-#  parish_id              :integer
 #  celebret_url           :string
 #  os                     :string
 #  push_token             :string
@@ -95,6 +94,5 @@ end
 # Indexes
 #
 #  index_users_on_email                 (email) UNIQUE
-#  index_users_on_parish_id             (parish_id)
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
