@@ -5,7 +5,9 @@ describe Api::V1::PusherController, type: :controller do
   let(:token) { create :access_token, resource_owner_id: user.id }
 
   before do
-    allow(Pusher).to receive(:authenticate).with("private-#{user.id}", '122125.3471996').and_return(auth: '431f7475e961c95db8f3:12ab411ccef32b15b41cea458f125c91afd344ba5a19e700608669a6f27a598e')
+    allow(Pusher).to receive(:authenticate)
+      .with("private-#{user.id}", '122125.3471996')
+      .and_return(auth: '431f7475e961c95db8f3:12ab411ccef32b15b41cea458f125c91afd344ba5a19e700608669a6f27a598e')
   end
 
   describe 'POST #auth' do
@@ -60,7 +62,10 @@ describe Api::V1::PusherController, type: :controller do
     end
 
     context 'with expired access_token' do
-      let(:token) { create :access_token, resource_owner_id: user.id, expires_in: 0 }
+      let(:token) do
+        create :access_token, resource_owner_id: user.id,
+                              expires_in: 0
+      end
 
       before do
         post :auth, format: :json, channel_name: 'private-0',
