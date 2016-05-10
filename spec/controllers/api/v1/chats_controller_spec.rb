@@ -74,7 +74,8 @@ describe Api::V1::ChatsController, type: :controller do
       let(:token) { create :access_token, resource_owner_id: sender.id }
 
       before do
-        get :show, format: :json, id: other_message.id, access_token: token.token
+        get :show, format: :json, id: other_message.id,
+            access_token: token.token
       end
 
       it 'returns empty result' do
