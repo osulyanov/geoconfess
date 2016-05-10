@@ -41,9 +41,15 @@ describe Recurrence, type: :model do
   end
 
   describe '.in_the_future' do
-    let!(:recurrence_in_the_future) { create(:recurrence, spot: spot, date: 1.day.from_now) }
-    let!(:recurrence_in_the_today) { create(:recurrence, spot: spot, date: Time.zone.today) }
-    let!(:recurrence_in_the_past) { create(:recurrence, spot: spot, date: 1.day.ago) }
+    let!(:recurrence_in_the_future) do
+      create(:recurrence, spot: spot, date: 1.day.from_now)
+    end
+    let!(:recurrence_in_the_today) do
+      create(:recurrence, spot: spot, date: Time.zone.today)
+    end
+    let!(:recurrence_in_the_past) do
+      create(:recurrence, spot: spot, date: 1.day.ago)
+    end
 
     it 'returns recurrences in the future' do
       result = described_class.in_the_future
@@ -65,8 +71,12 @@ describe Recurrence, type: :model do
   end
 
   describe '.confirmed_availability' do
-    let!(:recurrence_confirmed) { create(:recurrence, spot: spot, active_date: Time.zone.today) }
-    let!(:recurrence_not_confirmed) { create(:recurrence, spot: spot, active_date: 1.day.ago) }
+    let!(:recurrence_confirmed) do
+      create(:recurrence, spot: spot, active_date: Time.zone.today)
+    end
+    let!(:recurrence_not_confirmed) do
+      create(:recurrence, spot: spot, active_date: 1.day.ago)
+    end
 
     it 'returns recurrences with active_date eq to current date' do
       result = described_class.confirmed_availability
@@ -85,7 +95,8 @@ describe Recurrence, type: :model do
     context 'one-time' do
       it 'returns recurrence which active right now' do
         recurrence = create(:recurrence, spot: spot,
-                                         date: Time.zone.today, start_at: '00:00',
+                                         date: Time.zone.today,
+                                         start_at: '00:00',
                                          stop_at: '23:59')
 
         result = described_class.now
@@ -95,7 +106,8 @@ describe Recurrence, type: :model do
 
       it 'doesn\'t return recurrence if date is not today' do
         recurrence = create(:recurrence, spot: spot,
-                                         date: 1.day.from_now, start_at: '00:00',
+                                         date: 1.day.from_now,
+                                         start_at: '00:00',
                                          stop_at: '23:59')
 
         result = described_class.now
@@ -105,7 +117,8 @@ describe Recurrence, type: :model do
 
       it 'doesn\'t return recurrence if current time less than start_at' do
         recurrence = create(:recurrence, spot: spot,
-                                         date: Time.zone.today, start_at: '23:59',
+                                         date: Time.zone.today,
+                                         start_at: '23:59',
                                          stop_at: '23:59')
 
         result = described_class.now
@@ -115,7 +128,8 @@ describe Recurrence, type: :model do
 
       it 'doesn\'t return recurrence if stop_at less than current time' do
         recurrence = create(:recurrence, spot: spot,
-                                         date: Time.zone.today, start_at: '00:00',
+                                         date: Time.zone.today,
+                                         start_at: '00:00',
                                          stop_at: '00:00')
 
         result = described_class.now
@@ -126,9 +140,10 @@ describe Recurrence, type: :model do
 
     context 'recurred' do
       it 'returns recurrence which active right now' do
+        week_days = [Time.zone.today.strftime('%A')]
         recurrence = create(:recurrence, spot: spot, date: nil,
                                          start_at: '00:00', stop_at: '23:59',
-                                         week_days: [Time.zone.today.strftime('%A')])
+                                         week_days: week_days)
 
         result = described_class.now
 
@@ -148,9 +163,10 @@ describe Recurrence, type: :model do
       end
 
       it 'doesn\'t return recurrence if current time less than start_at' do
+        week_days = [Time.zone.today.strftime('%A')]
         recurrence = create(:recurrence, spot: spot, date: nil,
                                          start_at: '23:59', stop_at: '23:59',
-                                         week_days: [Time.zone.today.strftime('%A')])
+                                         week_days: week_days)
 
         result = described_class.now
 
@@ -158,9 +174,10 @@ describe Recurrence, type: :model do
       end
 
       it 'doesn\'t return recurrence if stop_at less than current time' do
+        week_days = [Time.zone.today.strftime('%A')]
         recurrence = create(:recurrence, spot: spot, date: nil,
                                          start_at: '00:00', stop_at: '00:00',
-                                         week_days: [Time.zone.today.strftime('%A')])
+                                         week_days: week_days)
 
         result = described_class.now
 
@@ -170,7 +187,10 @@ describe Recurrence, type: :model do
   end
 
   describe '#confirm_availability' do
-    subject { create(:recurrence, spot: spot, busy_count: 3, active_date: 5.days.ago.to_date) }
+    subject do
+      create(:recurrence, spot: spot, busy_count: 3,
+             active_date: 5.days.ago.to_date)
+    end
 
     before do
       subject.confirm_availability
@@ -192,7 +212,10 @@ describe Recurrence, type: :model do
   end
 
   describe '#confirm_availability!' do
-    subject { create(:recurrence, spot: spot, busy_count: 3, active_date: 5.days.ago.to_date) }
+    subject do
+      create(:recurrence, spot: spot, busy_count: 3,
+             active_date: 5.days.ago.to_date)
+    end
 
     before do
       subject.confirm_availability!
@@ -243,7 +266,8 @@ describe Recurrence, type: :model do
     context 'one-time' do
       it 'true if date eq to current date at current time less than start_at' do
         recurrence = create(:recurrence, spot: spot,
-                                         date: Time.zone.today, start_at: '23:59')
+                                         date: Time.zone.today,
+                                         start_at: '23:59')
 
         result = recurrence.today?
 
@@ -252,7 +276,8 @@ describe Recurrence, type: :model do
 
       it 'false if date not eq to current date' do
         recurrence = create(:recurrence, spot: spot,
-                                         date: 1.day.from_now, start_at: '23:59')
+                                         date: 1.day.from_now,
+                                         start_at: '23:59')
 
         result = recurrence.today?
 
@@ -261,7 +286,8 @@ describe Recurrence, type: :model do
 
       it 'false if start_at less than current time' do
         recurrence = create(:recurrence, spot: spot,
-                                         date: Time.zone.today, start_at: '00:00')
+                                         date: Time.zone.today,
+                                         start_at: '00:00')
 
         result = recurrence.today?
 
@@ -270,9 +296,11 @@ describe Recurrence, type: :model do
     end
 
     context 'recurred' do
-      it 'true if wdays include current wday at current time less than start_at' do
+      it 'true if wdays include current wday at current time less than
+          start_at' do
+        week_days = [Time.zone.today.strftime('%A')]
         recurrence = create(:recurrence, spot: spot, date: nil,
-                                         week_days: [Time.zone.today.strftime('%A')],
+                                         week_days: week_days,
                                          start_at: '23:59')
 
         result = recurrence.today?
@@ -293,8 +321,9 @@ describe Recurrence, type: :model do
       end
 
       it 'false if start_at less than current time' do
+        week_days = [Time.zone.today.strftime('%A')]
         recurrence = create(:recurrence, spot: spot, date: nil,
-                                         week_days: [Time.zone.today.strftime('%A')],
+                                         week_days: week_days,
                                          start_at: '00:00')
 
         result = recurrence.today?
@@ -311,7 +340,8 @@ describe Recurrence, type: :model do
 
       result = recurrence.start_today_at
 
-      expect(result).to eq(Time.zone.now.strftime('%Y-%m-%d 12:25:00 CEST +02:00'))
+      expect(result)
+        .to eq(Time.zone.now.strftime('%Y-%m-%d 12:25:00 CEST +02:00'))
     end
   end
 end
