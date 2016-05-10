@@ -31,7 +31,8 @@ describe MeetRequest, type: :model do
 
   describe '.active' do
     it 'returns requests created less than 1 day ago' do
-      request_23_h_ago = create(:meet_request, priest: priest, penitent: penitent, created_at: 23.hours.ago)
+      request_23_h_ago = create(:meet_request, priest: priest,
+                                penitent: penitent, created_at: 23.hours.ago)
 
       result = described_class.active
 
@@ -39,7 +40,8 @@ describe MeetRequest, type: :model do
     end
 
     it 'doesn\'t return requests created more than 1 day ago' do
-      request_25_h_ago = create(:meet_request, priest: priest, penitent: penitent, created_at: 25.hours.ago)
+      request_25_h_ago = create(:meet_request, priest: priest,
+                                penitent: penitent, created_at: 25.hours.ago)
 
       result = described_class.active
 
@@ -49,7 +51,8 @@ describe MeetRequest, type: :model do
 
   describe '.outdated' do
     it 'returns requests older than 1 day' do
-      request_25_h_ago = create(:meet_request, priest: priest, penitent: penitent, created_at: 25.hours.ago)
+      request_25_h_ago = create(:meet_request, priest: priest,
+                                penitent: penitent, created_at: 25.hours.ago)
 
       result = described_class.outdated
 
@@ -57,7 +60,8 @@ describe MeetRequest, type: :model do
     end
 
     it 'doesn\'t return requests created less than 1 day ago' do
-      request_23_h_ago = create(:meet_request, priest: priest, penitent: penitent, created_at: 23.hours.ago)
+      request_23_h_ago = create(:meet_request, priest: priest,
+                                penitent: penitent, created_at: 23.hours.ago)
 
       result = described_class.outdated
 
@@ -69,7 +73,9 @@ describe MeetRequest, type: :model do
     let(:priest) { create(:user, role: :priest) }
     let(:penitent) { create(:user, role: :user) }
     let(:other_user) { create(:user, role: :user) }
-    let!(:meet_request) { create(:meet_request, priest: priest, penitent: penitent) }
+    let!(:meet_request) do
+      create(:meet_request, priest: priest, penitent: penitent)
+    end
 
     it 'returns requests to user' do
       result = described_class.for_user(priest.id)
@@ -151,7 +157,9 @@ describe MeetRequest, type: :model do
         subject.save
       end
 
-      let(:notification_to_priest) { subject.notifications.find_by(user_id: priest.id) }
+      let(:notification_to_priest) do
+        subject.notifications.find_by(user_id: priest.id)
+      end
 
       it 'present' do
         expect(notification_to_priest).to be_present
@@ -173,7 +181,9 @@ describe MeetRequest, type: :model do
         subject.save
       end
 
-      let(:notification_to_penitent) { subject.notifications.find_by(user_id: penitent.id) }
+      let(:notification_to_penitent) do
+        subject.notifications.find_by(user_id: penitent.id)
+      end
 
       it 'present' do
         expect(notification_to_penitent).to be_present
@@ -198,7 +208,9 @@ describe MeetRequest, type: :model do
         subject.update_attribute :status, described_class.statuses[:accepted]
       end
 
-      let(:notification) { subject.notifications.find_by(user_id: penitent.id, action: 'accepted') }
+      let(:notification) do
+        subject.notifications.find_by(user_id: penitent.id, action: 'accepted')
+      end
 
       it 'present' do
         expect(notification).to be_present
@@ -225,7 +237,9 @@ describe MeetRequest, type: :model do
         subject.update_attribute :status, described_class.statuses[:refused]
       end
 
-      let(:notification) { subject.notifications.find_by(user_id: penitent.id, action: 'refused') }
+      let(:notification) do
+        subject.notifications.find_by(user_id: penitent.id, action: 'refused')
+      end
 
       it 'present' do
         expect(notification).to be_present
