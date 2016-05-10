@@ -37,10 +37,12 @@ Rails.application.routes.draw do
       end
       resources :spots, only: [:index, :show, :create, :update, :destroy] do
         member do
-          resources :recurrences, only: [:index, :show, :create, :update, :destroy]
+          resources :recurrences, only: [:index, :show, :create, :update,
+                                         :destroy]
         end
       end
-      resources :recurrences, only: [:index, :show, :create, :update, :destroy] do
+      resources :recurrences, only: [:index, :show, :create, :update,
+                                     :destroy] do
         collection do
           get 'for_priest/:priest_id', to: 'recurrences#for_priest'
         end
