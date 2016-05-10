@@ -110,7 +110,9 @@ describe User, type: :model do
 
     context 'without active spots' do
       let(:spot) { create(:spot, activity_type: :static, priest: user) }
-      let!(:inactive_recurrence) { create(:recurrence, spot: spot, date: 1.day.ago) }
+      let!(:inactive_recurrence) do
+        create(:recurrence, spot: spot, date: 1.day.ago)
+      end
 
       it 'returns nil' do
         expect(subject).to be_nil
