@@ -49,6 +49,18 @@ module Api
                 "start_at": "10:00",
                 "stop_at": "16:00",
                 "date": "2016-04-11"
+              },
+              {
+                "id": 6,
+                "spot_id": 1,
+                "start_at": "10:00",
+                "stop_at": "20:00",
+                "week_days": [
+                  "Tuesday",
+                  "Wednesday",
+                  "Thursday",
+                  "Friday"
+                ]
               }
             ]
           },
