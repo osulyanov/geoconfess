@@ -106,6 +106,7 @@ module Api
       EOS
 
       def create
+        User.priests.active.find_by!(id: request_params[:priest_id])
         @meet_request = current_user.outbound_requests
                                     .active.assign_or_new(request_params)
         if @meet_request.save
@@ -199,7 +200,7 @@ module Api
       end
 
       def set_meet_request
-        @meet_request = MeetRequest.find_by(id: params[:id])
+        @meet_request = MeetRequest.active.find_by(id: params[:id])
       end
     end
   end
