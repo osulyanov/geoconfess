@@ -65,6 +65,8 @@ class Notification < ActiveRecord::Base
   end
 end
 
+# rubocop:disable Metrics/LineLength
+
 # == Schema Information
 #
 # Table name: notifications
@@ -83,6 +85,7 @@ end
 # Indexes
 #
 #  index_notifications_on_user_id                   (user_id)
-#  index_notifs_on_notifable_type_and_notifable_id
-#                                   (notificationable_type,notificationable_id)
+#  index_notifs_on_notifable_type_and_notifable_id  (notificationable_type,notificationable_id)
 #
+
+# rubocop:enable Metrics/LineLength

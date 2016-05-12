@@ -32,19 +32,6 @@ ActiveRecord::Schema.define(version: 20160504115834) do
   add_index "active_admin_comments", ["namespace"], name: "index_active_admin_comments_on_namespace", using: :btree
   add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id", using: :btree
 
-  create_table "churches", force: :cascade do |t|
-    t.string   "name"
-    t.float    "latitude"
-    t.float    "longitude"
-    t.string   "street"
-    t.string   "postcode"
-    t.string   "city"
-    t.string   "state"
-    t.string   "country"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "favorites", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "priest_id"
@@ -133,12 +120,6 @@ ActiveRecord::Schema.define(version: 20160504115834) do
 
   add_index "oauth_applications", ["uid"], name: "index_oauth_applications_on_uid", unique: true, using: :btree
 
-  create_table "parishes", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "rails_push_notifications_apns_apps", force: :cascade do |t|
     t.text     "apns_dev_cert"
     t.text     "apns_prod_cert"
@@ -191,7 +172,6 @@ ActiveRecord::Schema.define(version: 20160504115834) do
   create_table "spots", force: :cascade do |t|
     t.string   "name"
     t.integer  "priest_id"
-    t.integer  "church_id"
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
     t.integer  "activity_type", default: 0, null: false
@@ -204,7 +184,6 @@ ActiveRecord::Schema.define(version: 20160504115834) do
     t.string   "country"
   end
 
-  add_index "spots", ["church_id"], name: "index_spots_on_church_id", using: :btree
   add_index "spots", ["priest_id"], name: "index_spots_on_priest_id", using: :btree
 
   create_table "users", force: :cascade do |t|
@@ -227,7 +206,6 @@ ActiveRecord::Schema.define(version: 20160504115834) do
     t.boolean  "notification",           default: false, null: false
     t.boolean  "newsletter",             default: false, null: false
     t.boolean  "active",                 default: false, null: false
-    t.integer  "parish_id"
     t.string   "celebret_url"
     t.string   "os"
     t.string   "push_token"
@@ -235,7 +213,6 @@ ActiveRecord::Schema.define(version: 20160504115834) do
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["parish_id"], name: "index_users_on_parish_id", using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
 end

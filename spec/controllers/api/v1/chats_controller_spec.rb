@@ -6,11 +6,26 @@ describe Api::V1::ChatsController, type: :controller do
   let(:recipient) { create :user }
   let(:other_sender) { create :user }
   let(:other_recipient) { create :user }
-  let!(:message_in_1) { create :message, sender: sender, recipient: user, created_at: 1.second.ago }
-  let!(:message_in_2) { create :message, sender: sender, recipient: user, created_at: 5.seconds.ago }
-  let!(:message_out_1) { create :message, sender: user, recipient: recipient, created_at: 4.seconds.ago }
-  let!(:message_out_2) { create :message, sender: user, recipient: recipient, created_at: 3.seconds.ago }
-  let!(:other_message) { create :message, sender: other_sender, recipient: other_recipient }
+  let!(:message_in_1) do
+    create :message, sender: sender, recipient: user,
+                               created_at: 1.second.ago
+  end
+  let!(:message_in_2) do
+    create :message, sender: sender, recipient: user,
+                               created_at: 5.seconds.ago
+  end
+  let!(:message_out_1) do
+    create :message, sender: user, recipient: recipient,
+                                created_at: 4.seconds.ago
+  end
+  let!(:message_out_2) do
+    create :message, sender: user, recipient: recipient,
+                                created_at: 3.seconds.ago
+  end
+  let!(:other_message) do
+    create :message, sender: other_sender,
+                     recipient: other_recipient
+  end
 
   describe 'GET #index' do
     let(:token) { create :access_token, resource_owner_id: user.id }
@@ -28,7 +43,10 @@ describe Api::V1::ChatsController, type: :controller do
     end
 
     context 'with expired access_token' do
-      let(:token) { create :access_token, resource_owner_id: sender.id, expires_in: 0 }
+      let(:token) do
+        create :access_token, resource_owner_id: sender.id,
+                              expires_in: 0
+      end
 
       it { expect(response).to have_http_status(:unauthorized) }
 
@@ -56,7 +74,8 @@ describe Api::V1::ChatsController, type: :controller do
       let(:token) { create :access_token, resource_owner_id: sender.id }
 
       before do
-        get :show, format: :json, id: other_message.id, access_token: token.token
+        get :show, format: :json, id: other_message.id,
+            access_token: token.token
       end
 
       it 'returns empty result' do

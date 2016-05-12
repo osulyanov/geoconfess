@@ -29,8 +29,13 @@ describe Notification, type: :model do
   end
 
   describe '.unread' do
-    let!(:unread) { create(:notification, user: recipient, notificationable: message) }
-    let!(:read) { create(:notification, user: recipient, notificationable: message, unread: false) }
+    let!(:unread) do
+      create(:notification, user: recipient, notificationable: message)
+    end
+    let!(:read) do
+      create(:notification, user: recipient, notificationable: message,
+             unread: false)
+    end
     subject { described_class.unread }
 
     it 'returns unread notification' do
@@ -43,8 +48,13 @@ describe Notification, type: :model do
   end
 
   describe '.unsent' do
-    let!(:unsent) { create(:notification, user: recipient, notificationable: message) }
-    let!(:sent) { create(:notification, user: recipient, notificationable: message, sent: true) }
+    let!(:unsent) do
+      create(:notification, user: recipient, notificationable: message)
+    end
+    let!(:sent) do
+      create(:notification, user: recipient, notificationable: message,
+             sent: true)
+    end
     subject { described_class.unsent }
 
     it 'returns unsent notification' do
@@ -59,7 +69,8 @@ describe Notification, type: :model do
   describe '.actual' do
     before do
       250.times do
-        create(:notification, user: recipient, notificationable: message, created_at: rand(60).days.ago)
+        create(:notification, user: recipient, notificationable: message,
+               created_at: rand(60).days.ago)
       end
     end
     subject { described_class.actual }
@@ -74,7 +85,9 @@ describe Notification, type: :model do
   end
 
   describe '#set_read' do
-    subject { create(:notification, user: recipient, notificationable: message) }
+    subject do
+      create(:notification, user: recipient, notificationable: message)
+    end
     before { subject.set_read }
 
     it 'set unread to false' do
@@ -88,7 +101,9 @@ describe Notification, type: :model do
   end
 
   describe '#set_read!' do
-    subject { create(:notification, user: recipient, notificationable: message) }
+    subject do
+      create(:notification, user: recipient, notificationable: message)
+    end
     before { subject.set_read! }
 
     it 'set unread to false and save changes' do
@@ -98,7 +113,9 @@ describe Notification, type: :model do
   end
 
   describe '#set_sent' do
-    subject { create(:notification, user: recipient, notificationable: message) }
+    subject do
+      create(:notification, user: recipient, notificationable: message)
+    end
     before { subject.set_sent }
 
     it 'set sent to true' do
@@ -112,7 +129,9 @@ describe Notification, type: :model do
   end
 
   describe '#set_sent!' do
-    subject { create(:notification, user: recipient, notificationable: message) }
+    subject do
+      create(:notification, user: recipient, notificationable: message)
+    end
     before { subject.set_sent! }
 
     it 'set sent to true and save changes' do
@@ -123,13 +142,15 @@ describe Notification, type: :model do
 
   describe '#send_push' do
     context 'creates a push entry' do
-      it 'if unread with text and user has push_token and turned on notifications' do
+      it 'if unread with text and user has push_token and turned on
+          notifications' do
         notification = create(:notification, user: recipient,
                                              notificationable: message,
                                              text: 'Some text',
                                              action: 'created')
 
-        expect { notification.send_push }.to change { RailsPushNotifications::Notification.all.size }.by(1)
+        expect { notification.send_push }
+          .to change { RailsPushNotifications::Notification.all.size }.by(1)
       end
     end
 
@@ -140,7 +161,8 @@ describe Notification, type: :model do
                                              text: 'Some text',
                                              action: 'created')
 
-        expect { notification.send_push }.not_to change { RailsPushNotifications::Notification.all.size }
+        expect { notification.send_push }
+          .not_to change { RailsPushNotifications::Notification.all.size }
       end
 
       it 'text is empty' do
@@ -149,7 +171,8 @@ describe Notification, type: :model do
                                              text: '',
                                              action: 'created')
 
-        expect { notification.send_push }.not_to change { RailsPushNotifications::Notification.all.size }
+        expect { notification.send_push }
+          .not_to change { RailsPushNotifications::Notification.all.size }
       end
 
       it 'user turned off notifications' do
@@ -160,7 +183,8 @@ describe Notification, type: :model do
                                              text: '',
                                              action: 'created')
 
-        expect { notification.send_push }.not_to change { RailsPushNotifications::Notification.all.size }
+        expect { notification.send_push }
+          .not_to change { RailsPushNotifications::Notification.all.size }
       end
 
       it 'user doesn\'t have push token' do
@@ -171,11 +195,14 @@ describe Notification, type: :model do
                                              text: '',
                                              action: 'created')
 
-        expect { notification.send_push }.not_to change { RailsPushNotifications::Notification.all.size }
+        expect { notification.send_push }
+          .not_to change { RailsPushNotifications::Notification.all.size }
       end
     end
   end
 end
+
+# rubocop:disable Metrics/LineLength
 
 # == Schema Information
 #
@@ -190,9 +217,12 @@ end
 #  updated_at            :datetime         not null
 #  action                :string
 #  text                  :string
+#  sent                  :boolean          default(FALSE), not null
 #
 # Indexes
 #
 #  index_notifications_on_user_id                   (user_id)
 #  index_notifs_on_notifable_type_and_notifable_id  (notificationable_type,notificationable_id)
 #
+
+# rubocop:enable Metrics/LineLength

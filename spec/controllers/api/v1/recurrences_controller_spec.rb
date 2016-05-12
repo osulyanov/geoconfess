@@ -43,12 +43,15 @@ describe Api::V1::RecurrencesController, type: :controller do
     let(:token) { create :access_token, resource_owner_id: priest.id }
 
     before do
-      post :create, id: spot.id, spot_id: spot.id, format: :json, access_token: token.token,
-                    recurrence: recurrence_params
+      post :create, id: spot.id, spot_id: spot.id, format: :json,
+           access_token: token.token, recurrence: recurrence_params
     end
 
     context 'with date' do
-      let(:recurrence_params) { { date: '2016-01-07', start_at: '10:15', stop_at: '16:00' } }
+      let(:recurrence_params) do
+        { date: '2016-01-07', start_at: '10:15',
+                                  stop_at: '16:00' }
+      end
 
       it { expect(response).to have_http_status(:success) }
 
@@ -118,7 +121,8 @@ describe Api::V1::RecurrencesController, type: :controller do
     let(:token) { create :access_token, resource_owner_id: priest.id }
 
     before do
-      delete :destroy, format: :json, access_token: token.token, id: recurrence.id
+      delete :destroy, format: :json, access_token: token.token,
+             id: recurrence.id
     end
 
     it { expect(response).to have_http_status(:success) }
@@ -151,7 +155,8 @@ describe Api::V1::RecurrencesController, type: :controller do
     let(:token) { create :access_token, resource_owner_id: user.id }
 
     before do
-      get :for_priest, format: :json, access_token: token.token, priest_id: priest.id
+      get :for_priest, format: :json, access_token: token.token,
+          priest_id: priest.id
     end
 
     it { expect(response).to have_http_status(:success) }

@@ -29,7 +29,8 @@ describe Spot, type: :model do
   end
 
   it 'not valid with wrang activity_type' do
-    expect { subject.activity_type = 3 }.to raise_error(ArgumentError, "'3' is not a valid activity_type")
+    expect { subject.activity_type = 3 }
+      .to raise_error(ArgumentError, "'3' is not a valid activity_type")
   end
 
   describe '.active' do
@@ -118,7 +119,9 @@ describe Spot, type: :model do
   end
 
   describe '.of_type' do
-    let!(:dynamic_spot) { create(:spot, priest: priest, activity_type: :dynamic) }
+    let!(:dynamic_spot) do
+      create(:spot, priest: priest, activity_type: :dynamic)
+    end
     let!(:static_spot) { create(:spot, priest: priest, activity_type: :static) }
 
     it 'returns spots of certain type' do
@@ -136,13 +139,16 @@ describe Spot, type: :model do
 
   describe '.nearest' do
     let!(:spot_in_5km) do
-      create(:spot, priest: priest, latitude: 55.35223644610148, longitude: 85.99620691142812)
+      create(:spot, priest: priest, latitude: 55.35223644610148,
+             longitude: 85.99620691142812)
     end
     let!(:spot_in_20km) do
-      create(:spot, priest: priest, latitude: 55.21905341631711, longitude: 85.87318871934184)
+      create(:spot, priest: priest, latitude: 55.21905341631711,
+             longitude: 85.87318871934184)
     end
     let!(:spot_in_15km) do
-      create(:spot, priest: priest, latitude: 55.487328778339084, longitude: 86.02263019255177)
+      create(:spot, priest: priest, latitude: 55.487328778339084,
+             longitude: 86.02263019255177)
     end
 
     it 'returns spots in certain radius' do
@@ -166,13 +172,16 @@ describe Spot, type: :model do
 
   describe '.outdated' do
     let!(:dynamic_spot_10min) do
-      create(:spot, priest: priest, activity_type: :dynamic, updated_at: 10.minutes.ago)
+      create(:spot, priest: priest, activity_type: :dynamic,
+             updated_at: 10.minutes.ago)
     end
     let!(:dynamic_spot_20min) do
-      create(:spot, priest: priest, activity_type: :dynamic, updated_at: 20.minutes.ago)
+      create(:spot, priest: priest, activity_type: :dynamic,
+             updated_at: 20.minutes.ago)
     end
     let!(:static_spot_10min) do
-      create(:spot, priest: priest, activity_type: :static, updated_at: 10.minutes.ago)
+      create(:spot, priest: priest, activity_type: :static,
+             updated_at: 10.minutes.ago)
     end
 
     it 'returns dynamic spots created more than 15 minutes ago' do
@@ -196,11 +205,20 @@ describe Spot, type: :model do
 
   describe '.assign_or_new' do
     context 'if dynamic spot for the priest already exists' do
-      let!(:spot) { create(:spot, activity_type: :dynamic, priest: priest, latitude: 11.01, longitude: 22.01) }
-      let!(:static_spot) { create(:spot, activity_type: :static, priest: priest) }
+      let!(:spot) do
+        create(:spot, activity_type: :dynamic, priest: priest, latitude: 11.01,
+               longitude: 22.01)
+      end
+      let!(:static_spot) do
+        create(:spot, activity_type: :static, priest: priest)
+      end
       let(:other_priest) { create :user, role: :priest }
-      let!(:other_spot) { create(:spot, activity_type: :dynamic, priest: other_priest) }
-      let(:spot_attrs) { { activity_type: :dynamic, latitude: 11.02, longitude: 22.02 } }
+      let!(:other_spot) do
+        create(:spot, activity_type: :dynamic, priest: other_priest)
+      end
+      let(:spot_attrs) do
+        { activity_type: :dynamic, latitude: 11.02, longitude: 22.02 }
+      end
 
       it 'returns existing dynamic spot of current user' do
         result = priest.spots.assign_or_new(spot_attrs).id
@@ -217,10 +235,16 @@ describe Spot, type: :model do
     end
 
     context 'if dynamic spot for the priest doesn\'t exist' do
-      let!(:static_spot) { create(:spot, activity_type: :static, priest: priest) }
+      let!(:static_spot) do
+        create(:spot, activity_type: :static, priest: priest)
+      end
       let(:other_priest) { create :user, role: :priest }
-      let!(:other_spot) { create(:spot, activity_type: :dynamic, priest: other_priest) }
-      let(:spot_attrs) { { activity_type: :dynamic, latitude: 11.02, longitude: 22.02 } }
+      let!(:other_spot) do
+        create(:spot, activity_type: :dynamic, priest: other_priest)
+      end
+      let(:spot_attrs) do
+        { activity_type: :dynamic, latitude: 11.02, longitude: 22.02 }
+      end
 
       it 'creates a new one' do
         result = priest.spots.assign_or_new(spot_attrs)
@@ -257,7 +281,6 @@ end
 #  id            :integer          not null, primary key
 #  name          :string
 #  priest_id     :integer
-#  church_id     :integer
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  activity_type :integer          default(0), not null
@@ -271,6 +294,5 @@ end
 #
 # Indexes
 #
-#  index_spots_on_church_id  (church_id)
 #  index_spots_on_priest_id  (priest_id)
 #

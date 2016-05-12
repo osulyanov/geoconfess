@@ -13,10 +13,6 @@ AllCops:
 Style/AlignHash:
   EnforcedHashRocketStyle: table
 
-Style/BlockComments:
-  Exclude:
-    - 'spec/spec_helper.rb'
-
 Metrics/ClassLength:
   CountComments: false
   Exclude:
@@ -39,6 +35,7 @@ Metrics/PerceivedComplexity:
   Exclude:
     - 'app/models/ability.rb'
 
-RSpec/AnyInstance:
+Metrics/AbcSize:
   Exclude:
-    - 'spec/rails_helper.rb'
+    - 'app/models/ability.rb'
+    - 'db/migrate/20160219112419_create_doorkeeper_tables.rb'

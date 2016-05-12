@@ -4,8 +4,14 @@ describe Api::V1::NotificationsController, type: :controller do
   let(:sender) { create :user }
   let(:recipient) { create :user }
   let(:message) { create(:message, sender: sender, recipient: recipient) }
-  let!(:notification) { create(:notification, user: recipient, notificationable: message) }
-  let!(:other_notification) { create(:notification, user: sender, notificationable: message) }
+  let!(:notification) do
+    create(:notification, user: recipient,
+                          notificationable: message)
+  end
+  let!(:other_notification) do
+    create(:notification, user: sender,
+                          notificationable: message)
+  end
 
   describe 'GET #index' do
     let(:token) { create :access_token, resource_owner_id: recipient.id }
@@ -27,7 +33,10 @@ describe Api::V1::NotificationsController, type: :controller do
     end
 
     context 'with expired access_token' do
-      let(:token) { create :access_token, resource_owner_id: recipient.id, expires_in: 0 }
+      let(:token) do
+        create :access_token, resource_owner_id: recipient.id,
+                              expires_in: 0
+      end
 
       it { expect(response).to have_http_status(:unauthorized) }
 
@@ -52,7 +61,8 @@ describe Api::V1::NotificationsController, type: :controller do
 
     context 'with ID of other_user\'s notification' do
       before do
-        get :show, format: :json, id: other_notification.id, access_token: token.token
+        get :show, format: :json, id: other_notification.id,
+            access_token: token.token
       end
 
       it { expect(response).to have_http_status(:unauthorized) }
@@ -63,7 +73,8 @@ describe Api::V1::NotificationsController, type: :controller do
     let(:token) { create :access_token, resource_owner_id: recipient.id }
 
     before do
-      put :mark_read, format: :json, access_token: token.token, id: notification.id
+      put :mark_read, format: :json, access_token: token.token,
+          id: notification.id
     end
 
     it { expect(response).to have_http_status(:success) }
@@ -89,7 +100,8 @@ describe Api::V1::NotificationsController, type: :controller do
     let(:token) { create :access_token, resource_owner_id: recipient.id }
 
     before do
-      put :mark_sent, format: :json, access_token: token.token, id: notification.id
+      put :mark_sent, format: :json, access_token: token.token,
+          id: notification.id
     end
 
     it { expect(response).to have_http_status(:success) }

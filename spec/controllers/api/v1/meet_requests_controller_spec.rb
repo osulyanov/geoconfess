@@ -24,7 +24,10 @@ describe Api::V1::MeetRequestsController, type: :controller do
       end
 
       context 'with expired access_token' do
-        let(:token) { create :access_token, resource_owner_id: user.id, expires_in: 0 }
+        let(:token) do
+          create :access_token, resource_owner_id: user.id,
+                                expires_in: 0
+        end
 
         it { expect(response).to have_http_status(:unauthorized) }
 
@@ -98,7 +101,8 @@ describe Api::V1::MeetRequestsController, type: :controller do
     context 'request has already been sent to the priest' do
       before do
         post :create, format: :json, access_token: token.token,
-                      request: attributes_for(:request, priest_id: priest.id, status: 'accepted')
+                      request: attributes_for(:request, priest_id: priest.id,
+                                                        status: 'accepted')
       end
 
       it { expect(response).to have_http_status(:success) }
@@ -120,7 +124,8 @@ describe Api::V1::MeetRequestsController, type: :controller do
       before do
         MeetRequest.destroy_all
         post :create, format: :json, access_token: token.token,
-                      request: attributes_for(:request, priest_id: priest.id, status: 'accepted')
+                      request: attributes_for(:request, priest_id: priest.id,
+                                                        status: 'accepted')
       end
 
       it { expect(response).to have_http_status(:success) }
@@ -139,11 +144,15 @@ describe Api::V1::MeetRequestsController, type: :controller do
     end
 
     context 'with expired access_token' do
-      let(:token) { create :access_token, resource_owner_id: user.id, expires_in: 0 }
+      let(:token) do
+        create :access_token, resource_owner_id: user.id,
+                              expires_in: 0
+      end
 
       before do
         post :create, format: :json, access_token: token.token,
-                      request: attributes_for(:request, priest_id: priest.id, status: 'accepted')
+                      request: attributes_for(:request, priest_id: priest.id,
+                                                        status: 'accepted')
       end
 
       it { expect(response).to have_http_status(:unauthorized) }
@@ -169,7 +178,10 @@ describe Api::V1::MeetRequestsController, type: :controller do
     end
 
     context 'with expired access_token' do
-      let(:token) { create :access_token, resource_owner_id: user.id, expires_in: 0 }
+      let(:token) do
+        create :access_token, resource_owner_id: user.id,
+                              expires_in: 0
+      end
 
       it { expect(response).to have_http_status(:unauthorized) }
 
@@ -181,7 +193,8 @@ describe Api::V1::MeetRequestsController, type: :controller do
     let(:token) { create :access_token, resource_owner_id: priest.id }
 
     before do
-      delete :destroy, format: :json, access_token: token.token, id: request_1.id
+      delete :destroy, format: :json, access_token: token.token,
+             id: request_1.id
     end
 
     it { expect(response).to have_http_status(:success) }

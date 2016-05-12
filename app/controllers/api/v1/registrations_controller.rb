@@ -23,6 +23,7 @@ module Api
         param :newsletter, :bool, desc: 'Newsletter'
       end
 
+      # rubocop:disable Metrics/MethodLength
       def create
         @user = User.new(user_params)
         # user can't register as admin via API
@@ -37,6 +38,7 @@ module Api
                  json: { result: 'failed', errors: @user.errors }
         end
       end
+      # rubocop:enable Metrics/MethodLength
 
       private
 

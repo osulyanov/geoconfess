@@ -33,7 +33,9 @@ describe Api::V1::FavoritesController, type: :controller do
       end
 
       it 'doesn\'t return priest location' do
-        priest_row = json.find { |r| r['priest']['id'] == unavailable_priest.id }
+        priest_row = json.find do |r|
+          r['priest']['id'] == unavailable_priest.id
+        end
         latitude = priest_row['priest']['latitude']
         longitude = priest_row['priest']['longitude']
 
@@ -63,7 +65,10 @@ describe Api::V1::FavoritesController, type: :controller do
     end
 
     context 'with expired access_token' do
-      let(:token) { create :access_token, resource_owner_id: user.id, expires_in: 0 }
+      let(:token) do
+        create :access_token, resource_owner_id: user.id,
+                              expires_in: 0
+      end
 
       before do
         get :index, format: :json, access_token: token.token
@@ -123,7 +128,10 @@ describe Api::V1::FavoritesController, type: :controller do
     end
 
     context 'with expired access_token' do
-      let(:token) { create :access_token, resource_owner_id: user.id, expires_in: 0 }
+      let(:token) do
+        create :access_token, resource_owner_id: user.id,
+                              expires_in: 0
+      end
 
       before do
         post :create, format: :json, access_token: token.token,

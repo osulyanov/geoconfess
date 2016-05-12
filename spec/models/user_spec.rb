@@ -110,7 +110,9 @@ describe User, type: :model do
 
     context 'without active spots' do
       let(:spot) { create(:spot, activity_type: :static, priest: user) }
-      let!(:inactive_recurrence) { create(:recurrence, spot: spot, date: 1.day.ago) }
+      let!(:inactive_recurrence) do
+        create(:recurrence, spot: spot, date: 1.day.ago)
+      end
 
       it 'returns nil' do
         expect(subject).to be_nil
@@ -164,7 +166,6 @@ end
 #  notification           :boolean          default(FALSE), not null
 #  newsletter             :boolean          default(FALSE), not null
 #  active                 :boolean          default(FALSE), not null
-#  parish_id              :integer
 #  celebret_url           :string
 #  os                     :string
 #  push_token             :string
@@ -173,6 +174,5 @@ end
 # Indexes
 #
 #  index_users_on_email                 (email) UNIQUE
-#  index_users_on_parish_id             (parish_id)
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #

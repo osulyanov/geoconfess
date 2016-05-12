@@ -2,7 +2,9 @@
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 # Prevent database truncation if the environment is production
-abort('The Rails environment is running in production mode!') if Rails.env.production?
+if Rails.env.production?
+  abort('The Rails environment is running in production mode!')
+end
 require 'spec_helper'
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
@@ -33,8 +35,10 @@ RSpec.configure do |config|
   end
 
   config.before(:each) do
+    # rubocop:disable RSpec/AnyInstance
     allow_any_instance_of(RailsPushNotifications::BaseApp)
       .to receive(:push_notifications).and_return(true)
+    # rubocop:anable RSpec/AnyInstance
   end
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
