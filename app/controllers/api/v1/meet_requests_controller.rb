@@ -200,7 +200,7 @@ module Api
       end
 
       def set_meet_request
-        @meet_request = MeetRequest.active.find_by(id: params[:id])
+        @meet_request = MeetRequest.active.find_by!(id: params[:id])
       end
     end
   end
