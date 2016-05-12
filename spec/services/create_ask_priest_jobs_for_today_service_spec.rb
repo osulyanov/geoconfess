@@ -6,11 +6,11 @@ describe CreateAskPriestJobsForTodayService do
   let(:wdays) { Date::DAYNAMES - [Time.zone.today.strftime('%A')] }
   let!(:today_recurrence) do
     create(:recurrence, spot: spot, date: Time.zone.today,
-                        start_at: '14:00', stop_at: '15:00')
+                        start_at: '23:58', stop_at: '23:59')
   end
   let!(:recurred_recurrence) do
     create(:recurrence, spot: spot, date: nil,
-                        start_at: '14:00', stop_at: '15:00',
+                        start_at: '23:58', stop_at: '23:59',
                         week_days: wdays)
   end
   let!(:tomorrow_recurrence) do
