@@ -28,7 +28,6 @@ Rails.application.routes.draw do
           put :refuse
         end
       end
-      resources :favorites, only: [:index, :create, :destroy]
       resources :notifications, only: [:index, :show] do
         member do
           put :mark_read

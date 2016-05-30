@@ -9,7 +9,7 @@ class MeetRequest < ActiveRecord::Base
 
   scope :active, lambda {
     where('meet_requests.created_at >= NOW() - \'1 day\'::INTERVAL')
-    .where('meet_requests.priest_id IN ' \
+      .where('meet_requests.priest_id IN ' \
            '(SELECT id FROM users WHERE users.active IS TRUE)')
   }
 
