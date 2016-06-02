@@ -262,6 +262,8 @@ GEM
       redis (~> 3.0)
       resque (~> 1.25)
       rufus-scheduler (~> 3.0)
+    rollbar (2.11.4)
+      multi_json
     rspec-core (3.4.2)
       rspec-support (~> 3.4.0)
     rspec-expectations (3.4.0)
@@ -368,6 +370,7 @@ DEPENDENCIES
   rails_12factor
   resque
   resque-scheduler
+  rollbar
   rspec-rails (~> 3.0)
   rubocop
   rubocop-rspec
