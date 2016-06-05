@@ -46,16 +46,16 @@ class Notification < ActiveRecord::Base
   end
 
   def send_push
-    return unless !sent? && text.present? &&
-                  user.push_token.present? && user.notification?
-    PushService.new(push_data).push!
+    return unless !sent? && text.present? && user.notification?
+    PushNotification.push_to_user!(uid: user.id, payload:push_payload)
   end
 
-  def push_data
+  def push_payload
     {
-      user: user,
-      text: text,
-      aps: {
+      body: text,
+      sound: 'default',
+      data: {
+        user: user,
         model: notificationable_type,
         id: notificationable_id,
         action: action,

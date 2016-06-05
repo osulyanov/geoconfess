@@ -141,62 +141,51 @@ describe Notification, type: :model do
   end
 
   describe '#send_push' do
-    context 'creates a push entry' do
+    include ActiveJob::TestHelper
+
+    context 'sends push' do
       it 'if unread with text and user has push_token and turned on
-          notifications' do
-        notification = create(:notification, user: recipient,
+          notifications', perform_enqueued: true do
+        expect(Pusher).to receive(:trigger).exactly(2).times
+        expect(PushNotification).to receive(:push_to_user!).exactly(2).times
+
+        perform_enqueued_jobs do
+          create(:notification, user: recipient,
                                              notificationable: message,
                                              text: 'Some text',
                                              action: 'created')
-
-        expect { notification.send_push }
-          .to change { RailsPushNotifications::Notification.all.size }.by(1)
+        end
       end
     end
 
     context 'doesn\'t send push if' do
       it 'notification is sent' do
-        notification = create(:notification, user: recipient, sent: true,
+        expect(PushNotification).to_not receive(:push_to_user!)
+
+        create(:notification, user: recipient, sent: true,
                                              notificationable: message,
                                              text: 'Some text',
                                              action: 'created')
-
-        expect { notification.send_push }
-          .not_to change { RailsPushNotifications::Notification.all.size }
       end
 
       it 'text is empty' do
-        notification = create(:notification, user: recipient,
+        expect(PushNotification).to_not receive(:push_to_user!)
+
+        create(:notification, user: recipient,
                                              notificationable: message,
                                              text: '',
                                              action: 'created')
-
-        expect { notification.send_push }
-          .not_to change { RailsPushNotifications::Notification.all.size }
       end
 
       it 'user turned off notifications' do
         recipient = create(:user, notification: false)
 
-        notification = create(:notification, user: recipient,
+        expect(PushNotification).to_not receive(:push_to_user!)
+
+        create(:notification, user: recipient,
                                              notificationable: message,
                                              text: '',
                                              action: 'created')
-
-        expect { notification.send_push }
-          .not_to change { RailsPushNotifications::Notification.all.size }
-      end
-
-      it 'user doesn\'t have push token' do
-        recipient = create(:user, push_token: nil)
-
-        notification = create(:notification, user: recipient,
-                                             notificationable: message,
-                                             text: '',
-                                             action: 'created')
-
-        expect { notification.send_push }
-          .not_to change { RailsPushNotifications::Notification.all.size }
       end
     end
   end

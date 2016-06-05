@@ -28,6 +28,7 @@ gem 'active_scheduler'
 gem 'geocoder'
 gem 'pusher'
 gem 'sdoc', '~> 0.4.0', group: :doc
+gem 'fcm'
 
 group :production do
   gem 'rails_12factor'
@@ -46,6 +47,8 @@ group :test do
   gem 'factory_girl_rails', '~> 4.0'
   gem 'database_cleaner'
   gem 'fakeredis', require: 'fakeredis/rspec'
+  gem 'webmock'
+  gem 'vcr'
 end
 
 group :development do

@@ -1,0 +1,213 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://fcm.googleapis.com/fcm/send
+    body:
+      encoding: UTF-8
+      string: '{"to":"/topics/user-100","content_available":true,"priority":"high","notification":{"badge":1,"body":"test
+        message","sound":"default","data":{"event":"test_event","foo":"bar"}}}'
+    headers:
+      Authorization:
+      - key=invalid_key
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      Content-Type:
+      - text/html; charset=UTF-8
+      Date:
+      - Sun, 05 Jun 2016 13:28:29 GMT
+      Expires:
+      - Sun, 05 Jun 2016 13:28:29 GMT
+      Cache-Control:
+      - private, max-age=0
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      Server:
+      - GSE
+      Alternate-Protocol:
+      - 443:quic
+      Alt-Svc:
+      - quic=":443"; ma=2592000; v="34,33,32,31,30,29,28,27,26,25"
+      Accept-Ranges:
+      - none
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: |
+        <HTML>
+        <HEAD>
+        <TITLE>Unauthorized</TITLE>
+        </HEAD>
+        <BODY BGCOLOR="#FFFFFF" TEXT="#000000">
+        <H1>Unauthorized</H1>
+        <H2>Error 401</H2>
+        </BODY>
+        </HTML>
+    http_version: 
+  recorded_at: Sun, 05 Jun 2016 13:28:29 GMT
+- request:
+    method: post
+    uri: https://fcm.googleapis.com/fcm/send
+    body:
+      encoding: UTF-8
+      string: '{"to":"/topics/user-100","content_available":true,"priority":"high","notification":{"badge":1,"body":"test
+        message","sound":"default","data":{"event":"test_event","foo":"bar"}}}'
+    headers:
+      Authorization:
+      - key=AIzaSyBGcK8_B6vsx3m8QhSvQW2goFkAwL1nFGw
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=UTF-8
+      Date:
+      - Sun, 05 Jun 2016 13:28:30 GMT
+      Expires:
+      - Sun, 05 Jun 2016 13:28:30 GMT
+      Cache-Control:
+      - private, max-age=0
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      Server:
+      - GSE
+      Alternate-Protocol:
+      - 443:quic
+      Alt-Svc:
+      - quic=":443"; ma=2592000; v="34,33,32,31,30,29,28,27,26,25"
+      Accept-Ranges:
+      - none
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"message_id":6462983640665600510}'
+    http_version: 
+  recorded_at: Sun, 05 Jun 2016 13:28:30 GMT
+- request:
+    method: post
+    uri: https://fcm.googleapis.com/fcm/send
+    body:
+      encoding: UTF-8
+      string: '{"to":"/topics/channel-100","content_available":true,"priority":"high","notification":{"badge":1,"body":"test
+        message","sound":"default","data":{"event":"test_event","foo":"bar"}}}'
+    headers:
+      Authorization:
+      - key=invalid_key
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      Content-Type:
+      - text/html; charset=UTF-8
+      Date:
+      - Sun, 05 Jun 2016 13:28:30 GMT
+      Expires:
+      - Sun, 05 Jun 2016 13:28:30 GMT
+      Cache-Control:
+      - private, max-age=0
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      Server:
+      - GSE
+      Alternate-Protocol:
+      - 443:quic
+      Alt-Svc:
+      - quic=":443"; ma=2592000; v="34,33,32,31,30,29,28,27,26,25"
+      Accept-Ranges:
+      - none
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: |
+        <HTML>
+        <HEAD>
+        <TITLE>Unauthorized</TITLE>
+        </HEAD>
+        <BODY BGCOLOR="#FFFFFF" TEXT="#000000">
+        <H1>Unauthorized</H1>
+        <H2>Error 401</H2>
+        </BODY>
+        </HTML>
+    http_version: 
+  recorded_at: Sun, 05 Jun 2016 13:28:30 GMT
+- request:
+    method: post
+    uri: https://fcm.googleapis.com/fcm/send
+    body:
+      encoding: UTF-8
+      string: '{"to":"/topics/channel-100","content_available":true,"priority":"high","notification":{"badge":1,"body":"test
+        message","sound":"default","data":{"event":"test_event","foo":"bar"}}}'
+    headers:
+      Authorization:
+      - key=AIzaSyBGcK8_B6vsx3m8QhSvQW2goFkAwL1nFGw
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=UTF-8
+      Date:
+      - Sun, 05 Jun 2016 13:28:32 GMT
+      Expires:
+      - Sun, 05 Jun 2016 13:28:32 GMT
+      Cache-Control:
+      - private, max-age=0
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      Server:
+      - GSE
+      Alternate-Protocol:
+      - 443:quic
+      Alt-Svc:
+      - quic=":443"; ma=2592000; v="34,33,32,31,30,29,28,27,26,25"
+      Accept-Ranges:
+      - none
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"message_id":7888425578977923418}'
+    http_version: 
+  recorded_at: Sun, 05 Jun 2016 13:28:32 GMT
+recorded_with: VCR 3.0.3
