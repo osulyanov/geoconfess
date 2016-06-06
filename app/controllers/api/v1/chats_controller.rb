@@ -7,7 +7,7 @@ module Api
         short 'Chats'
       end
 
-      api :GET, '/v1/messages', 'All chats of current user'
+      api :GET, '/v1/chats', 'All chats of current user'
       description <<-EOS
         ## Description
         Conversations of current user with other users.
@@ -36,7 +36,7 @@ module Api
         @users = User.where(id: @user_ids)
       end
 
-      api :GET, '/v1/messages/:id', 'Messages of certain Chat'
+      api :GET, '/v1/chats/:id', 'Messages of certain Chat'
       description <<-EOS
         ## Description
         All messages of certain Chat of current_user
