@@ -29,7 +29,9 @@ module Api
             "id": 1,
             "sender_id": 1,
             "recipient_id": 9,
-            "text": "Hi"
+            "text": "Hi",
+            "created_at": "2016-04-27T08:58:28.917+02:00",
+            "updated_at": "2016-04-27T08:58:28.917+02:00"
           }
         ]
       EOS
@@ -51,7 +53,9 @@ module Api
           "id": 1,
           "sender_id": 1,
           "recipient_id": 9,
-          "text": "Hi"
+          "text": "Hi",
+          "created_at": "2016-04-27T08:58:28.917+02:00",
+          "updated_at": "2016-04-27T08:58:28.917+02:00"
         }
       EOS
 
