@@ -151,16 +151,16 @@ describe Notification, type: :model do
 
         perform_enqueued_jobs do
           create(:notification, user: recipient,
-                                             notificationable: message,
-                                             text: 'Some text',
-                                             action: 'created')
+                                notificationable: message,
+                                text: 'Some text',
+                                action: 'created')
         end
       end
     end
 
     context 'doesn\'t send push if' do
       it 'notification is sent' do
-        expect(PushNotification).to_not receive(:push_to_user!)
+        expect(PushNotification).not_to receive(:push_to_user!)
 
         create(:notification, user: recipient, sent: true,
                                              notificationable: message,
@@ -169,23 +169,23 @@ describe Notification, type: :model do
       end
 
       it 'text is empty' do
-        expect(PushNotification).to_not receive(:push_to_user!)
+        expect(PushNotification).not_to receive(:push_to_user!)
 
         create(:notification, user: recipient,
-                                             notificationable: message,
-                                             text: '',
-                                             action: 'created')
+                              notificationable: message,
+                              text: '',
+                              action: 'created')
       end
 
       it 'user turned off notifications' do
         recipient = create(:user, notification: false)
 
-        expect(PushNotification).to_not receive(:push_to_user!)
+        expect(PushNotification).not_to receive(:push_to_user!)
 
         create(:notification, user: recipient,
-                                             notificationable: message,
-                                             text: '',
-                                             action: 'created')
+                              notificationable: message,
+                              text: '',
+                              action: 'created')
       end
     end
   end

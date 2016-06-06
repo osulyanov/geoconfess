@@ -1,4 +1,4 @@
-class PushNotification
+module PushNotification
   mattr_accessor :engine
 
   class << self

@@ -47,9 +47,10 @@ class Notification < ActiveRecord::Base
 
   def send_push
     return unless !sent? && text.present? && user.notification?
-    PushNotification.push_to_user!(uid: user.id, payload:push_payload)
+    PushNotification.push_to_user!(uid: user.id, payload: push_payload)
   end
 
+  # rubocop:disable Metrics/MethodLength
   def push_payload
     {
       body: text,
@@ -63,6 +64,7 @@ class Notification < ActiveRecord::Base
       }
     }
   end
+  # rubocop:enable Metrics/MethodLength
 end
 
 # rubocop:disable Metrics/LineLength

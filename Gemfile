@@ -1,5 +1,5 @@
-#ruby=2.2.4
-#ruby-gemset=geoconfess
+# ruby=2.2.4
+# ruby-gemset=geoconfess
 
 source 'https://rubygems.org'
 
