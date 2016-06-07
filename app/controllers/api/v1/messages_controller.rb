@@ -66,7 +66,7 @@ module Api
       description <<-EOS
         ## Description
         Creates message
-        Returns code 201 with no content if message successfully created.
+        Returns code 201 with and message data if message successfully created.
       EOS
       param_group :message
 
@@ -74,7 +74,7 @@ module Api
         @message = Message.new(message_params)
         @message.sender_id ||= current_user.id
         if @message.save
-          head status: :created
+          render :show, status: :created
         else
           render status: :unprocessable_entity,
                  json: { errors: @message.errors }
