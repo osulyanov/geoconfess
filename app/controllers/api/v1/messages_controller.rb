@@ -69,6 +69,16 @@ module Api
         Returns code 201 with and message data if message successfully created.
       EOS
       param_group :message
+      example <<-EOS
+        {
+          "id": 1,
+          "sender_id": 1,
+          "recipient_id": 9,
+          "text": "Hi",
+          "created_at": "2016-04-27T08:58:28.917+02:00",
+          "updated_at": "2016-04-27T08:58:28.917+02:00"
+        }
+      EOS
 
       def create
         @message = Message.new(message_params)
