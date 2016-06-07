@@ -53,9 +53,9 @@ class Notification < ActiveRecord::Base
   # rubocop:disable Metrics/MethodLength
   def push_payload
     {
-      body: text,
       sound: 'default',
-      data: {
+      body: {
+        text: text,
         user: user,
         model: notificationable_type,
         id: notificationable_id,
