@@ -18,8 +18,8 @@ ActiveAdmin.register Message do
 
   form do |f|
     f.inputs 'Message Details' do
-      f.input :sender
-      f.input :recipient
+      f.input :sender, as: :select, collection: User.all.collection_for_admin
+      f.input :recipient, as: :select, collection: User.all.collection_for_admin
       f.input :text
     end
     f.actions

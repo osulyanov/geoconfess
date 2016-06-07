@@ -24,7 +24,7 @@ ActiveAdmin.register Spot do
     f.inputs 'Spot Details' do
       f.input :name
       f.input :activity_type, as: :select, collection: Spot.activity_types.keys
-      f.input :priest, as: :select, collection: User.priest
+      f.input :priest, as: :select, collection: User.priest.collection_for_admin
       f.input :latitude
       f.input :longitude
       f.input :street

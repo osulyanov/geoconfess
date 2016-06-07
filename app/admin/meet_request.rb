@@ -20,8 +20,8 @@ ActiveAdmin.register MeetRequest do
 
   form do |f|
     f.inputs 'MeetRequest Details' do
-      f.input :priest, as: :select, collection: User.priest
-      f.input :penitent
+      f.input :priest, as: :select, collection: User.priest.collection_for_admin
+      f.input :penitent, as: :select, collection: User.all.collection_for_admin
       f.input :status, as: :select, collection: MeetRequest.statuses.keys
       f.input :latitude
       f.input :longitude
