@@ -24,7 +24,7 @@ class User < ActiveRecord::Base
   validates :os, presence: true, if: 'push_token.present?'
 
   def self.collection_for_admin
-    all.map { |u| ["#{u.id}. #{u.display_name}", u.id] }
+    order(:id).map { |u| ["#{u.id}. #{u.display_name}", u.id] }
   end
 
   def display_name
