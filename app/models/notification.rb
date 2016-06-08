@@ -35,8 +35,7 @@ class Notification < ActiveRecord::Base
   end
 
   def send_notifications
-    SendPusherNotificationJob.perform_later(id)
-    SendPushNotificationJob.set(wait: 1.minute).perform_later(id)
+    SendPushNotificationJob.perform_later(id)
   end
 
   def send_pusher
