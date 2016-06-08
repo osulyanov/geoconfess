@@ -14,6 +14,7 @@ module Api
         ## Description
         Last 99 notifications of current user not older than 1 month
       EOS
+      param :last_id, Integer, desc: 'Last ID.'
       example <<-EOS
         [
           {
@@ -107,6 +108,9 @@ module Api
 
       def index
         @notifications = current_user.notifications.actual
+        if params[:last_id].present?
+          @notifications = @notifications.after_id(params[:last_id])
+        end
       end
 
       api! 'Show notification'
