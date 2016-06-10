@@ -54,8 +54,8 @@ class Notification < ActiveRecord::Base
   def push_payload
     {
       sound: 'default',
-      body: {
-        text: text,
+      body: text,
+      data: {
         user: user,
         model: notificationable_type,
         id: notificationable_id,
