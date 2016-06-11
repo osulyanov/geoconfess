@@ -56,7 +56,7 @@ class Notification < ActiveRecord::Base
       sound: 'default',
       body: text,
       data: {
-        user: user,
+        user_id: user.id,
         model: notificationable_type,
         id: notificationable_id,
         action: action,
