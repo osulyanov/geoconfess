@@ -22,6 +22,8 @@ class User < ActiveRecord::Base
   validates :phone, format: { with: /\A\+?\d{10,11}\z/ }, if: 'phone.present?'
   validates :os, inclusion: { in: %w(ios android) }, if: 'os.present?'
   validates :os, presence: true, if: 'push_token.present?'
+  
+  before_save :set_notification_to_true
 
   def self.collection_for_admin
     order(:id).map { |u| ["#{u.id}. #{u.display_name}", u.id] }
@@ -65,6 +67,11 @@ class User < ActiveRecord::Base
     spots.find_by(activity_type: Spot.activity_types[:dynamic]) ||
       spots.now.first
   end
+  
+  def set_notification_to_true
+    self.notification = true
+  end
+  
 end
 
 # == Schema Information
