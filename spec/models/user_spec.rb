@@ -63,6 +63,10 @@ describe User, type: :model do
     expect(subject).not_to be_valid
   end
 
+  it 'turned on notification as default' do
+    expect(subject).to be_notification
+  end
+
   describe '#display_name' do
     it 'returns the concatenated first and last name if both are present' do
       user = create(:user, name: 'Alex', surname: 'Pushkin')
