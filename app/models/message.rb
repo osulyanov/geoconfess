@@ -21,7 +21,7 @@ class Message < ActiveRecord::Base
     recipient.notifications
              .create notificationable: self,
                      action: 'received',
-                     text: "#{sender.name} vous a envoyé un message"
+                     text: "#{sender.name} vous a envoyé un message."
   end
 
   def pusher_data
