@@ -18,9 +18,10 @@ class Message < ActiveRecord::Base
   after_create :send_create_notification
 
   def send_create_notification
-    recipient.notifications.create notificationable: self,
-                                   action: 'received',
-                                   text: 'Message'
+    recipient.notifications
+             .create notificationable: self,
+                     action: 'received',
+                     text: "#{sender.name} vous a envoyé un message"
   end
 
   def pusher_data
