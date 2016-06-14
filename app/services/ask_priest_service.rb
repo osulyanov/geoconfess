@@ -55,12 +55,22 @@ class AskPriestService
   #
   # Creates new +PushService+ object and call +push!+ method to it.
   def create_push
-    PushService.new(user: @spot.priest,
-                    text: 'Confirmez votre disponibilité pour confesser!',
-                    aps: {
-                      model: 'Recurrence',
-                      id: @recurrence_id,
-                      action: 'availability'
-                    }).push!
+    PushNotification.push_to_user!(uid: @spot.priest.id, payload: push_payload)
   end
+
+  # rubocop:disable Metrics/MethodLength
+  def push_payload
+    {
+      sound: 'default',
+      body: 'Confirmez votre disponibilité pour confesser!',
+      data: {
+        user_id: @spot.priest.id,
+        model: 'Recurrence',
+        id: @recurrence_id,
+        action: 'availability',
+        notification_id: nil
+      }
+    }
+  end
+  # rubocop:enable Metrics/MethodLength
 end

@@ -115,8 +115,9 @@ describe AskPriestService do
 
   describe '#create_push' do
     it 'creates push notification object' do
-      expect { subject.create_push }
-        .to change { RailsPushNotifications::Notification.all.size }.by(1)
+      expect(PushNotification).to receive(:push_to_user!)
+
+      subject.create_push
     end
   end
 end
