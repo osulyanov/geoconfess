@@ -2,9 +2,8 @@ module Askable
   extend ActiveSupport::Concern
 
   included do
-    before_update :remove_old_job
     before_destroy :remove_old_job
-    after_update :create_job
+    after_update :update_job, if: 'dates_changed?'
     after_create :create_job
   end
 
@@ -33,6 +32,10 @@ module Askable
   def confirm_availability!
     confirm_availability
     save
+  end
+
+  def dates_changed?
+    date_changed? || start_at_changed? || stop_at_changed? || days_changed?
   end
 
   module ClassMethods
