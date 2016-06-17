@@ -11,6 +11,9 @@ class Spot < ActiveRecord::Base
   validates :latitude, presence: true
   validates :longitude, presence: true
 
+  before_validation :inaccurate_location,
+                    if: 'dynamic? && (latitude_changed? || longitude_changed?)'
+
   scope :active, lambda {
     where('spots.priest_id IN
            (SELECT id FROM users WHERE users.active IS TRUE)')
@@ -42,6 +45,12 @@ class Spot < ActiveRecord::Base
       spot.assign_attributes params if spot
     end
     spot || new(params)
+  end
+
+  def inaccurate_location
+    self.latitude,
+    self.longitude = Geocoder::Calculations
+                     .random_point_near([latitude, longitude], 0.2, units: :km)
   end
 end
 
