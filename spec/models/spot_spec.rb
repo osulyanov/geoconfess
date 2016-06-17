@@ -272,6 +272,29 @@ describe Spot, type: :model do
       end
     end
   end
+
+  describe '#inaccurate_location' do
+    let(:priest) { create :user, role: :priest }
+
+    subject {create :spot, activity_type: :dynamic, priest: priest,
+                    latitude: 11.12312312213, longitude: 22.32323123213 }
+
+    it 'inaccurates location' do
+      expect(subject.latitude).not_to eq(11.12312312213)
+      expect(subject.longitude).not_to eq(22.32323123213)
+    end
+
+    it 'change location in radius 200m' do
+      initial_location = [11.12312312213,22.32323123213]
+      inaccurated_location = [subject.latitude, subject.longitude]
+
+      result = Geocoder::Calculations
+                   .distance_between(initial_location, inaccurated_location,
+                                     units: :km)
+
+      expect(result).to be <= 0.2
+    end
+  end
 end
 
 # == Schema Information
