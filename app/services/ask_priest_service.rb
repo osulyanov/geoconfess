@@ -61,12 +61,13 @@ class AskPriestService
   # rubocop:disable Metrics/MethodLength
   def push_payload
     {
+      content_available: false,
       sound: 'default',
       body: 'Confirmez votre disponibilité pour confesser!',
       data: {
         user_id: @spot.priest.id,
         model: 'Recurrence',
-        id: @recurrence_id,
+        id: @recurrence.id,
         action: 'availability',
         notification_id: nil
       }
