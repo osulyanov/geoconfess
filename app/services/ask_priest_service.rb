@@ -69,7 +69,8 @@ class AskPriestService
         model: 'Recurrence',
         id: @recurrence.id,
         action: 'availability',
-        notification_id: nil
+        notification_id: nil,
+        name: @spot.name
       }
     }
   end
