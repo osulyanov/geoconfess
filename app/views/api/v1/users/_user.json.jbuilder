@@ -8,5 +8,6 @@ if current_user == user || current_user.admin?
   json.email user.email
   json.phone user.phone
   json.notification user.notification
+  json.notify_when_priests_around user.notify_when_priests_around
   json.newsletter user.newsletter
 end

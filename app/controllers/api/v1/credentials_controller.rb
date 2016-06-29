@@ -23,6 +23,7 @@ module Api
           "email": "admin@example.com",
           "phone": "+79134399113",
           "notification": false,
+          "notify_when_priests_around": false,
           "newsletter": false
         }
       EOS
@@ -44,6 +45,8 @@ module Api
         param :surname, String, desc: 'Surname', required: true
         param :phone, /\+?\d{10,11}/, desc: 'Phone'
         param :notification, :bool, desc: 'Notification'
+        param :notify_when_priests_around, :bool,
+              desc: 'Notification about priests around'
         param :newsletter, :bool, desc: 'Newsletter'
       end
 
@@ -58,8 +61,9 @@ module Api
       private
 
       def user_params
-        params.require(:user).permit(:email, :password, :name, :surname,
-                                     :phone, :notification, :newsletter)
+        params.require(:user)
+              .permit(:email, :password, :name, :surname, :phone, :notification,
+                      :notify_when_priests_around, :newsletter)
       end
 
       def set_user

@@ -20,6 +20,8 @@ module Api
         param :celebret_url, String, desc: 'Celebret URL'
         param :phone, /\+?\d{10,11}/, desc: 'Phone'
         param :notification, :bool, desc: 'Notification'
+        param :notify_when_priests_around, :bool,
+              desc: 'Notifications about priests around'
         param :newsletter, :bool, desc: 'Newsletter'
       end
 
@@ -43,9 +45,10 @@ module Api
       private
 
       def user_params
-        params.require(:user).permit(:role, :email, :password, :name, :surname,
-                                     :phone, :notification, :newsletter,
-                                     :celebret_url)
+        params.require(:user)
+              .permit(:role, :email, :password, :name, :surname, :phone,
+                      :notification, :newsletter, :celebret_url,
+                      :notify_when_priests_around)
       end
     end
   end

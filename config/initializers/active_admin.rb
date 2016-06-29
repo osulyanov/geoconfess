@@ -280,14 +280,14 @@ ActiveAdmin.setup do |config|
   # config.include_default_association_filters = true
 end
 
-
 module ActiveAdmin
   module Devise
     module Controller
       def root_path
         '/'
       end
-      def after_sending_reset_password_instructions_path_for(resource_name)
+
+      def after_sending_reset_password_instructions_path_for(_resource_name)
         '/'
       end
     end

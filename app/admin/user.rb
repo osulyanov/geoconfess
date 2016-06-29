@@ -1,7 +1,7 @@
 ActiveAdmin.register User do
   permit_params :name, :surname, :email, :phone, :role, :active, :notification,
                 :newsletter, :celebret_url, :password, :password_confirmation,
-                :os, :push_token
+                :os, :push_token, :notify_when_priests_around
 
   index do
     selectable_column
@@ -27,6 +27,7 @@ ActiveAdmin.register User do
       f.input :celebret_url
       f.input :active
       f.input :notification
+      f.input :notify_when_priests_around
       f.input :newsletter
       f.input :os, as: :select, collection: %w(ios android)
       f.input :push_token
