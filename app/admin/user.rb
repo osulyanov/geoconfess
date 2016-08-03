@@ -38,4 +38,36 @@ ActiveAdmin.register User do
     end
     f.actions
   end
+
+  show do
+    attributes_table do
+      row :id
+      row :email
+      row :encrypted_password
+      row :reset_password_token
+      row :reset_password_sent_at
+      row :remember_created_at
+      row :sign_in_count
+      row :current_sign_in_at
+      row :last_sign_in_at
+      row :current_sign_in_ip
+      row :last_sign_in_ip
+      row :created_at
+      row :updated_at
+      row :role
+      row :name
+      row :surname
+      row :phone
+      row :notification
+      row :newsletter
+      row :active
+      row :celebret_url do
+        link_to(user.celebret_url, user.celebret_url, target: '_blank') if user.celebret_url.present?
+      end
+      row :os
+      row :push_token
+      row :pusher_socket_id
+      row :notify_when_priests_around
+    end
+  end
 end
