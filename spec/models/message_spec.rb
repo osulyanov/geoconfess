@@ -47,23 +47,23 @@ describe Message, type: :model do
     end
   end
   describe '.outdated' do
-    let!(:message_35d_ago) do
+    let!(:message_35h_ago) do
       create(:message, sender: sender, recipient: recipient,
-                       created_at: 35.days.ago)
+                       created_at: 35.hours.ago)
     end
-    let!(:message_15d_ago) do
+    let!(:message_15h_ago) do
       create(:message, sender: sender, recipient: recipient,
-                       created_at: 15.days.ago)
+                       created_at: 15.hours.ago)
     end
 
     subject { described_class.outdated }
 
-    it 'returns messages created more than a month ago' do
-      expect(subject).to include(message_35d_ago)
+    it 'returns messages created more than a day ago' do
+      expect(subject).to include(message_35h_ago)
     end
 
-    it 'doesn\'t return messages created less than a month ago' do
-      expect(subject).not_to include(message_15d_ago)
+    it 'doesn\'t return messages created less than a day ago' do
+      expect(subject).not_to include(message_15h_ago)
     end
   end
 end
