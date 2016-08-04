@@ -8,7 +8,7 @@ class Message < ActiveRecord::Base
           user_id, user_id
   }
   scope :outdated, lambda {
-    where('messages.created_at < NOW() - \'1 month\'::INTERVAL')
+    where('messages.created_at < NOW() - \'23 hours\'::INTERVAL')
   }
 
   validates :sender_id, presence: true
