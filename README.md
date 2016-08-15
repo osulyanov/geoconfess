@@ -1,6 +1,14 @@
 Geoconfess
 ===========
 
+# Users' credentials
+
+Admin: admin@example.com / 1q2w3e4r
+
+User: user@example.com / 1q2w3e4r
+
+Beautician: beautician@example.com / 1q2w3e4r
+
 # Deploy (only for test environments)
 
 ## Ruby installation
